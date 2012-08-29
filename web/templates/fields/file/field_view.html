@@ -1,0 +1,63 @@
+# from "utils/thumbnail.html" import thumbnail
+# from "widgets/audioplayer.html" import audioplayer, audioplayer_file
+
+# if item.mimetype.startswith("image") and record.id:
+#  set medialink = url("record-gallery", id=record.id, show=item.src)
+#  set mediatarget = "_blank"
+# else
+#  set medialink = url("media", path=item.src)
+#  set mediatarget = ''
+# endif
+
+#if not continue:
+<td class="label">{{ (item.name or item.defname)}}:</td><td class="fieldval">
+#endif
+
+# if not shown_audioplayer and item.display == 'inline' and item.mimetype.startswith("audio"):
+{{ audioplayer() }}
+<div style="clear: both; padding-bottom: 1em"></div>
+# endif
+
+# if item.display == 'full':
+{# This display type should only be found for image files #}
+<a href="{{ medialink }}" target="{{ mediatarget }}"><img src="{{ url("media", path=item.src) }}" title="{{ item.title }}" alt="{{ item.alt }}"></a>
+
+# elif item.display == 'thumb':
+{# This display type should only be found for image files #}
+{{ thumbnail(item, item.display, medialink, mediatarget) }}
+
+# elif item.display == 'inline':
+# if item.display_textual_summary:
+<pre>{{ item.summary }}</pre>
+
+# elif item.mimetype.startswith("audio"):
+#  set fileurl = url("media", path=item.src)
+<table><tr>
+<td class="play-buttons">
+{{ audioplayer_file(fileurl, item.mimetype, "audio-track") }}
+</td>
+<td class="download-buttons">
+<a class="jpl-download" href="{{ fileurl }}"></a>
+</td>
+<td><a href="{{ url("mediapreview", path=item.src) }}" target="_blank">{{ item.title or item.alt or item.src|basename }}</a></td>
+</tr></table>
+
+# else:
+{{ thumbnail(item, item.display, medialink, mediatarget) }}
+# endif
+
+# elif item.display in ('icon', 'icontext'):
+<a href="{{ medialink }}" target="{{ mediatarget }}" class="exp_linkicon {{ item.media()[0].iconclasses -}}">
+{%- if item.display == 'icontext' %}{{ item.title or item.src }}{% else %}{% endif %}
+</a>
+
+
+# elif item.display == 'text':
+
+<a href="{{ medialink }}" target="{{ mediatarget }}">{{ item.title or item.src }}</a>
+
+# else:
+UNKNOWN DISPLAY TYPE
+
+# endif
+&nbsp;

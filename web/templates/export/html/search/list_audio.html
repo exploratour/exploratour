@@ -1,0 +1,29 @@
+{% from "utils/toolbars.html" import divider %}
+{% from "widgets/audioplayer.html" import audioplayer %}
+
+{#
+ <ul class="buttonbar">
+  <li>
+   <label for="sort_order_select">Order by:</label>
+   <select class="submitonchange" name="order" id="sort_order_select">
+    <option value="score"{% if order == "score" %} selected="selected"{% endif %}>Relevance</option>
+    <option value="-mtime"{% if order == "-mtime" %} selected="selected"{% endif %}>Most recently modified</option>
+    <option value="+title"{% if order == "+title" %} selected="selected"{% endif %}>Title</option>
+   </select>
+  </li>
+ </ul>
+ #}
+
+ <div class="clear-after">
+  {{ audioplayer() }}
+ </div>
+
+ <div class="listbox">
+  <table>
+{% for item in search.resultlist %}
+   <tr>{% include "search/searchitem_audio.html" %}</tr>
+{% endfor %}
+  </table>
+ </div>
+
+{% include "search/resultlist_paginatebar.html" %}

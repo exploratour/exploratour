@@ -1,0 +1,27 @@
+{% from "utils/toolbars.html" import toolbar_icon, toolbar_label, divider %}
+
+{% extends "base.html" %}
+{% block title %}Import an Exploratour database{% endblock %}
+
+{% block content %}
+
+<div class="contentbox">
+<ul class="toolbar">
+{{ toolbar_icon(48, "collection", "Import", '') }}
+{{ toolbar_label(48, "Import data from an Exploratour format file") }}
+</ul>
+<div style="clear: both;"/>
+<div class="recordbox">
+<form enctype="multipart/form-data" autocomplete="off" action="{{ url("import-from-exploratour") }}" method="post" accept-charset="utf-8">
+
+File to import: <input type="file" name="file"><br>
+Collection to add data to: <input type="text" name="collection" value="" data-ac="{{ ac.all_collection_ids()|jsvalattr }}"><br>
+
+<input type="submit" name="import" value="Import">
+<input type="submit" name="import_cancel" value="Cancel">
+</form>
+
+</div>
+</div>
+
+{% endblock %}

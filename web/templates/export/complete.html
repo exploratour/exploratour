@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Export ready{% endblock %}
+
+{% block extra_head %}
+<meta http-equiv="refresh" content="0; url={{ url('records-export-inprogress', export_id=export_id, fmt=fmt, download=1, **stash) }}">
+{% endblock %}
+
+{% block content %}
+<div class="contentbox">
+Export prepared
+<div class="innercontent">
+{{ progress.msg }}
+<p>
+Your export file should start downloading automatically within a few seconds; if it doesn't, click <a href="{{ url('records-export-inprogress', export_id=export_id, fmt=fmt, download=1, **stash) }}">here to download it manually</a>.
+</div>
+</div>
+{% endblock %}

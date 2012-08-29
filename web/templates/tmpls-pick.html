@@ -1,0 +1,41 @@
+{% from "utils/toolbars.html" import toolbar_icon, toolbar_label %}
+
+{% extends "base.html" %}
+{% block title %}Pick a template{% endblock %}
+
+{% block content %}
+<div class="contentbox">
+
+<ul class="toolbar">
+{{ toolbar_icon(48, "template", "", '') }}
+{{ toolbar_label(48, "All Templates") }}
+</ul>
+<div style="clear: both;"></div>
+
+<div class="listbox">
+
+<div class="sidebar">
+Order by:
+<ul>
+<li><a href="{{ url("templates-view") }}">Name</a></li>
+<li><a href="{{ url("templates-view") }}">Modification date</a></li>
+</ul>
+</div>
+
+<div class="listcontent">
+<ul>
+<li><p class="hint">Pick a template to create a new record</p></li>
+{% for tmpl in templates %}
+<li><a href="{{ url("record-create", tmplid=tmpl.id) }}">{{ tmpl.id }}</a></li>
+{% endfor %}
+</ul>
+{% set extralines = 10 - templates|length %}
+{% for _ in range(extralines) %}
+<p>&nbsp;</p>
+{% endfor %}
+</div>
+
+<div style="clear: both;"></div>
+</div>
+</div>
+{% endblock %}

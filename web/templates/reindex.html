@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Search results{% endblock %}
+
+{% block extra_head %}
+{% if not progress.complete %}
+<meta http-equiv="refresh" content="1">
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="contentbox">
+{% if progress.failed %}
+Reindex failed
+{% elif progress.complete %}
+Reindex complete
+{% else %}
+Reindex in progress
+{% endif %}
+<div class="innercontent">{{ progress.msg }}
+
+{% if progress.complete %}
+  <form action="{{ url('reindex') }}" method="POST">
+    <input type="submit" class="button" name="reindex" value="Reindex"/>
+  </form>
+{% endif %}
+</div>
+</div>
+{% endblock %}

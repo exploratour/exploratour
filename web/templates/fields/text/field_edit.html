@@ -1,0 +1,7 @@
+# from "utils/repeat_button.html" import repeat_button
+<td class="label">
+{{- repeat_button(field) -}}
+{% include "widgets/fieldname_edit.html" %}</td>{#- -#}
+<td><textarea class="fieldentry_text" name="f_{{ field.count }}">
+{{- field.raw_content -}}
+</textarea></td>

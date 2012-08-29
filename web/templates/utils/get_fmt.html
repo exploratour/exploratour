@@ -1,0 +1,10 @@
+{%- macro getfmt(params, error) -%}
+# if not error and params.newfmt in ('xml', 'wiki', 'simple'):
+#  set fmt = params.newfmt
+# elif params.fmt in ('xml', 'wiki', 'simple'):
+#  set fmt = params.fmt
+# else:
+#  set fmt = 'simple'
+# endif
+{{- fmt -}}
+{%- endmacro -%}

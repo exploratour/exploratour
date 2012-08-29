@@ -1,0 +1,7 @@
+{%- macro get_type(field) -%}
+# set type = field.type
+# if type not in ('text', 'tag', 'date', 'number', 'file', 'location', 'title', 'link'):
+#  set type = 'text'
+# endif
+{{ type }}
+{%- endmacro -%}

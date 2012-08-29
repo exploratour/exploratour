@@ -1,0 +1,28 @@
+{% from "widgets/record_view.html" import display %}
+
+{% extends "base.html" %}
+{% block title %}Confirm template deletion{% endblock %}
+
+{% block content %}
+
+<h1 class="warningbox">Confirm deletion of template &quot;{{ tmpl.id }}&quot;</h1>
+
+<form autocomplete="off" action="{{ url(page, id=tmpl.id) }}" method="POST">
+{% for param, values in (params|listify_values).items() %}
+{% if param != "delete" and param != "id" %}
+{% for value in values %}
+<input type="hidden" name="{{ param }}" value="{{ value }}">
+{% endfor %}
+{% endif %}
+{% endfor %}
+<input type="submit" name="delete_conf" value="Delete">
+<input type="submit" name="delete_cancel" value="Cancel">
+</form>
+
+<hr>
+
+<div class="contentbox">
+{{ display(tmpl.record) }}
+</div>
+
+{% endblock %}

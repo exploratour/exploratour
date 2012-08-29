@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+
+<script src="http://openlayers.org/api/OpenLayers.js"></script> 
+<script type="text/javascript"> 
+  var points = {{ points|jsval }};
+  var center_point = {{ center_point|jsval }};
+</script>
+<script type="text/javascript">
+
+function MapWidget(lat, lon, zoom) {
+    var map, markers, proj, currentPopup, popup;
+
+    // Set some global properties (eww)
+    OpenLayers.IMAGE_RELOAD_ATTEMPTS = 3;
+    OpenLayers.Util.onImageLoadErrorColor = "transparent";
+
+    this.create_map(lat, lon, zoom);
+}
+
+MapWidget.prototype.create_map = function() {
+    var options;
+
+    this.proj = new OpenLayers.Projection("EPSG:4326");
+
+    // FIXME - check these options in the documentation and see if they're
+    // sensible.
+    options = {
+	    projection: new OpenLayers.Projection("EPSG:900913"),
+	    displayProjection: this.proj,
+	    units: "m",
+	    numZoomLevels: 18,
+        maxResolution: 156543.0339,
+        maxExtent: new OpenLayers.Bounds(-20037508, -20037508,
+                                         20037508, 20037508.34)
+    };
+    this.map = new OpenLayers.Map('map', options);
+
+    this.markers = new OpenLayers.Layer.Markers("Markers");
+    this.map.addLayer(this.markers);
+
+    this.popup_class = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {
+        'autoSize': true
+    });
+
+
+    this.marker_size = new OpenLayers.Size(10,10);
+    this.marker_offset = new OpenLayers.Pixel(-(this.marker_size.w/2), -this.marker_size.h);
+    this.marker2_size = new OpenLayers.Size(20,20);
+    this.marker2_offset = new OpenLayers.Pixel(-(this.marker_size.w/2), -this.marker_size.h);
+    this.icon = new OpenLayers.Icon('http://openplaques.org/images/icon-blue.png', this.marker_size, this.marker_offset);
+    this.icon2 = new OpenLayers.Icon('http://openplaques.org/images/icon-red.png', this.marker2_size, this.marker2_offset);
+}
+
+MapWidget.prototype.center_on = function(lat, lon, zoom) {
+    this.zoom = zoom;
+
+    var point = new OpenLayers.LonLat(lon, lat);
+    point.transform(this.proj, this.map.getProjectionObject());
+ 
+    this.map.setCenter(point, zoom);
+    if (!this.map.getCenter()) {this.map.zoomToMaxExtent()}
+}
+
+MapWidget.prototype.add_osm_layer = function() {
+    var layer = new OpenLayers.Layer.OSM();
+    this.map.addLayer(layer);
+}
+
+MapWidget.prototype.add_marker = function(lat, lon, content, centerOnThis, big) {
+    var point, map = this.map;
+
+    point = new OpenLayers.LonLat(lon, lat);
+    point.transform(this.proj, this.map.getProjectionObject());
+
+    if (centerOnThis) {
+        this.map.setCenter(point, this.zoom);
+
+        if (!this.map.getCenter()) {
+            this.map.zoomToMaxExtent();
+        }
+    }
+
+    var feature = new OpenLayers.Feature(this.markers, point); 
+    feature.closeBox = true;
+    feature.popupClass = this.popup_class;
+    feature.data.popupContentHTML = content;
+    feature.data.overflow = "auto";
+
+    var ic, marker;
+    if (big) {
+        ic = this.icon2;
+    } else {
+        ic = this.icon;
+    }
+    var marker = new OpenLayers.Marker(point, ic.clone());
+
+    var markerClick = function (evt) {
+        if (this.currentPopup != null) {
+            this.currentPopup.hide();
+        }
+        if (this.popup == null) {
+            this.popup = this.createPopup(this.closeBox);
+            map.addPopup(this.popup);
+            this.popup.show();
+        } else {
+            this.popup.toggle();
+        }
+        this.currentPopup = this.popup;
+        OpenLayers.Event.stop(evt);
+    };
+    marker.events.register("mousedown", feature, markerClick);
+
+    this.markers.addMarker(marker);
+    return marker;
+}
+
+MapWidget.prototype.remove_marker = function(marker) {
+    this.markers.removeMarker(marker);
+}
+
+$(function() {
+    var map = new MapWidget();
+    var prev;
+    map.add_osm_layer();
+    for (var i in points) {
+        var p = points[i];
+        prev = map.add_marker(p[0], p[1], p[2], false);
+        p[p.length] = prev;
+        prev.display(false);
+    }
+    map.center_on(center_point[0], center_point[1], center_point[2]);
+
+    var red_icon = null;
+    var max_days = points[points.length-1][4];
+    $("#slider-range" ).slider({
+        range: true,
+        min: 0,
+        max: max_days,
+        values: [ 0, 0 ],
+        slide: function( event, ui ) {
+            var count = 0;
+            var last_point = null;
+            var last = null;
+            var start = ui.values[0];
+            var end = ui.values[1];
+            var first = null;
+            for (var i in points) {
+                day = points[i][4];
+                if (day < start || day > end) {
+                    points[i][5].display(false);
+                } else {
+                    points[i][5].display(true);
+                    last = points[i][5];
+                    last_point = points[i];
+                    count += 1;
+                    if (first === null) {
+                        first = points[i];
+                    }
+                }
+            }
+            if (last !== null) {
+                if (last !== red_icon) {
+                    if (red_icon !== null) {
+                        red_icon.setUrl('http://openplaques.org/images/icon-blue.png');
+                    }
+                    last.setUrl('http://openplaques.org/images/icon-red.png');
+                    red_icon = last;
+                    var recordid = last_point[2];
+                    $( "#date-display" ).text("From " + first[3] + " to " + last_point[3] + " (" + count + " entries)");
+                    $.ajax({
+                        url: '/record/' + recordid + '/unframed',
+                        success: function(data) {
+                            $('#record-preview').html(data);
+                        }
+                    });
+                }
+            }
+        }
+    });
+    //$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+});
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+<div style="width: 100%; position: relative;">
+  <div id="record-preview" style="overflow:hidden; width: 550px;"></div>
+  <div style="width: 550px; position: absolute; top: 0px; left: 600px;">
+    <div id="slider-range"></div>
+    <div id="date-display"></div>
+    <div id="map" class="smallmap" style="height: 512px; width: 512px"></div> 
+  </div>
+
+</div>
+
+
+{% endblock %}

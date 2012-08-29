@@ -1,0 +1,52 @@
+{% from "utils/toolbars.html" import toolbar_submit_button, toolbar_button, toolbar_label, toolbar_label2, divider %}
+
+{% extends "export/html/base.html" %}
+{% block title %}Search results{% endblock %}
+
+{% block content %}
+<div class="contentbox">
+
+<ul class="searchbar toolbar">
+<li><div class="search-link">{{ search.query_desc }}</div></li>
+</ul>
+
+{% macro searchtablink(ttype, label, defshowfull) %}
+{% if stash.get('ttypes') == [ttype] -%}
+  <li class="active"><p>{{ label }}</p></li>
+{%- elif search.matching_types.get(ttype, 0) > 0 -%}
+  <li class="link"><a href="{{ url("search", newttypes=ttype, newstartrank=0, newshowfull=defshowfull, **stash) }}">{{ label }}</a></li>
+{%- else -%}
+  <li class="inactive"><div>{{ label }}</div></li>
+{%- endif %}
+{% endmacro %}
+
+ <ul class="tab_bar">
+  {{ searchtablink('record', "Records", 1) }}
+  {{ searchtablink('coll', "Collections", 1) }}
+  {{ searchtablink('image', "Images", 0) }}
+  {{ searchtablink('video', "Video", 1) }}
+  {{ searchtablink('audio', "Audio", 1) }}
+  {{ searchtablink('media', "Other Media", 0) }}
+ </ul>
+
+ <div class="tab_content"><div>
+ {% if stash.get('ttypes') == ['record'] %}
+ {% include "export/html/search/list_records.html" %}
+ {% elif stash.get('ttypes') == ['coll'] %}
+ {% include "export/html/search/list_collections.html" %}
+ {% elif stash.get('ttypes') == ['image'] %}
+ {% include "export/html/search/list_images.html" %}
+ {% elif stash.get('ttypes') == ['video'] %}
+ {% include "export/html/search/list_video.html" %}
+ {% elif stash.get('ttypes') == ['audio'] %}
+ {% include "export/html/search/list_audio.html" %}
+ {% elif stash.get('ttypes') == ['media'] %}
+ {% include "export/html/search/list_media.html" %}
+ {% else %}
+ <div style="clear: both;" class="error">Unknown search target type: {{ stash.get('ttypes') }}.</div>
+ {% endif %}
+ </div></div>
+
+</div>
+</div>
+{% endblock %}

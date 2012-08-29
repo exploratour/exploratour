@@ -1,0 +1,26 @@
+{% from "utils/toolbars.html" import toolbar_icon, toolbar_label, toolbar_label2 %}
+
+{% extends "base.html" %}
+{% block title %}Unknown collection{% endblock %}
+
+{% block content %}
+<div class="contentbox">
+<form autocomplete="off" action="{{ path }}" method="POST">
+<input type="hidden" name="params" value="{{ params|jsvalattr }}">
+
+<ul class="toolbar">
+{{ toolbar_icon(48, "collection", "Template", '') }}
+{{ toolbar_label(48, "New Collection") }}
+</ul>
+<div style="clear: both;"></div>
+
+<div class="recordbox edit">
+<p>The collection &quot;{{ invalid_collection }}&quot; is not known.</p>
+<input type="hidden" name="newcoll_title" value="{{ invalid_collection }}">
+<input type="submit" name="create" value="Create">
+<input type="submit" name="cancel" value="Cancel">
+</div>
+
+</form>
+</div>
+{% endblock %}

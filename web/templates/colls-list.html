@@ -1,0 +1,70 @@
+{% from "utils/toolbars.html" import toolbar_icon, toolbar_label,
+   divider,
+   toolbar_submit_button
+   %}
+
+{% macro show_coll(coll, level) -%}
+<li>
+{%- set record_count=coll.items_from_search()|count -%}
+<a href="{{ url("coll-view", id=coll.id) }}" class="collection">{{ coll.title }}{% if record_count > 0%} <span class="supplementary">({{ record_count }} records)</span>{% endif %}</a>
+{% if coll.children %}
+{% set expandid = level|string + '_' + coll.id|string %}  {# FIXME - this isn't guaranteed to be unique #}
+{% set shrunk = 0 %}
+<a href="{{ url("coll-view", id=coll.id) }}" data-expand="{{ expandid }}"{% if not shrunk %} style="display: none"{% endif %}>+</a>
+<a data-shrink="{{ expandid }}" style="display: none">-</a>
+<ol class="child collapsible" data-shrunk="{% if shrunk %}1{% endif %}" id="tree_{{ expandid }}"{% if shrunk %} style="display: none"{% endif %}>
+{% for child in coll.children %}
+{{ show_coll(child, level + 1) }}
+{% endfor %}
+</ol>
+{% endif %}
+</li>
+{%- endmacro %}
+
+{% extends "base.html" %}
+{% block title %}All collections{% endblock %}
+
+{% block content %}
+<div class="contentbox">
+
+<div class="toolbar">
+<ul class="toolbar">
+{{ toolbar_icon(48, "collection", "", '') }}
+{{ toolbar_label(48, "All Collections") }}
+{{ divider(48) }}
+<form action="{{ url("search") }}" method="GET">
+{{ toolbar_submit_button(48, "search", "act", "auto", "Search collection") }}
+<input type="hidden" name="qs" value="1"/>
+<input type="hidden" name="q1f" value="*"/>
+<span style="float: right;">
+Quick search:
+<input style="width: 30em;" placeholder="Type keyword(s) and press return" type="text" name="q1m" value=""/>
+</span>
+</form>
+
+</ul>
+</div>
+
+{% if currgroup == None %}
+<p>No collections in system</p>
+{% else %}
+<ul class="tab_bar">
+{% for group in groups %}
+{%- if group.id == currgroup.id -%}
+<li class="active"><p>{{ group.title }}</p></li>
+{%- else -%}
+<li class="link"><a href="{{ url("colls-list", groupid=group.id) }}">{{ group.title }}</a></li>
+{%- endif -%}
+{% endfor %}
+</ul>
+<div class="tab_content"><div>
+<ol class="hierarchy">
+{% for coll in currgroup.collections() %}
+{{ show_coll(coll, 0) }}
+{% endfor %}
+</ol>
+</div></div>
+{% endif %}
+
+</div>
+{% endblock %}

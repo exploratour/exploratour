@@ -1,0 +1,7 @@
+{% macro show_order_value(item, order) %}
+{%- if order == '-mtime' -%}
+<small style="padding-right: 1em; float: left; width: 160px"><i>{{ item.data.mtime[0]|fmtdatestamp("%d %b %Y at %H:%M:%S") }}</i></small>
+{%- elif order == '+date' -%}
+<small style="padding-right: 1em"><i>{{ item.data.date[0]|fmtdate }}</i></small>
+{%- endif -%}
+{% endmacro %}

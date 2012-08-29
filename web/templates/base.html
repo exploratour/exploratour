@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+ <title>{% block title %}{% endblock %} - Exploratour</title>
+ <link rel="shortcut icon" href="{{ url('static', 'favicon.png') }}"/>
+ <link href="{{ url('static', 'css/screen.css') }}" rel="stylesheet" type="text/css">
+ {% include "widgets/js_all.html" %}
+ {% block extra_head %}{% endblock %}
+</head>
+<body{% block extra_body_attrs %}{% endblock %}>
+ <div id="globalmenu">
+  <ul>
+   <li>Create
+    <ul>
+     <li><a href="{{ url('tmpl-create') }}"><div>Template</div></a></li>
+     <li><a href="{{ url('record-create', tmplid='') }}"><div>Source record</div></a></li>
+     <li><a href="{{ url('tmpls-pick') }}"><div>Source record from template</div></a></li>
+     <li><a href="{{ url('coll-create') }}"><div>Collection</div></a></li>
+    </ul>
+   </li>
+   <li>Explore
+    <ul>
+     <li><a href="/"><div>Overview</div></a></li>
+     <li><a href="{{ url('search') }}"><div>Search</div></a></li>
+     <li><a href="{{ url("search", act='search') }}"><div>Everything</div></a></li>
+     <li><a href="{{ url('colls-list') }}"><div>Collections</div></a></li>
+     <li><a href="{{ url('tmpls-list') }}"><div>Templates</div></a></li>
+    </ul>
+   </li>
+   <li>Export/Import
+    <ul>
+     <li><a href="{{ url('import-download') }}"><div>Import</div></a></li>
+     <li><a href="{{ url('records-export') }}"><div>Export Source records</div></a></li>
+     <li><a href="{{ url('backup') }}"><div>Export Backup</div></a></li>
+     <li><a href="{{ url('settings-roots') }}"><div>Media roots</div></a></li>
+    </ul>
+   </li>
+   <li>Help
+   </li>
+  </ul>
+  {% if lockedto() %}
+  <a href="{{ url('coll-view', id=lockedto().id) }}" class="lockto-notification">{{ lockedto().title }}</a>
+  {% endif %}
+  <div style="clear:both;"></div>
+ </div>
+ <div class="sheath content">
+  {% if error %}<div class="errorbox">{{ error }}</div>{% endif %}
+  {% block content %}
+  {% endblock %}
+  <div style="clear: both;"></div>
+ </div>
+</body>
+</html>

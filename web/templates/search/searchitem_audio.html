@@ -1,0 +1,28 @@
+{%- from "utils/thumbnail.html" import thumbnail -%}
+{%- from "widgets/audioplayer.html" import audioplayer_file -%}
+{% from "search/sortvalue.html" import show_order_value %}
+
+<td>
+{{ show_order_value(item, order) }}
+</td>
+<td class="play-buttons">
+{%- set fileurl=url('media', path=item.data.fileid[0]) -%}
+{{ audioplayer_file(fileurl, item.data.mimetype[0], "audio-track") }}
+</td>
+<td class="download-buttons">
+<a class="jpl-download" href="{{ fileurl }}"></a>
+</td>
+
+<td class="result-description">
+<a href="{{ url("mediapreview", path=item.data.fileid[0], newrank=item.rank, **stash) }}">
+{%- if item.data.Ttitle and item.data.Ttitle[0] -%}
+{{- item.data.Ttitle[0]|titlefirst -}}
+{%- elif item.data.Talt and item.data.Talt[0] -%}
+{{- item.data.Talt[0]|titlefirst -}}
+{%- else -%}
+{{- item.data.fileid[0]|basename -}}
+{%- endif -%}
+</a><br>
+
+<small><i>in record <a href="{{ url("record-view", id=item.data['parent'][0]) }}">{{ item.data['title'][0] }}</a></i></small>
+</td>

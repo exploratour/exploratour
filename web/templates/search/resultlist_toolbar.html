@@ -1,0 +1,21 @@
+{% from "utils/toolbars.html" import toolbar_button, divider %}
+
+  <li>
+   <label for="sort_order_select">Order by:</label>
+   <select class="submitonchange" name="order" id="sort_order_select">
+    <option value="score"{% if search.order == "score" %} selected="selected"{% endif %}>Relevance</option>
+    <option value="-mtime"{% if search.order == "-mtime" %} selected="selected"{% endif %}>Most recently modified</option>
+    <option value="+title"{% if search.order == "+title" %} selected="selected"{% endif %}>Title</option>
+    <option value="+date"{% if search.order == "+date" %} selected="selected"{% endif %}>Date</option>
+{#
+    <option value="+field">Select specific field &hellip;</option>
+    <option value="+field_title"{% if search.order == "+date" %} selected="selected"{% endif %}>Field: Name</option>
+ #}
+   </select>
+
+  </li>
+  <li>
+   <button style="display: inline" class="button" type="submit" name="newshowfull"
+    {%- if showfull %} value="0">Hide summaries{% else %} value="1">Show summaries{% endif %}
+   </button>
+  </li>

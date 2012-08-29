@@ -1,0 +1,171 @@
+a.jpl-download,
+a.jpl-play,
+a.jpl-pause {
+    display: block;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
+a.jpl-stop,
+a.jpl-next,
+a.jpl-prev {
+    display: block;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+}
+
+a.jpl-mute,
+a.jpl-unmute {
+    display: block;
+    cursor: pointer;
+    width: 18px;
+    height: 15px;
+}
+
+/** Buttons when used in a table layout.
+ */
+td.download-buttons {
+    width: 40px;
+    padding-right: 0.5em;
+    vertical-align: top;
+}
+td.play-buttons {
+    width: 40px;
+    padding-right: 0.5em;
+    vertical-align: top;
+}
+tr.result-description {
+    line-height: 80%;
+    vertical-align: top;
+}
+
+/** Buttons when used in a control panel.
+ */
+.jpl-controls {
+    width: 440px;
+    height: 50px;
+    position: relative;
+    background: #eee;
+    border: 1px solid #555;
+    float: left;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+}
+.jpl-controls .jpl-play,
+.jpl-controls .jpl-pause {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+.jpl-controls .jpl-pause {
+    display: none;
+}
+.jpl-controls .jpl-stop {
+    position: absolute;
+    top: 11px;
+    left: 50px;
+}
+.jpl-controls .jpl-prev {
+    position: absolute;
+    top: 11px;
+    left: 83px;
+}
+.jpl-controls .jpl-next {
+    position: absolute;
+    top: 11px;
+    left: 116px;
+}
+
+.jpl-controls .jpl-progress {
+    position: absolute;
+    top: 17.5px;
+    left: 149px;
+    width: 200px;
+    height: 15px;
+    border: solid black 1px;
+}
+.jpl-controls .jpl-progress .jpl-seek-bar {
+    height: 100%;
+    cursor: pointer;
+    width: 50%;
+}
+
+.jpl-controls .jpl-mute,
+.jpl-controls .jpl-unmute {
+    position: absolute;
+    top: 17.5px;
+    left: 358px;
+}
+
+div.jp-interface div.jp-current-time {
+    top:0px;
+    left:380px;
+    width:38px;
+    text-align: right;
+}
+
+div.jp-interface div.jp-duration {
+    top:34px;
+    left:380px;
+    width:38px;
+    text-align: right;
+}
+
+
+
+/* Map icons to background images. */
+a.jpl-download {
+    background: url("../icons/buttons/player/download.png") no-repeat;
+}
+a.jpl-download:hover {
+    background: url("../icons/buttons/player/download_hover.png") no-repeat;
+}
+a.jpl-play {
+    background: url("../icons/buttons/player/play.png") no-repeat;
+}
+a.jpl-play:hover {
+    background: url("../icons/buttons/player/play_hover.png") no-repeat;
+}
+a.jpl-pause {
+    background: url("../icons/buttons/player/pause.png") no-repeat;
+}
+a.jpl-pause:hover {
+    background: url("../icons/buttons/player/pause_hover.png") no-repeat;
+}
+a.jpl-stop {
+    background: url("../icons/buttons/player/stop.png") no-repeat;
+}
+a.jpl-stop:hover {
+    background: url("../icons/buttons/player/stop_hover.png") no-repeat;
+}
+a.jpl-prev {
+    background: url("../icons/buttons/player/prev.png") no-repeat;
+}
+a.jpl-prev:hover {
+    background: url("../icons/buttons/player/prev_hover.png") no-repeat;
+}
+a.jpl-next {
+    background: url("../icons/buttons/player/next.png") no-repeat;
+}
+a.jpl-next:hover {
+    background: url("../icons/buttons/player/next_hover.png") no-repeat;
+}
+a.jpl-mute {
+    background: url("../icons/buttons/player/mute.png") no-repeat;
+}
+a.jpl-mute:hover {
+    background: url("../icons/buttons/player/mute_hover.png") no-repeat;
+}
+a.jpl-unmute {
+    background: url("../icons/buttons/player/volume.png") no-repeat;
+}
+a.jpl-unmute:hover {
+    background: url("../icons/buttons/player/volume_hover.png") no-repeat;
+}
+a.jpl-progress {
+    background: url("../icons/buttons/player/seekbar_bg.png") repeat-x;
+}
+a.jpl-seek-bar {
+    background: url("../icons/buttons/player/seekbar.png") repeat-x;
+}

@@ -1,0 +1,61 @@
+{% from "utils/toolbars.html" import toolbar_icon, toolbar_label2, divider,
+   toolbar_button,
+   toolbar_submit_button %}
+{% from "search/result_header.html" import result_header %}
+
+{% macro coll_option(coll, allowable, selected_coll, indent) -%}
+<option value="{{coll.id}}"{% if coll.id == selected_coll %} selected="selected"{% endif %}{% if coll.id not in allowable %} disabled="disabled"{% endif %}>{{ indent|safe }}{{ coll.title }}</option>
+{% if coll.children %}
+{% for child in coll.children %}
+{{ coll_option(child, allowable, selected_coll, indent + "&nbsp;&nbsp;") }}
+{% endfor %}
+{% endif %}
+{%- endmacro %}
+
+{% extends "base.html" %}
+{% block title %}{{ coll.id }} - set parents{% endblock %}
+
+{% block content %}
+
+<div class="contentbox">
+
+<ul class="toolbar keep_on_screen">
+{{ toolbar_icon(48, "collection", "", '') }}
+{{ toolbar_label2(48, "Collection " + coll.id, coll.title) }}
+</ul>
+
+<form action="{{ url("coll-reparent", id=coll.id) }}" method="POST">
+<input type="hidden" name="coll" value="{{coll.id}}"/>
+
+<div class="recordbox edit">
+
+<label for="title_entry" class="label">Collection name:</label><input class="collection_name" id="title_entry" type="text" name="title" value="{{ title }}">
+
+<input type="hidden" name="order" value="{% for onum, parent in parents -%}{{onum}},{%- endfor %}">
+<ul>
+{% for onum, parent in parents %}
+<li>
+
+<select name="parent{{onum}}">
+ <option value="">Select a parent collection</option>
+{%- for coll in collections -%}
+{%- if coll.ancestors|count == 0 -%}
+{{ coll_option(coll, allowable_parents, parent, "") }}
+{%- endif -%}
+{%- endfor -%}
+</select>
+
+<button name="del{{onum}}" value='1' title="Remove this parent">-</button>
+
+</li>
+{% endfor %}
+</ul>
+
+<button name="add" value="1" title="Add another parent">+ Add another parent</button><br>
+<button name="submit" value="1" title="Save parents">Save parents</button>
+<button name="cancel" value="1" title="Cancel changes">Cancel changes</button><br>
+
+</div>
+</form>
+</div>
+{% endblock %}

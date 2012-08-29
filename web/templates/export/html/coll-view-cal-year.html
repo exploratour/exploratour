@@ -1,0 +1,73 @@
+<div class="calendar-navbar centered-list">
+<ol>
+<li>{{ button("custom/previous_record_35height", 48, 35, "Previous", prevlink, class="button noborder") }}</li>
+<li class="cal-date-select">
+<form action="{{ url("coll-view", id=coll.id, **stash) }}">
+<select name="newstartdate" class="submitonchange">
+{% for year in years %}
+<option {% if year|int == startdate[:4]|int %}selected{% endif %}>{{ year }}</option>
+{% endfor %}
+</select>
+</form>
+</li>
+<li>{{ button("custom/next_record_35height", 48, 35, "Next", nextlink, class="button noborder") }}</li>
+</ol>
+</div>
+
+<div class="calendar-key centered-list">
+<ol>
+<li>
+Key:
+</li>
+<li><div class="cal-key-square calhl-1"></div> {{ groupnames[0] }}</li>
+{% if groupnames[1] %}
+<li><div class="cal-key-square calhl-2"></div> {{ groupnames[1] }}</li>
+{% endif %}
+{% if groupnames[2] %}
+<li><div class="cal-key-square calhl-3"></div> {{ groupnames[2] }}</li>
+{% endif %}
+{% if groupnames[3] %}
+<li><div class="cal-key-square calhl-4"></div> {{ groupnames[3] }}</li>
+{% endif %}
+</ol>
+</div>
+
+<ol class="flowed">
+{% for month in months %}
+<table class="cal-year-month">
+<tr>
+<th colspan="7" class="month-name"><a href="{{ url('coll-view', id=coll.id, newcalstyle="month", newstartdate=month.startdate, **stash) }}">{{ month.name }}</a></th>
+</tr>
+<tr>
+<th>Mon</th>
+<th>Tue</th>
+<th>Wed</th>
+<th>Thu</th>
+<th>Fri</th>
+<th>Sat</th>
+<th>Sun</th>
+</tr>
+{% for week in month.weeks %}
+<tr class="week">
+{% for day in week %}
+{%- if day == None -%}
+<td class="calhl-0">&nbsp;</td>
+{%- elif day[1] == 0 -%}
+<td class="calhl-0">
+{{ day[0] }}
+</td>
+{%- else -%}
+{% if day[2]|count == 1 %}
+<td class="calhl-{{ day[1] }}" title="{{ day[2][0].title }}">
+<a href="{{ url('record-view', id=day[2][0].id)}}"><div>{{ day[0] }}</div></a></td>
+{% else %}
+<td class="calhl-{{ day[1] }}" title="{{ day[2][0].title }}, and {{ day[2]|count - 1 }} others">
+<a href="{{ url('coll-view', id=coll.id, newcalstyle="day", newstartdate=day[3], **stash)}}"><div>{{ day[0] }}</div></a></td>
+{% endif %}
+{%- endif -%}
+{% endfor %}
+</tr>
+{% endfor %}
+</table>
+{% endfor %}
+</ol>

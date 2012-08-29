@@ -1,0 +1,19 @@
+{%- from "utils/thumbnail.html" import thumbnail -%}
+
+{% if showfull %}
+
+<div style="float:left">{{ thumbnail({'src': item.data.fileid[0]}, 'tile', url("mediapreview", path=item.data.fileid[0])) }}</div>
+<a href="{{ url("mediapreview", path=item.data.fileid[0]) }}">{{ item.data.fileid[0] }}</a>
+in record <a href="{{ url("record-view", id=item.data['parent'][0]) }}">{{ item.data['title'][0] }}</a>
+<div style="padding-bottom: 0.7em;">
+
+<small><i>Last modification: {{ item.data.mtime[0]|fmtdatestamp("on %d %b %Y at %H:%M:%S") }}</i></small></div>
+<div style="clear: both"/>
+
+{% else %}
+
+<div style="float: left; margin-right: 0.5em;">
+{{ thumbnail({'src': item.data.fileid[0]}, 'icon', url("mediapreview", path=item.data.fileid[0])) }}
+</div>
+
+{% endif %}

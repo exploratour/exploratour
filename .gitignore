@@ -1,0 +1,5 @@
+*\.pyc
+data
+ext/django-trunk
+ext/xappy-trunk/.svn
+ext/xmlstore/MANIFEST

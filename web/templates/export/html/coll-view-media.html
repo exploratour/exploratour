@@ -1,0 +1,21 @@
+{% from "export/html/coll-view-toolbar.html" import select_sortby,
+                                        select_showfull,
+                                        select_incsubs %}
+
+<div class="listbox" id="imagelist">
+
+<ul class="buttonbar">
+ <li>{{ select_sortby(order) }}</li>
+ <li>{{ select_showfull(coll, showfull, stash) }}</li>
+ {{ select_incsubs(coll, incsubs, "items", stash) }}
+</ul>
+
+<ol>
+{%- for item in items -%}
+<li>{% include "search/searchitem_media.html" %}</li>
+{%- endfor -%}
+</ol>
+
+</div>
+
+{% include "coll-view-paginate-bar.html" %}

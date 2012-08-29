@@ -1,0 +1,65 @@
+<div class="calendar-navbar centered-list">
+<ol>
+<li>{{ button("custom/previous_record_35height", 48, 35, "Previous", prevlink, class="button noborder") }}</li>
+<li class="cal-date-select">
+<form action="{{ url("coll-view", id=coll.id, **stash) }}">
+
+<select name="newmonth" class="submitonchange">
+{% for m in months %}
+<option value="{{ m[0] }}"  {% if m[0] == month|int %}selected{% endif %}>{{ m[1] }}</option>
+{% endfor %}
+</select>
+
+<select name="newyear" class="submitonchange">
+{% for y in years %}
+<option value="{{ y }}"  {% if y|int == year|int %}selected{% endif %}>{{ y }}</option>
+{% endfor %}
+</select>
+
+</form>
+</li>
+<li>{{ button("custom/next_record_35height", 48, 35, "Next", nextlink, class="button noborder") }}</li>
+</ol>
+</div>
+
+<table class="cal-month">
+<tr>
+<th class="day-name">Monday</th>
+<th class="day-name">Tuesday</th>
+<th class="day-name">Wednesday</th>
+<th class="day-name">Thursday</th>
+<th class="day-name">Friday</th>
+<th class="day-name">Saturday</th>
+<th class="day-name">Sunday</th>
+</tr>
+{% for week in month_grid.weeks %}
+<tr class="week-heading">
+{% for day in week %}
+{%- if day == None -%}
+  <td>&nbsp;</td>
+{%- else -%}
+  <td><a href="{{ url('coll-view', id=coll.id, newcalstyle="day", newstartdate=day[3], **stash)}}"><div>{{ day[0] }}</div></a></td>
+{%- endif -%}
+{% endfor %}
+</tr>
+<tr class="week">
+{% for day in week %}
+{%- if day == None -%}
+<td class="not-a-day">&nbsp;</td>
+{%- elif day[1] == 0 -%}
+<td>&nbsp;</td>
+{%- elif day[2]|count <= 2 -%}
+<td>
+{% for item in day[2] %}
+<a href="{{ url('record-view', id=item.id)}}" title="{{ item.title }}"><div>{{ item.title }}</div></a>
+{% endfor %}
+</td>
+{%- else -%}
+<td>
+  <a href="{{ url('coll-view', id=coll.id, newcalstyle="day", newstartdate=day[3], **stash)}}"><div>{{ day[2]|count }} records</div></a>
+</td>
+{%- endif -%}
+{% endfor %}
+</tr>
+{% endfor %}
+</table>

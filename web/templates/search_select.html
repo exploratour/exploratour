@@ -1,0 +1,37 @@
+{% from "utils/toolbars.html" import toolbar_submit_button, toolbar_button, toolbar_label, toolbar_label2, divider %}
+
+{% extends "base.html" %}
+{% block title %}Select search results{% endblock %}
+
+{% block content %}
+<div class="contentbox">
+<form autocomplete="off" method="GET" action="search">
+
+<ul class="searchbar toolbar">
+<li><button class="button button_search" name="newact" value="change" type="submit" title="Change search"><div class="search-link">
+Search: {{ search.query_desc }}</div></li>
+</ul>
+
+ <ul class="toolbar">
+ {#
+  {{ toolbar_button(48, "export_collection", "Create collection", url('search', newact='createcoll', **stash)) }}
+  {{ toolbar_button(48, "add_to_collection", "Add to collection", url('search', newact='addtocoll', **stash)) }}
+  {{ toolbar_button(48, "remove_from_collection", "Remove from collection", url('search', newact='removefromcoll', **stash)) }}
+ #}
+  {{ toolbar_button(48, "add_to_briefcase", "Add to briefcase", '/') }}
+ </ul>
+
+{% for param, pvals in stash.iteritems() %}
+{% for pval in pvals %}
+<input type="hidden" name="old{{param}}" value="{{ pval }}">
+{% endfor %}
+{% endfor %}
+
+ <div class="recordbox">
+ {% include "search/select_records.html" %}
+ </div>
+
+</div>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,5 @@
+include MANIFEST.in
+include README
+include runtests.py
+include setup.py
+include xmlstore.py

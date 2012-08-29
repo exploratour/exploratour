@@ -1,0 +1,46 @@
+{% from "utils/button.html" import button %}
+<div class="listbox">
+
+<div class="calendar-view-controls">
+<div class="calendar-view-control">
+View by
+<ul class="listbox">
+# if calstyle != 'day':
+# set day_view_href = url('coll-view', id=coll.id, newcalstyle='day', **stash)
+# else
+# set day_view_href = ''
+# endif
+# if calstyle != 'month':
+# set month_view_href = url('coll-view', id=coll.id, newcalstyle='month', **stash)
+# else
+# set month_view_href = ''
+# endif
+# if calstyle != 'year':
+# set year_view_href = url('coll-view', id=coll.id, newcalstyle='year', **stash)
+# else
+# set year_view_href = ''
+# endif
+<li>{{ button("custom/day_45", 54, 45, "Day View", day_view_href, class="button noborder", text=' Day') }}</li>
+<li>{{ button("custom/month_60", 73, 60, "Month View", month_view_href, class="button noborder", text=' Month') }}</li>
+<li>{{ button("custom/year_75", 105, 75, "Year View", year_view_href, class="button noborder", text=' Year') }}</li>
+</ul>
+</div>
+</div>
+
+<div class="calendar-view">
+
+#if prevdate
+# set prevlink = url("coll-view", id=coll.id, newstartdate=prevdate, **stash)
+#else
+# set prevlink = ''
+#endif
+#if nextdate
+# set nextlink = url("coll-view", id=coll.id, newstartdate=nextdate, **stash)
+#else
+# set nextlink = ''
+#endif
+
+{% include "coll-view-cal-" + calstyle + ".html" %}
+
+</div>
+</div>

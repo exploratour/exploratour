@@ -1,0 +1,3 @@
+<td class="label">{{ (item.name or item.defname)}}:</td><td class="fieldval">
+{% set display_content = item.display_content(record.id, url) %}
+{%- if display_content %}{{ display_content|safe }}{% else %}&nbsp;{% endif %}

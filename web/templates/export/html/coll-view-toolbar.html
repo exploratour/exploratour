@@ -1,0 +1,30 @@
+{%- macro select_sortby(order) -%}
+{#
+   <label for="sort_order_select">Order by:</label>
+   <select class="submitonchange" name="order" id="sort_order_select">
+    <option value="collection"{% if order == "collection" %} selected="selected"{% endif %}>Collection order</option>
+    <option value="-mtime"{% if order == "-mtime" %} selected="selected"{% endif %}>Most recently modified</option>
+    <option value="+title"{% if order == "+title" %} selected="selected"{% endif %}>Title</option>
+   </select>
+#}
+{%- endmacro -%}
+
+{%- macro select_showfull(coll, showfull, stash) -%}
+{% if showfull %}
+<a class="button" href="{{ url("coll-view", id=coll.id, newshowfull="0", **stash) }}">Hide summaries</a>
+{% else %}
+<a class="button" href="{{ url("coll-view", id=coll.id, newshowfull="1", **stash) }}">Show summaries</a>
+{% endif %}
+{%- endmacro -%}
+
+{%- macro select_incsubs(coll, incsubs, name, stash) -%}
+{% if coll.children %}
+<li>
+{% if incsubs %}
+<a class="button" href="{{ url("coll-view", id=coll.id, newincsubs="0", **stash) }}">Exclude {{name}} in subcollections</a>
+{% else %}
+<a class="button" href="{{ url("coll-view", id=coll.id, newincsubs="1", **stash) }}">Show {{name}} in subcollections</a>
+{% endif %}
+</li>
+{% endif %}
+{%- endmacro -%}

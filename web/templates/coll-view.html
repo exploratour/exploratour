@@ -1,0 +1,84 @@
+{% from "utils/toolbars.html" import toolbar_icon, toolbar_label,
+   divider, toolbar_button, toolbar_submit_button %}
+
+{% extends "base.html" %}
+{% block title %}{{ coll.title }}{% endblock %}
+
+{% block content %}
+
+<div class="contentbox">
+
+<form action="{{ url("search", collid=coll.id) }}" method="GET">
+<input type="hidden" name="collid" value="{{coll.id}}"/>
+<input type="hidden" name="qs" value="1"/>
+<input type="hidden" name="q1f" value="*"/>
+
+<ul class="toolbar">
+<li class="collection-link">{{ coll.title }}</li>
+
+<li style="float: right;">
+Quick search:
+<input style="width: 30em;" placeholder="Type keyword(s) and press return" type="text" name="q1m" value=""/>
+</li>
+
+</ul>
+<ul class="toolbar">
+{{ toolbar_submit_button(48, "search", "act", "auto", "Search collection") }}
+
+{{ toolbar_button(48, "export_collection", "Export collection", url("records-export", coll=coll.id)) }}
+{{ divider(48) }}
+{{ toolbar_button(48, "order_collection", "Reorder collection", url("coll-reorder", id=coll.id)) }}
+{{ toolbar_button(48, "change_parents", "Change parents or name", url("coll-reparent", id=coll.id)) }}
+{{ divider(48) }}
+{% if lockedto() != coll %}
+{{ toolbar_button(48, "lock", "Lock collection", url("coll-view", id=coll.id, lockto="set", **stash)) }}
+{% else %}
+{{ toolbar_button(48, "unlock", "Unlock collection", url("coll-view", id=coll.id, lockto="unset", **stash)) }}
+{% endif %}
+{{ divider(48) }}
+{{ toolbar_button(48, "delete_collection", "Delete collection", url("coll-delete", id=coll.id)) }}
+
+</ul>
+</form>
+
+{% macro tablink(tabname, tabtitle, url) %}
+{% if tabname in tabs %}
+{% if tabname == tab %}
+  <li class="active"><p>{{ tabtitle }}</p></li>
+{% else %}
+  <li class="link"><a href="{{ url }}">{{ tabtitle }}</a></li>
+{% endif %}
+{% endif %}
+{% endmacro %}
+
+<ul class="tab_bar">
+{% for page in coll.leading_tabs() %}
+{{ tablink("x" + page.id, page.title, url("coll-view", id=coll.id, newtab="x" + page.id, newshowfull=1, newstartrank=0, **stash)) }}
+{% endfor %}
+{{ tablink("children", "Subcollections", url("coll-view", id=coll.id, newtab="children", newshowfull=1, newstartrank=0, **stash)) }}
+{{ tablink("records", "Records", url("coll-view", id=coll.id, newtab="records", newstartrank=0, newshowfull=1, **stash)) }}
+{{ tablink("images", "Images", url("coll-view", id=coll.id, newtab="images", newstartrank=0, newshowfull=0, **stash)) }}
+{{ tablink("video", "Video", url("coll-view", id=coll.id, newtab="video", newstartrank=0, newshowfull=1, **stash)) }}
+{{ tablink("audio", "Audio", url("coll-view", id=coll.id, newtab="audio", newstartrank=0, newshowfull=1, **stash)) }}
+{{ tablink("media", "Other Media", url("coll-view", id=coll.id, newtab="media", newstartrank=0, newshowfull=1, **stash)) }}
+{{ tablink("calendar", "Calendar", url("coll-view", id=coll.id, newtab="calendar", newshowfull=1, **stash)) }}
+{{ tablink("parents", "Parent Collections", url("coll-view", id=coll.id, newtab="parents", newshowfull=1, **stash)) }}
+</ul>
+
+<div class="tab_content"><div>
+<form autocomplete="off" method="GET" action="{{ url("coll-view", id=coll.id) }}">
+{% for param, pvals in stash.iteritems() %}
+{% for pval in pvals %}
+<input type="hidden" name="old{{param}}" value="{{ pval }}">
+{% endfor %}
+{% endfor %}
+{% if tab[0] == 'x' %}
+{{ currpage.display_content(url)|safe }}
+{% else %}
+{% include "coll-view-" + tab + ".html" %}
+{% endif %}
+</form>
+</div></div>
+
+</div>
+{% endblock %}

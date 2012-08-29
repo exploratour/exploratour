@@ -1,0 +1,32 @@
+{% from "widgets/record_view.html" import display %}
+{% from "utils/toolbars.html" import record_tools, toolbar_icon, toolbar_button, toolbar_label, divider %}
+{% from "utils/collections.html" import show_collections %}
+{% from "search/result_header.html" import result_header %}
+
+{% extends "export/html/base.html" %}
+{% block title %}{{record.title}}{% endblock %}
+
+{% block content %}
+
+{{ result_header(record, search, stash, rank) }}
+
+<div class="contentbox">
+
+<ul class="toolbar">
+{{ toolbar_icon(48, "record", "Record", '') }}
+{{ toolbar_label(48, "Record " + record.id) }}
+{{ divider(48) }}
+</ul>
+<div style="clear: both;"></div>
+
+<div class="recordbox">
+
+{{ display(record) }}
+
+</div>
+
+{{ show_collections(record) }}
+<div style="clear: both;"></div>
+
+</div>
+{% endblock %}

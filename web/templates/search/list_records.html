@@ -1,0 +1,16 @@
+ <ul class="buttonbar">
+{% include "search/resultlist_toolbar.html" %}
+ </ul>
+
+ <div class="listbox" id="recordlist">
+  <ol>
+{% for item in search.resultlist %}
+   <li class="listitem record">
+{% include "search/searchitem_" + item.data.type[0] + ".html" %}
+   </li>
+{% endfor %}
+  </ol>
+  <div style="clear: both;"></div>
+ </div>
+
+{% include "search/resultlist_paginatebar.html" %}

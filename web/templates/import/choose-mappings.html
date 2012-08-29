@@ -1,0 +1,208 @@
+{% from "utils/toolbars.html" import toolbar_icon, toolbar_label, divider %}
+
+{% extends "base.html" %}
+{% block title %}Review import{% endblock %}
+
+{% block content %}
+
+<div class="contentbox">
+<ul class="toolbar">
+{{ toolbar_icon(48, "collection", "Import", '') }}
+{{ toolbar_label(48, "Review import") }}
+</ul>
+<div style="clear: both;"/>
+<div class="formbox">
+<form enctype="multipart/form-data" autocomplete="off" action="{{ url("import-download") }}" method="post" accept-charset="utf-8">
+
+<h1>Analysed import file "{{ info.filename }}":</h1>
+<ul>
+    {% if info.records_count %}
+    <li>{{ info.records_count }} records, of which:
+      <ul>
+        {% if info.record_identical -%}
+        <li>{{ info.record_identical|count }} records already exist and are unchanged</li>
+        {% endif -%}
+        {% if info.record_conflicts -%}
+        <li>{{ info.record_conflicts|count }} records exist and are modified</li>
+        {% endif -%}
+        {% if info.record_new -%}
+        <li>{{ info.record_new|count }} records are new</li>
+        {% endif -%}
+      </ul>
+    </li>
+    {% endif %}
+
+    {% if info.collections %}
+    <li>{{ info.collections|count }} collections, of which:
+      <ul>
+        {% if info.coll_identical -%}
+        <li>{{ info.coll_identical|count }} collections already exist and are unchanged</li>
+        {% endif -%}
+        {% if info.coll_conflicts -%}
+        <li>{{ info.coll_conflicts|count }} collections exist and are modified</li>
+        {% endif -%}
+        {% if info.coll_new -%}
+        <li>{{ info.coll_new|count }} collections are new</li>
+        {% endif -%}
+      </ul>
+    </li>
+    {% endif %}
+    <li>{{ info.media_files_count }} media files referenced</li>
+</ul>
+
+{% if info.record_conflicts or info.record_identical %}
+<hr>
+<p class="helptext">
+Some record IDs in the import are already used.  During the import, this can be
+handled in the following ways.
+IDs are already used can be skipped, or the records in the import for which the
+IDs are already used can have new IDs allocated.
+</p>
+
+<ol>
+    <li>
+        <input type="radio" id="record_conflict_overwrite" name="record_conflict" value="overwrite"
+        {%- if record_conflict == 'overwrite' %} checked="checked"{% endif %}>
+        <label for="record_conflict_overwrite">Overwrite existing records
+        <p class="helptext">Any existing records with IDs which are in the
+        import will be overwritten with the new records from the import.  This
+        is probably what you want if you're resetting data to the state held in
+        a backup.</p>
+        </label>
+    </li>
+
+    <li>
+        <input type="radio" id="record_conflict_newid" name="record_conflict" value="newid"
+        {%- if record_conflict == 'newid' %} checked="checked"{% endif %}>
+        <label for="record_conflict_newid">Allocate new IDs for records which have changed
+        <p class="helptext">Any records in the import for which the IDs are
+        already used, and for which the records aren't exactly the same as the
+        existing ones, will be given new IDs.  This is probably what you want
+        when importing new data.</p>
+        </label>
+    </li>
+
+    <li>
+        <input type="radio" id="record_conflict_allnewid" name="record_conflict" value="allnewid"
+        {%- if record_conflict == 'allnewid' %} checked="checked"{% endif %}>
+        <label for="record_conflict_allnewid">Allocate new IDs for all records
+        <p class="helptext">Any records in the import for which the IDs are
+        already used will be given new IDs, even if the records haven't changed
+        at all.</p>
+        </label>
+        </li>
+
+    <li>
+        <input type="radio" id="record_conflict_skip" name="record_conflict" value="skip"
+        {%- if record_conflict == 'skip' %} checked="checked"{% endif %}>
+        <label for="record_conflict_skip">Skip records with IDs already used
+        <p class="helptext">Any records in the import for which the IDs are
+        already used will be skipped (ie, the existing records with those IDs
+        will be left unchanged).</p>
+        </label>
+    </li>
+</ol>
+
+{% endif %}
+
+{% if info.coll_conflicts or info.coll_identical %}
+<hr>
+<p class="helptext">
+Some collection IDs in the import are already used.  During the import, this can be
+handled in one of the following ways:
+</p>
+   
+<ol>
+    <li>
+        <input type="radio" id="coll_conflict_overwrite" name="coll_conflict" value="overwrite" checked="checked"
+        {%- if coll_conflict == 'overwrite' %} checked="checked"{% endif %}>
+        <label for="coll_conflict_overwrite">Overwrite existing collections
+        <p class="helptext">Any existing collections with IDs which are in the
+        import will be overwritten with the new collections from the import.
+        Any records in the existing collections will be added to the new
+        collections, but all settings of the collection will be taken from the
+        import.  This is probably what you want if you're resetting data to the
+        state held in a backup.</p>
+        </label>
+    </li>
+
+    <li>
+        <input type="radio" id="coll_conflict_newid" name="coll_conflict" value="newid"
+        {%- if coll_conflict == 'newid' %} checked="checked"{% endif %}>
+        <label for="coll_conflict_newid">Allocate new IDs for collections which have changed
+        <p class="helptext">Any collections in the import for which the IDs are
+        already used, and for which the collection settings and name aren't
+        exactly the same as the existing ones, will have new IDs allocated.
+        This is probably what you want when importing new data</p></label>
+    </li>
+
+    <li>
+        <input type="radio" id="coll_conflict_allnewid" name="coll_conflict" value="allnewid"
+        {%- if coll_conflict == 'allnewid' %} checked="checked"{% endif %}>
+        <label for="coll_conflict_allnewid">Allocate new IDs for all collections
+        <p class="helptext">Any collections in the import for which the IDs are
+        already used will have new IDs allocated, even if the existing
+        collections have identical settings and names.</p></label>
+    </li>
+
+    <li>
+        <input type="radio" id="coll_conflict_skip" name="coll_conflict" value="skip"
+        {%- if coll_conflict == 'skip' %} checked="checked"{% endif %}>
+        <label for="coll_conflict_skip">Skip collections with IDs already used
+        <p class="helptext">Any collections in the import for which the IDs are
+        already used will be skipped.  Any records in the import will be added
+        to the existing collections with those IDs.</p></label>
+    </li>
+</ol>
+
+{% endif %}
+
+{% if info.media_roots %}
+<hr>
+<p class="helptext">
+This import references media files in the following locations.
+</p>
+
+<table class="gridtable">
+    <tr>
+        <th>Root</th>
+        <th>Common path prefix</th>
+        <th>Details</th>
+    </tr>
+
+{% for (num, (root, info)) in info.media_roots %}
+<tr>
+    <td>
+        <input type="text" name="r{{num}}" value="{{ info.newroot }}">
+    </td>
+    <td>{{ info.tail }}</td>
+    <td>
+        {% if info.known %}
+          {% if info.missing %}
+          <span class="error">{{ info.missing }} files not found</span>
+          {%- if info.existing %}, {% endif %}
+          {% endif %}
+          {% if info.existing %}
+          <span class="info">{{ info.existing }} files found</span>
+          {% endif %}
+          {% else %}
+          Unknown media root
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+<input type="submit" name="recheck" value="Recheck for media files">
+{% endif %}
+
+<hr>
+<input type="hidden" name="id" value="{{ import_id }}">
+<input type="submit" name="import" value="Continue import">
+<input type="submit" name="import_cancel" value="Cancel import">
+</form>
+
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% from "utils/toolbars.html" import toolbar_icon, toolbar_label, divider,
+   toolbar_button,
+   toolbar_submit_button %}
+{% from "search/result_header.html" import result_header %}
+
+{% extends "base.html" %}
+{% block title %}{{ coll.title }} - set ordering{% endblock %}
+
+{% block content %}
+
+<div class="contentbox">
+
+<ul class="toolbar keep_on_screen">
+{{ toolbar_icon(48, "collection", "", '') }}
+{{ toolbar_label(48, coll.title) }}
+</ul>
+
+<form action="{{ url("coll-reorder", id=coll.id) }}" method="POST">
+<input type="hidden" name="coll" value="{{coll.id}}"/>
+
+<div class="listbox">
+
+<input type="hidden" name="order" value="{% for onum, ofield, odir in collorder -%}{{onum}},{%- endfor %}">
+
+Pick fields to order by:
+
+<ul>
+{% for onum, ofield, odir in collorder %}
+
+<li>
+<select name="field{{onum}}">
+  <option value="">Select a field to order by</option>
+{% for flatfield, types in coll.field_types() %}
+ {% for type, count in types %}
+  {% set typefield = flatfield + '_' + type %}
+  <option value="{{typefield}}"
+   {%- if typefield == ofield %} selected="selected"{%- endif -%}
+  >{{ flatfield }}{% if types|count > 1 %} ({{ type }}){% endif %}</option>
+ {% endfor %}
+{% endfor %}
+</select>
+
+<select name="dir{{onum}}">
+ <option value="+"{% if odir == '+' %} selected="selected"{% endif %}>Ascending</option>
+ <option value="-"{% if odir == '-' %} selected="selected"{% endif %}>Descending</option>
+</select>
+
+<button name="del{{onum}}" value='1' title="Remove this field from the ordering">-</button>
+
+</li>
+{% endfor %}
+</ul>
+
+<button name="add" value="1" title="Add a tie-breaker field">+ Add a tie-breaker field</button><br>
+<button name="submit" value="1" title="Set collection order">Set collection order</button>
+<button name="cancel" value="1" title="Cancel changes">Cancel changes</button><br>
+
+</div>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% from "widgets/record_view.html" import display %}
+{% from "utils/toolbars.html" import tmpl_tools, toolbar_icon, toolbar_label, divider %}
+{% from "utils/collections.html" import show_collections %}
+{% from "search/result_header.html" import result_header %}
+
+{% extends "base.html" %}
+{% block title %}View a template{% endblock %}
+
+{% block content %}
+
+{{ result_header(record, search, stash, rank) }}
+
+<div class="contentbox">
+
+<ul class="toolbar">
+{{ toolbar_icon(48, "template", "Template", '') }}
+{{ toolbar_label(48, tmpl.id) }}
+{{ divider(48) }}
+{{ tmpl_tools(48, tmpl.id) }}
+</ul>
+<div style="clear: both;"></div>
+
+<div class="recordbox">
+
+{{ display(tmpl.record) }}
+
+</div>
+
+{#
+<ul class="toolbar">
+{{ tmpl_tools(48, tmpl.id) }}
+</ul>
+<div style="clear: both;"></div>
+#}
+
+{{ show_collections(tmpl) }}
+<div style="clear: both;"></div>
+
+</div>
+{% endblock %}

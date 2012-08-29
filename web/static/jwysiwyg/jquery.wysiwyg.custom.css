@@ -1,0 +1,6 @@
+div.wysiwyg { background: #fff repeat-x top; }
+div.wysiwyg ul.toolbar li.pre { background: url("/static/icons/buttons/editor/preformtext.png"); }
+div.wysiwyg ul.toolbar li.foreColor { background: url("/static/icons/buttons/editor/fontcolour_select.png"); }
+div.wysiwyg ul.toolbar li.backColor { background: url("/static/icons/buttons/editor/bgcolour_select.png"); }
+div.wysiwyg ul.toolbar li.customInsertImage { background-position: -92px -87px; }
+div.wysiwyg ul.toolbar li.customCreateLink { background-position: -92px -48px; }

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Edit record {{ record.id }}{% endblock %}
+
+{% block extra_head %}
+{% include "widgets/js_edit.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="contentbox">
+<form autocomplete="off" action="edit" method="POST">
+{% include "widgets/record_edit.html" %}
+</form>
+</div>
+{% endblock %}

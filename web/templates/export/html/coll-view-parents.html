@@ -1,0 +1,9 @@
+<div class="listbox">
+
+<ol>
+{% for parent in ancestor_objs %}
+<li><a href="{{ url("coll-view", id=parent.id) }}" class="collection" title="{{parent.title}}">{{ parent.title }}</a></li>
+{% endfor %}
+</ol>
+
+</div>

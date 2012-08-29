@@ -1,0 +1,77 @@
+{% from "utils/toolbars.html" import toolbar_submit_button, toolbar_button, toolbar_label, toolbar_label2, divider %}
+
+{% extends "base.html" %}
+{% block title %}Search results{% endblock %}
+
+{% block content %}
+<div class="contentbox">
+<form autocomplete="off" method="GET" action="search">
+
+<ul class="searchbar toolbar">
+<li><button class="button button_search" name="newact" value="change" type="submit" title="Change search"><div class="search-link">
+Search: {{ search.query_desc }}</div></li>
+ <!--
+ <li style="float:right">
+  <input style="float:right" type="text" placeholder="Modify search criteria" name="q" value="{% if stash.q %}{{ stash.q[0] }}{% endif %}">
+ </li>
+ -->
+</ul>
+
+ <ul class="toolbar">
+  {{ toolbar_button(48, "export_collection", "Create collection", url('search', newact='createcoll', **stash)) }}
+  {{ toolbar_button(48, "add_to_collection", "Add to collection", url('search', newact='addtocoll', **stash)) }}
+  {{ toolbar_button(48, "remove_from_collection", "Remove from collection", url('search', newact='removefromcoll', **stash)) }}
+  {{ toolbar_button(48, "select", "Select search results", url('search', newact='select', newttypes='record', **stash)) }}
+  {{ toolbar_button(48, "export", "Export results", url('records-export', issearch=1, **stash)) }}
+{# Not yet implemented
+  {{ toolbar_button(48, "add_to_briefcase", "Add to briefcase", '/') }}
+#}
+ </ul>
+
+{% for param, pvals in stash.iteritems() %}
+{% for pval in pvals %}
+<input type="hidden" name="old{{param}}" value="{{ pval }}">
+{% endfor %}
+{% endfor %}
+
+{% macro searchtablink(ttype, label, defshowfull) %}
+{% if stash.get('ttypes') == [ttype] -%}
+  <li class="active"><p>{{ label }}</p></li>
+{%- elif search.matching_types.get(ttype, 0) > 0 -%}
+  <li class="link"><a href="{{ url("search", newttypes=ttype, newstartrank=0, newshowfull=defshowfull, **stash) }}">{{ label }}</a></li>
+{%- else -%}
+  <li class="inactive"><div>{{ label }}</div></li>
+{%- endif %}
+{% endmacro %}
+
+ <ul class="tab_bar">
+  {{ searchtablink('record', "Records", 1) }}
+  {{ searchtablink('coll', "Collections", 1) }}
+  {{ searchtablink('image', "Images", 0) }}
+  {{ searchtablink('video', "Video", 1) }}
+  {{ searchtablink('audio', "Audio", 1) }}
+  {{ searchtablink('media', "Other Media", 0) }}
+ </ul>
+
+ <div class="tab_content"><div>
+ {% if stash.get('ttypes') == ['record'] %}
+ {% include "search/list_records.html" %}
+ {% elif stash.get('ttypes') == ['coll'] %}
+ {% include "search/list_collections.html" %}
+ {% elif stash.get('ttypes') == ['image'] %}
+ {% include "search/list_images.html" %}
+ {% elif stash.get('ttypes') == ['video'] %}
+ {% include "search/list_video.html" %}
+ {% elif stash.get('ttypes') == ['audio'] %}
+ {% include "search/list_audio.html" %}
+ {% elif stash.get('ttypes') == ['media'] %}
+ {% include "search/list_media.html" %}
+ {% else %}
+ <div style="clear: both;" class="error">Unknown search target type: {{ stash.get('ttypes') }}.</div>
+ {% endif %}
+ </div></div>
+
+</div>
+</form>
+</div>
+{% endblock %}

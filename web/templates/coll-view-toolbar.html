@@ -1,0 +1,24 @@
+{%- macro select_sortby(order) -%}
+   <label for="sort_order_select">Order by:</label>
+   <select class="submitonchange" name="order" id="sort_order_select">
+    <option value="collection"{% if order == "collection" %} selected="selected"{% endif %}>Collection order</option>
+    <option value="-mtime"{% if order == "-mtime" %} selected="selected"{% endif %}>Most recently modified</option>
+    <option value="+title"{% if order == "+title" %} selected="selected"{% endif %}>Title</option>
+   </select>
+{%- endmacro -%}
+
+{%- macro select_showfull(showfull) -%}
+<button style="display: inline" class="button" type="submit" name="newshowfull"
+  {%- if showfull == 1 %} value="0">Hide summaries{% else %} value="1">Show summaries{% endif -%}
+</button>
+{%- endmacro -%}
+
+{%- macro select_incsubs(coll, incsubs, name) -%}
+{% if coll.children %}
+<li><button style="display: inline" class="button" type="submit" name="newincsubs"
+  {%- if incsubs == 1 %} value="0">Exclude {{ name }} in subcollections
+  {%- else %} value="1">Show {{ name }} in subcollections
+  {%- endif -%}
+</button></li>
+{% endif %}
+{%- endmacro -%}

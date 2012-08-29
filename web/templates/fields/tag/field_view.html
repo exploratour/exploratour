@@ -1,0 +1,4 @@
+#if not continue:
+<td class="label">{{ (item.name or item.defname)}}:</td><td class="fieldval">
+#endif
+{%- if item.text %}<a href="{{ item.search_url(url) }}" style="padding-right: 1em;">{{ item.text }}</a>{% endif -%}

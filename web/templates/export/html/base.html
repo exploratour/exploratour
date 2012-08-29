@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+ <title>{% block title %}{% endblock %} - Exploratour</title>
+ <link rel="shortcut icon" href="{{ url('static', 'favicon.png') }}"/>
+ <link href="{{ url('static', 'css/screen.css') }}" rel="stylesheet" type="text/css">
+ {% include "widgets/js_all.html" %}
+ {% block extra_head %}{% endblock %}
+</head>
+<body{% block extra_body_attrs %}{% endblock %}>
+ <div class="sheath content">
+  {% if FRONTPAGE_URL -%}
+  <div class="headerbar">
+   <div style="width: 879px; margin: auto">
+   <img style="float: left" src="{{ url('static', 'icons/logos/p49003_100.jpg') }}">
+   <img style="float: left" src="{{ url('static', 'icons/logos/c1177_100.jpg') }}">
+   <div style="float: left; width: 400px; text-align: center; display: inline-block">
+   <h1>The Nagas</h1>
+   <h2>Hill Peoples of Northeast India</h2>
+   <a href="{{ url("coll-view", id="4", newtab="xintroduction") }}" style="float: left; margin-left: 1em;">Project Introduction</a>
+   <a href="{{ url("coll-view", id="4", newtab="xcontents") }}" style="float: right; margin-right: 1em;">The Naga Database</a>
+   </div>
+   <img style="float: left" src="{{ url('static', 'icons/logos/c1172_100.jpg') }}">
+   <img style="float: left" src="{{ url('static', 'icons/logos/p1033_100.jpg') }}">
+   <div style="clear: left;"></div>
+   </div>
+  </div>
+  {%- endif %}
+  {% block content %}
+  {% endblock %}
+  <div style="clear: both;"></div>
+ </div>
+</body>
+</html>

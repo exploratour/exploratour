@@ -1,0 +1,59 @@
+{%- from "utils/get_type.html" import get_type -%}
+# from "widgets/audioplayer.html" import audioplayer
+
+{%- macro display(record) -%}
+# set shown_audioplayer = False
+<table class="simple_record_view">
+# for item in record.walkfields():
+
+#  if item.tag == 'field':
+#   if not item.closing:
+
+{# if prevtype == item.type and prevname == item.name and prevdisplay == item.display and prevmimetype == item.mimetype and item.type in ("tag", "file"): #}
+#if prevtype == item.type and prevname == item.name and item.type in ("tag", "file", "location", "date"):
+# set continue=True
+#else
+# set continue=False
+# if open
+</td></tr>
+# endif
+<tr class="{{ get_type(item) }}_field">
+#endif
+
+# include "fields/" + get_type(item) + "/field_view.html"
+# if not shown_audioplayer and item.display == 'inline' and item.mimetype.startswith("audio"):
+#  set shown_audioplayer = True
+# endif
+
+#set prevtype=item.type
+#set prevname=item.name
+#set prevdisplay=item.display
+#set prevmimetype=item.mimetype
+#set open=True
+
+#   endif
+#  else
+#   if open
+</td></tr>
+#    set open=False
+#   endif
+#  endif
+
+
+#  if item.tag == 'group':
+#   set prevtype=''
+#   if item.closing:
+</table></fieldset></td></tr>
+#   else
+<tr><td colspan="2">{#- -#}
+<fieldset><legend>{{ (item.name or '') }}:</legend><table>{#- -#}
+#   endif
+#  endif
+
+# endfor
+
+#if open
+</td></tr>
+#endif
+</table>
+{%- endmacro -%}

@@ -1,0 +1,75 @@
+XmlStore
+========
+
+This is a simple, "pure python" (apart from requiring lxml) store for XML
+objects.  The objects must have an "id" attribute which is globally unique,
+and is used to identify the objects.
+
+Objects are written to disk slightly lazily - a flush() may be called at any
+time to ensure all objects are written.  All modifications are written to new
+files, which are then used to atomically replace the old files (with a rename()
+system call) when possible.  (Note that on windows, os.rename is not atomic and
+cannot be used to replace an existing file, so multiple system calls are used
+there to move the old file to a backup).
+
+Example usage
+-------------
+
+Adding a record, and then getting it back out again::
+
+    import xmlstore
+    from lxml import etree
+
+    store = xmlstore.XmlStore('path')
+    store.set(u'<record id="1">Record data</record>')
+    print etree.tounicode(store.get(u'1'))
+
+See the documentation comments for xmlstore.XmlStore for more details.
+
+Why
+---
+
+There are several reasons to use this instead of a database.
+
+ - Future-proofing.  Data is never stored in a binary format, so it should
+   always be reasonably tractable for software engineers to retrieve the
+   data - even in 50 years time when there is no running version of the
+   software left, so all parsing tools need to be written from scratch.
+   This is expected to be the main reason for using this software.
+ - No installation of software other than python.
+ - No need to run a server.
+ - Reasonably fast, very simple to use.
+
+Obviously, it doesn't provide most of the features of a database, or search
+system; the only operations are get(), set(), remove(), and iteration
+through all items.  The expectation is that this will usually be used in
+concert with an external search system to provide fast lookups in the data.
+
+Requirements
+------------
+
+ - Python (tested on 2.5 and 2.6)
+ - Python lxml extension
+
+License
+-------
+
+Copyright (c) 2010 Richard Boulton
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

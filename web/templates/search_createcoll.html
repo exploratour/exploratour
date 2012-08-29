@@ -1,0 +1,70 @@
+{% from "utils/toolbars.html" import toolbar_button, toolbar_icon, toolbar_label, toolbar_label2, divider %}
+
+{% macro coll_option(coll, allowable, selected_coll, indent) -%}
+<option value="{{coll.id}}"
+{%- if coll.id == selected_coll %} selected="selected"{% endif -%}
+{%- if coll.id not in allowable %} disabled="disabled"{% endif -%}
+>{{ indent|safe }}{{ coll.title }}</option>
+{% if coll.children %}
+{% for child in coll.children %}
+{{ coll_option(child, allowable, selected_coll, indent + "&nbsp;&nbsp;") }}
+{% endfor %}
+{% endif %}
+{%- endmacro %}
+
+{% extends "base.html" %}
+{% block title %}Create collection from search results{% endblock %}
+
+{% block content %}
+<form autocomplete="off" method="POST" action="search">
+{% for param, pvals in stash.iteritems() %}
+{% for pval in pvals %}
+<input type="hidden" name="old{{param}}" value="{{ pval }}">
+{% endfor %}
+{% endfor %}
+
+<div class="contentbox">
+<ul class="searchbar toolbar">
+{{ toolbar_icon(48, "collection", "Collection", '') }}
+{{ toolbar_label(48, "Create collection from search") }}
+</ul>
+
+<div class="recordbox edit">
+
+<div>
+<label for="title_entry" class="label">New collection name:</label><input class="collection_name" id="title_entry" type="text" name="create_colltitle" value="{{ params.create_colltitle }}" autofocus>
+</div>
+
+<ul>
+<input type="hidden" name="parent_order" value="{% for onum, parent in parents -%}{{onum}},{%- endfor %}">
+{% for onum, parent in parents %}
+<li>
+<select name="parent{{onum}}">
+ <option value="">Select a parent collection</option>
+{%- for coll in collections -%}
+{%- if coll.ancestors|count == 0 -%}
+{{ coll_option(coll, allowable_parents, parent, "") }}
+{%- endif -%}
+{%- endfor -%}
+</select>
+<button name="newact" value='createcoll_del_parent_{{onum}}' title="Remove this parent">-</button>
+</li>
+{% endfor %}
+</ul>
+
+{% if parents|count > 0 %}
+<button name="newact" value="createcoll_add_parent" title="Add another parent">+ Add another parent</button>
+{% else %}
+<button name="newact" value="createcoll_add_parent" title="Add a parent">+ Add a parent</button>
+{% endif %}
+
+<div>{{search.query_desc}} - {{ search.match_count }} matching records</div>
+
+<button type="submit" name="newact" value="createcoll_do">Make a new collection from this search</button>
+<button type="submit" name="newact" value="search">Cancel</button>
+
+</div>
+
+</div>
+</form>
+{% endblock %}

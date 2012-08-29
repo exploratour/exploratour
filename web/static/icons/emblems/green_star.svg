@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24"
+   height="24"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="red_star.svg"
+   inkscape:export-filename="/home/louise/Documents/Shakti/Documents/Exploratour/exploratour/web/static/icons/emblems/red_star.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="16.852712"
+     inkscape:cx="7.1364666"
+     inkscape:cy="17.233939"
+     inkscape:document-units="px"
+     inkscape:current-layer="g3780"
+     showgrid="true"
+     inkscape:snap-global="false"
+     inkscape:window-width="1680"
+     inkscape:window-height="975"
+     inkscape:window-x="1080"
+     inkscape:window-y="896"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2985"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1028.3622)">
+    <g
+       id="g3780"
+       transform="matrix(0.82142857,0,0,0.82142857,-0.28831019,188.32881)">
+      <path
+         sodipodi:type="star"
+         style="fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         id="path4069"
+         sodipodi:sides="5"
+         sodipodi:cx="-9.7313719"
+         sodipodi:cy="0.027596682"
+         sodipodi:r1="11.077241"
+         sodipodi:r2="5.5386205"
+         sodipodi:arg1="0.57165933"
+         sodipodi:arg2="1.1999779"
+         inkscape:flatsided="false"
+         inkscape:rounded="0.07"
+         inkscape:randomized="0"
+         d="M -0.41536363,6.0206975 C -0.69395046,6.4537483 -7.2443734,5.0031669 -7.7242957,5.1897631 -8.204218,5.3763593 -12.054401,10.870749 -12.552345,10.739617 c -0.497943,-0.131132 -1.142551,-6.8092084 -1.468318,-7.2079803 -0.325768,-0.3987718 -6.741015,-2.3626535 -6.770174,-2.87674815 -0.02916,-0.51409468 6.122874,-3.19079165 6.401461,-3.62384245 0.278587,-0.4330508 0.163929,-7.1411861 0.643851,-7.3277821 0.479923,-0.186596 4.9266958,4.8371908 5.4246397,4.9683226 0.4979438,0.1311317 6.8423282,-2.0508421 7.1680959,-1.6520703 0.32576766,0.3987719 -3.0780092,6.18033999 -3.0488498,6.69443467 0.029159,0.51409465 4.06486239,5.87369573 3.78627557,6.30674653 z"
+         transform="matrix(0.85675246,-1.0670839,1.0268811,0.89029463,23.31523,1028.2734)"
+         inkscape:transform-center-x="1.6122552"
+         inkscape:transform-center-y="-3.4940172" />
+    </g>
+  </g>
+</svg>

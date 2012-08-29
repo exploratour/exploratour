@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Import status{% endblock %}
+
+{% block extra_head %}
+{% if not finished %}
+<meta http-equiv="refresh" content="1">
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="contentbox">
+
+Status: {{ status }}
+
+</div>
+
+{% if not cancelled and not finished %}
+<form enctype="multipart/form-data" autocomplete="off" action="{{ url("import-download") }}" method="post" accept-charset="utf-8">
+<input type="hidden" name="id" value="{{ import_id }}">
+<input type="submit" name="import_cancel" value="Cancel import">
+</form>
+{% endif %}
+
+{% endblock %}

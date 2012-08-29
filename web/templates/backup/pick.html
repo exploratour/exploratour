@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Backup{% endblock %}
+
+{% block content %}
+<div class="contentbox">
+<form action="{{ url('backup') }}" method="GET">
+<ul class="toolbar">
+<li class="export-link">Backing up {{ export_desc }}</li>
+</ul>
+<div class="innercontent">
+{% for param, pvals in stash.iteritems() %}
+{% for pval in pvals %}
+<input type="hidden" name="old{{param}}" value="{{ pval }}">
+{% endfor %}
+{% endfor %}
+
+Export all documents in XML format:<br>
+<button type="submit" name="export" value="export" class="main_action">Begin export</input>
+</div>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% from "utils/toolbars.html" import toolbar_icon, toolbar_label, toolbar_label2 %}
+
+{% macro coll_option(coll, allowable, selected_coll, indent) -%}
+<option value="{{coll.id}}"{% if coll.id == selected_coll %} selected="selected"{% endif %}{% if coll.id not in allowable %} disabled="disabled"{% endif %}>{{ indent|safe }}{{ coll.title }}</option>
+{% if coll.children %}
+{% for child in coll.children %}
+{{ coll_option(child, allowable, selected_coll, indent + "&nbsp;&nbsp;") }}
+{% endfor %}
+{% endif %}
+{%- endmacro %}
+
+<ul class="toolbar keep_on_screen">
+{{ toolbar_icon(48, "collection", "Collection", '') }}
+{% if params.title %}
+{{ toolbar_label(48, "New Collection") }}
+{% else %}
+{{ toolbar_label2(48, "Collection", params.title) }}
+{% endif %}
+</ul>
+
+<div class="recordbox edit">
+<label for="title_entry" class="label">Collection name:</label><input class="collection_name" id="title_entry" type="text" name="newcoll_title" value="{{ params.newcoll_title or params.title }}">
+
+<input type="hidden" name="order" value="{% for onum, parent in parents -%}{{onum}},{%- endfor %}">
+<ul>
+{% for onum, parent in parents %}
+<li>
+
+<select name="parent{{onum}}">
+ <option value="">Select a parent collection</option>
+{%- for coll in collections -%}
+{%- if coll.ancestors|count == 0 -%}
+{{ coll_option(coll, allowable_parents, parent, "") }}
+{%- endif -%}
+{%- endfor -%}
+</select>
+
+<button name="del{{onum}}" value='1' title="Remove this parent">-</button>
+
+</li>
+{% endfor %}
+</ul>
+
+{% if parents|count > 0 %}
+<button name="add" value="1" title="Add another parent">+ Add another parent</button>
+{% else %}
+<button name="add" value="1" title="Add a parent">+ Add a parent</button>
+{% endif %}
+<br>
+
+</div>

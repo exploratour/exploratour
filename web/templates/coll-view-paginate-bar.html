@@ -1,0 +1,40 @@
+{%- from "utils/toolbars.html" import
+    toolbar_icon,
+    toolbar_label2,
+    toolbar_button
+-%}
+
+{% if coll_size > hpp %}
+<div class="toolbar">
+#if startrank - hpp >= 0
+#set prevlink = url("coll-view", id=coll.id, newstartrank=startrank - hpp, **stash)
+#elif startrank > 0
+#set prevlink = url("coll-view", id=coll.id, newstartrank=0, **stash)
+#else
+#set prevlink = ''
+#endif
+
+{{ toolbar_button(48, "previous_record", "Previous", prevlink) }}
+{{ toolbar_icon(48, "collection", "Collection", url("coll-view", id=coll.id, **stash)) }}
+{{ toolbar_label2(48, "Collection", '%d - %d of %d' % (startrank + 1, startrank + items|count, coll_size)) }}
+
+# if startrank + items|count < coll_size
+# set nextlink = url("coll-view", id=coll.id, newstartrank=startrank + hpp, **stash)
+# else
+# set nextlink = ''
+# endif
+
+{{ toolbar_button(48, "next_record", "Next", nextlink) }}
+
+<ol class="paginate_buttons">
+{% for i in range((coll_size / hpp)|int + 1) %}
+{% if i*hpp == startrank %}
+<span>{{ i + 1 }}</span>
+{% else %}
+<a href="{{ url("coll-view", id=coll.id, newstartrank=i*hpp, **stash) }}">{{ i + 1 }}</a>
+{% endif %}
+{% endfor %}
+</ol>
+
+</div>
+{% endif %}

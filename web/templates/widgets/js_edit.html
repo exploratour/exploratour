@@ -1,0 +1,9 @@
+{% from "utils/get_fmt.html" import getfmt %}
+{% set fmt = getfmt(params, error) %}
+<script src="{{ url('static', 'js/edit_dialogs.js') }}" type="text/javascript"></script>
+{% if fmt == "simple" %}
+ {%- include "widgets/js_edit_simple.html" -%}
+{% endif %}
+{% if fmt == "xml" %}
+ {%- include "widgets/js_edit_xml.html" -%}
+{% endif %}

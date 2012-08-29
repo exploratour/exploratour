@@ -1,0 +1,7 @@
+# from "utils/repeat_button.html" import repeat_button
+<td class="label">
+{{- repeat_button(field) -}}
+{% include "widgets/fieldname_edit.html" %}</td>{#- -#}
+<td><input type="text" class="fieldentry_number" name="f_{{ field.count }}" value="
+{%- if field.text %}{{ field.text }}{% endif -%}
+"></td>

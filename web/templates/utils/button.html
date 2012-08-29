@@ -1,0 +1,7 @@
+{%- macro button(path, width, height, description, target, class='button', text='') -%}
+{%- if target == '' -%}
+<span class="{{ class }}"><img src="{{ url('static', 'icons/buttons/' + path + '_greyed.png') }}" alt="{{ description }}" title="{{ description }}" height="{{ height }}" width="{{ width }}">{{ text }}</span>
+{%- else -%}
+<a href="{{ target }}" class="{{ class }}"><img src="{{ url('static', 'icons/buttons/' + path + '.png') }}" alt="{{ description }}" title="{{ description }}" height="{{ height }}" width="{{ width }}">{{ text }}</a>
+{%- endif -%}
+{%- endmacro -%}

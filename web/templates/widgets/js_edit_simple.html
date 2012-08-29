@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="{{ url('static', 'jwysiwyg/jquery.wysiwyg.css') }}" type="text/css" /> 
+<link rel="stylesheet" href="{{ url('static', 'jwysiwyg/jquery.wysiwyg.custom.css') }}" type="text/css" /> 
+<script src="{{ url('static', 'jwysiwyg/jquery.wysiwyg.js') }}" type="text/javascript"></script>
+<link type="text/css" rel="stylesheet" href="{{ url('static', 'jpicker/jpicker.css') }}" />
+<link type="text/css" rel="stylesheet" href="{{ url('static', 'jpicker/css/jpicker-1.1.6.css') }}" />
+<script src="{{ url('static', 'jwysiwyg/custom_controls/wysiwyg.colorpicker.js') }}" type="text/javascript"></script>
+<script src="{{ url('static', 'jwysiwyg/custom_controls/wysiwyg.image.js') }}" type="text/javascript"></script>
+<script src="{{ url('static', 'jpicker/jpicker-1.1.6.js') }}" type="text/javascript"></script>
+<script src="{{ url('static', 'jwysiwyg/plugins/wysiwyg.rmFormat.js') }}" type="text/javascript"></script>
+<script src="{{ url('static', 'jwysiwyg/plugins/wysiwyg.textsize.js') }}" type="text/javascript"></script>
+<script src="{{ url('static', 'js/file_selector.js') }}" type="text/javascript"></script>
+<script src="{{ url('static', 'js/edit_simple.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+ media_lastdir = {{ user.get_info("media_lastdir", "")|jsval }};
+ user_lastdate = {{ user.get_info("lastdate", "")|jsval }};
+</script>

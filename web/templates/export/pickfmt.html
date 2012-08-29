@@ -1,0 +1,99 @@
+{% macro choose_fields() %}
+  Choose fields to export:
+  <div class="listbox">
+   <select name="f" multiple="multiple" class="selectsidebyside">
+# for key, field, type, count in relevant_fields:
+    <option value="{{ key }}"
+     {%- if key in selected_fields %} selected="selected"{%- endif -%}
+     >{{ field }} ({{type}} field)</option>
+# endfor
+   </select>
+  </div>
+  <ul class="small_radio">
+   <li>
+     <input type="radio" name="forder" value="record" id="forder_record"
+     {%- if forder == 'record' %} checked="checked"{%- endif -%}
+     >
+     <label for="forder_record">Use field order as defined in record<label>
+   </li>
+   <li>
+     <input type="radio" name="forder" value="custom" id="forder_custom"
+     {%- if forder == 'custom' %} checked="checked"{%- endif -%}
+     >
+     <label for="forder_custom">Use field order as defined above<label>
+   </li>
+  </ul>
+{% endmacro %}
+
+{% macro choose_media() %}
+  <ul>
+   <li>
+    <input type="radio" name="incmedia" value="include" id="incmedia_include"
+    {%- if incmedia == 'include' %} checked="checked"{%- endif -%}
+    >
+    <label for="incmedia_include">Include all media in the export (can produce extremely large files)</label>
+   </li>
+   <li>
+    <input type="radio" name="incmedia" value="external" id="incmedia_external"
+    {%- if incmedia == 'external' %} checked="checked"{%- endif -%}
+    >
+    <label for="incmedia_external">Don't include media in the export</label>
+   </li>
+  </ul>
+  <div>
+    <label for="mediabase">Base URL for external media:</label>
+    <input size="50" type="text" name="mediabase" value="{{ mediabase }}" id="mediabase" placeholder="e.g.: http://media.my.server/media/">
+  </div>
+{% endmacro %}
+
+{% extends "base.html" %}
+{% block title %}Export{% endblock %}
+
+{% block content %}
+<div class="contentbox">
+<form action="{{ url('records-export') }}" method="GET">
+<ul class="toolbar">
+<li class="export-link">Exporting {{ export_desc }}</li>
+</ul>
+<div class="innercontent">
+{% for param, pvals in stash.iteritems() %}
+{% for pval in pvals %}
+<input type="hidden" name="old{{param}}" value="{{ pval }}">
+{% endfor %}
+{% endfor %}
+
+Choose an export format:
+<div class="listbox">
+ <ul>
+# for thisfmt, desc in fmts:
+  <li>
+    <input class="submitonchange" type="radio" name="fmt" value="{{ thisfmt }}" id="pickfmt_{{ thisfmt }}"
+     {%- if thisfmt == fmt %} checked="checked"{%- endif -%}
+    ><label for="pickfmt_{{ thisfmt }}">{{ desc }}</label>
+  </li>
+# endfor
+ </ul>
+ <button type="submit" name="pickfmt" class="nojs">Pick format</input>
+</div>
+
+{% if fmt != 'xml' %}
+<div class="collapse_box">
+ <div class="header">
+ Advanced options
+ </div>
+ <div>
+{% if fmt != 'html' %}
+{{  choose_fields() }}
+{% endif %}
+{% if fmt == 'html' %}
+{{  choose_media() }}
+{% endif %}
+ </div>
+</div>
+{% endif %}
+
+<button type="submit" name="export" value="export" class="main_action">Begin export</input>
+</div>{# End of innercontent #}
+</form>
+</div>
+{% endblock %}

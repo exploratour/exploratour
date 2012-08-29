@@ -1,0 +1,79 @@
+{% from "utils/toolbars.html" import toolbar_button, toolbar_icon, toolbar_label, toolbar_label3, divider %}
+{%- macro show_collections(record) -%}
+
+{% set locked_coll = lockedto() %}
+{% if locked_coll %}
+{% set locked_colls = locked_coll.descendents + (locked_coll.id, ) %}
+{% else %}
+{% set locked_colls = False %}
+{% endif %}
+
+{% for coll in record.collection_objs %}
+{% if not locked_colls or coll.id in locked_colls %}
+# set pos = record.position_in(coll)
+{% if pos %}
+<ul class="toolbar">
+{% if pos.prev %}
+{{ toolbar_button(48, "previous_record", "Previous", url("record-view", id=pos.prev, tmplid="")) }}
+{% else %}
+{{ toolbar_button(48, "previous_record", "Previous", "") }}
+{% endif %}
+{{ toolbar_icon(48, "collection", "Collections", '') }}
+{{ toolbar_label3(48, url("coll-view", id=coll.id), coll.title, pos.pos|string + " / " + pos.size|string) }}
+{% if pos.next %}
+{{ toolbar_button(48, "next_record", "Next", url("record-view", id=pos.next, tmplid="")) }}
+{% else %}
+{{ toolbar_button(48, "next_record", "Next", '') }}
+{% endif %}
+</ul>
+{% else %}
+<ul class="toolbar">
+{{ toolbar_icon(48, "collection", "Collections", '') }}
+{{ toolbar_label3(48, url("coll-view", id=coll.id), coll.title, '') }}
+</ul>
+{% endif %}
+{% endif %}
+{% endfor %}
+
+{% set need_message = True %}
+{% for coll in record.collection_objs %}
+{% if locked_colls and coll.id not in locked_colls %}
+{% if need_message %}
+<p>This record is also in the following collections which are hidden by the lock:</p>
+<ol class="flowed">
+{% set need_message = False %}
+{% endif %}
+<li class="collection-link">{{ coll.title }}</li>
+{% endif %}
+{% endfor %}
+{% if not need_message %}
+</ol>
+{% endif %}
+
+
+{%- endmacro -%}
+
+{%- macro edit_collections(collection_objs) -%}
+
+<ul class="toolbar">
+{{ toolbar_icon(48, "collection", "Collections", '') }}
+{{ toolbar_label(48, "Collections") }}
+{{ divider(48) }}
+
+{% for coll in collection_objs %}
+<li>
+ <input type="hidden" name="collid" value="{{coll.id}}">
+ <div class="collection tag">{{- coll.title -}}
+  <button class="remove" name="remcoll" value="{{coll.id}}">X</button>
+ </div>
+</li>
+{% endfor %}
+
+<li>
+<input type="text" name="colltitle" value="" data-ac="{{ ac.locked_collection_ids()|jsvalattr }}">
+<button name="addcoll">Add collection</button>
+</li>
+
+</ul>
+
+{%- endmacro -%}

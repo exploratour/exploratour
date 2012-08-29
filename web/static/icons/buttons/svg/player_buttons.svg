@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09003"
+   height="1052.3622"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="player_buttons.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.959798"
+     inkscape:cx="114.60015"
+     inkscape:cy="991.31622"
+     inkscape:document-units="px"
+     inkscape:current-layer="g3869-5"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="817"
+     inkscape:window-height="822"
+     inkscape:window-x="775"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4184"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="165.35715"
+       y="81.647896"
+       id="text3768"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3770"
+         x="165.35715"
+         y="81.647896">40 px play buttons</tspan><tspan
+         sodipodi:role="line"
+         x="165.35715"
+         y="101.6479"
+         id="tspan3772">28 px</tspan><tspan
+         sodipodi:role="line"
+         x="165.35715"
+         y="121.6479"
+         id="tspan3774">18 width height 15</tspan><tspan
+         sodipodi:role="line"
+         x="165.35715"
+         y="141.64789"
+         id="tspan3776">5 pixels by 200</tspan><tspan
+         sodipodi:role="line"
+         x="165.35715"
+         y="161.6479"
+         id="tspan3778">15 pixels by 200</tspan></text>
+    <g
+       id="g3890"
+       transform="matrix(1.0646387,0,0,1.0606064,-4.443913,-3.3531349)"
+       inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/play_grey.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         id="g3900">
+        <g
+           id="g3869"
+           transform="translate(0.47441096,-0.47621462)">
+          <rect
+             ry="7.7999997"
+             rx="8"
+             y="37.219322"
+             x="50.714283"
+             height="36.214275"
+             width="36.07143"
+             id="rect3766"
+             style="fill:#cccccc;fill-opacity:1;stroke:#008000;stroke-width:1.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+          <path
+             sodipodi:nodetypes="cccc"
+             inkscape:connector-curvature="0"
+             id="path3812"
+             d="m 80.709959,56.488083 -23.41099,0 11.705496,14.340028 z"
+             style="fill:#808080;stroke:none" />
+          <rect
+             y="41.756058"
+             x="61.873093"
+             height="15.153055"
+             width="14.760205"
+             id="rect3079"
+             style="fill:#808080;fill-opacity:1;stroke:none" />
+          <rect
+             y="43.497509"
+             x="59.623127"
+             height="1.108831"
+             width="19.456633"
+             id="rect3849"
+             style="fill:#cccccc;fill-opacity:1;stroke:none" />
+          <rect
+             y="45.878273"
+             x="60.102703"
+             height="0.6326164"
+             width="19.456633"
+             id="rect3849-1"
+             style="fill:#cccccc;fill-opacity:1;stroke:none" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="g3894"
+       transform="matrix(1.0646387,0,0,1.0606064,-4.4564702,-5.8642854)"
+       inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/pause_greyed.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         id="g3908">
+        <rect
+           style="fill:#cccccc;stroke:#008000;stroke-width:1.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="rect3766-0"
+           width="36.07143"
+           height="36.214275"
+           x="50.90855"
+           y="78.653107"
+           rx="8"
+           ry="7.7999997" />
+        <g
+           id="g3852"
+           transform="translate(0.53571429,-0.71428572)">
+          <rect
+             ry="2.3100929"
+             rx="1.8750001"
+             y="90.040756"
+             x="62.5"
+             height="15.535714"
+             width="5"
+             id="rect3832"
+             style="fill:#666666;fill-opacity:1;stroke:none" />
+          <rect
+             ry="2.3100929"
+             rx="1.8750001"
+             y="90.06382"
+             x="69.673431"
+             height="15.535714"
+             width="5"
+             id="rect3832-4"
+             style="fill:#666666;fill-opacity:1;stroke:none" />
+        </g>
+      </g>
+    </g>
+    <g
+       transform="matrix(1.0646387,0,0,1.0606064,35.915559,-5.5071427)"
+       id="g3894-7"
+       inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/paused_green.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         id="g3908-4">
+        <rect
+           style="fill:#cccccc;stroke:#008000;stroke-width:1.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="rect3766-0-7"
+           width="36.07143"
+           height="36.214275"
+           x="50.90855"
+           y="78.653107"
+           rx="8"
+           ry="7.7999997" />
+        <g
+           id="g3852-3"
+           transform="translate(0.53571429,-0.71428572)"
+           style="fill:#008000">
+          <rect
+             ry="2.3100929"
+             rx="1.8750001"
+             y="90.040756"
+             x="62.5"
+             height="15.535714"
+             width="5"
+             id="rect3832-0"
+             style="fill:#008000;fill-opacity:1;stroke:none" />
+          <rect
+             ry="2.3100929"
+             rx="1.8750001"
+             y="90.06382"
+             x="69.673431"
+             height="15.535714"
+             width="5"
+             id="rect3832-4-1"
+             style="fill:#008000;fill-opacity:1;stroke:none" />
+        </g>
+      </g>
+    </g>
+    <g
+       transform="matrix(1.0646387,0,0,1.0606064,-3.7046752,-48.225743)"
+       id="g3890-6"
+       inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/play_green.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         id="g3900-9">
+        <rect
+           style="fill:#cccccc;fill-opacity:1;stroke:#008000;stroke-width:1.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="rect3766-3"
+           width="36.07143"
+           height="36.214275"
+           x="50.714283"
+           y="37.219322"
+           rx="8"
+           ry="7.7999997" />
+        <path
+           style="fill:#008000;stroke:none"
+           d="m 63.035714,47.362182 0,16.42857 14.285715,-8.214285 z"
+           id="path3812-3"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cccc" />
+      </g>
+    </g>
+    <g
+       id="g3989"
+       inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/stop_grey.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         id="g3890-8"
+         transform="matrix(0.74524712,0,0,0.74242445,11.655946,90.8631)">
+        <g
+           id="g3900-97">
+          <rect
+             ry="7.7999997"
+             rx="8"
+             y="37.219322"
+             x="50.714283"
+             height="36.214275"
+             width="36.07143"
+             id="rect3766-8"
+             style="fill:#cccccc;fill-opacity:1;stroke:#008000;stroke-width:1.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+        </g>
+      </g>
+      <rect
+         ry="2"
+         rx="2"
+         y="126.29075"
+         x="57.678574"
+         height="11.428572"
+         width="10.892858"
+         id="rect3987"
+         style="fill:#666666;fill-opacity:1;stroke:none" />
+    </g>
+    <g
+       transform="translate(28.63383,-0.53571484)"
+       id="g3989-8"
+       inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/stop_green.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         id="g3890-8-6"
+         transform="matrix(0.74524712,0,0,0.74242445,11.655946,90.8631)">
+        <g
+           id="g3900-97-6">
+          <rect
+             ry="7.7999997"
+             rx="8"
+             y="37.219322"
+             x="50.714283"
+             height="36.214275"
+             width="36.07143"
+             id="rect3766-8-6"
+             style="fill:#cccccc;fill-opacity:1;stroke:#008000;stroke-width:1.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+        </g>
+      </g>
+      <rect
+         ry="2"
+         rx="2"
+         y="126.29075"
+         x="57.678574"
+         height="11.428572"
+         width="10.892858"
+         id="rect3987-6"
+         style="fill:#008000;fill-opacity:1;stroke:none" />
+    </g>
+    <g
+       transform="translate(37.205259,32.678571)"
+       id="g3989-9">
+      <g
+         id="g4079"
+         transform="translate(-37.142857,-3.0357143)">
+        <g
+           transform="matrix(0.74524712,0,0,0.74242445,11.655946,90.8631)"
+           id="g3890-8-7">
+          <g
+             id="g3900-97-2">
+            <rect
+               style="fill:#cccccc;fill-opacity:1;stroke:#008000;stroke-width:1.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+               id="rect3766-8-68"
+               width="36.07143"
+               height="36.214275"
+               x="50.714283"
+               y="37.219322"
+               rx="8"
+               ry="7.7999997" />
+          </g>
+        </g>
+        <g
+           transform="translate(37.857143,3.3928572)"
+           style="fill:#4d4d4d;fill-opacity:1;stroke:none"
+           id="g4062">
+          <path
+             style="fill:#4d4d4d;fill-opacity:1;stroke:none"
+             d="m 63.035714,154.86218 0,13.03572 -8.75,-6.42858 z"
+             id="path4042"
+             inkscape:connector-curvature="0"
+             transform="translate(-37.205259,-32.678571)" />
+          <path
+             sodipodi:nodetypes="cccc"
+             style="fill:#4d4d4d;fill-opacity:1;stroke:none"
+             d="m 32.196353,123.78927 0,10.1328 -10.636314,-5.17557 z"
+             id="path4042-2"
+             inkscape:connector-curvature="0" />
+        </g>
+      </g>
+      <g
+         id="g4079-4"
+         transform="translate(-8.3928572,-3.5714286)"
+         inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/previous_green.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90">
+        <g
+           transform="matrix(0.74524712,0,0,0.74242445,11.655946,90.8631)"
+           id="g3890-8-7-6">
+          <g
+             id="g3900-97-2-9">
+            <rect
+               style="fill:#cccccc;fill-opacity:1;stroke:#008000;stroke-width:1.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+               id="rect3766-8-68-9"
+               width="36.07143"
+               height="36.214275"
+               x="50.714283"
+               y="37.219322"
+               rx="8"
+               ry="7.7999997" />
+          </g>
+        </g>
+        <g
+           transform="translate(37.857143,3.3928572)"
+           style="fill:#008000;fill-opacity:1;stroke:none"
+           id="g4062-7">
+          <path
+             style="fill:#008000;fill-opacity:1;stroke:none"
+             d="m 63.035714,154.86218 0,13.03572 -8.75,-6.42858 z"
+             id="path4042-8"
+             inkscape:connector-curvature="0"
+             transform="translate(-37.205259,-32.678571)" />
+          <path
+             sodipodi:nodetypes="cccc"
+             style="fill:#008000;fill-opacity:1;stroke:none"
+             d="m 32.196353,123.78927 0,10.1328 -10.636314,-5.17557 z"
+             id="path4042-2-0"
+             inkscape:connector-curvature="0" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="g4079-0"
+       transform="translate(-0.47331251,58.571428)"
+       inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/next_grey.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="matrix(0.74524712,0,0,0.74242445,11.655946,90.8631)"
+         id="g3890-8-7-4">
+        <g
+           id="g3900-97-2-8">
+          <rect
+             style="fill:#cccccc;fill-opacity:1;stroke:#008000;stroke-width:1.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+             id="rect3766-8-68-2"
+             width="36.07143"
+             height="36.214275"
+             x="50.714283"
+             y="37.219322"
+             rx="8"
+             ry="7.7999997" />
+        </g>
+      </g>
+      <g
+         transform="matrix(-1,0,0,1,88.20538,3.5714286)"
+         style="fill:#4d4d4d;fill-opacity:1;stroke:none"
+         id="g4062-2">
+        <path
+           style="fill:#4d4d4d;fill-opacity:1;stroke:none"
+           d="m 63.035714,154.86218 0,13.03572 -8.75,-6.42858 z"
+           id="path4042-3"
+           inkscape:connector-curvature="0"
+           transform="translate(-37.205259,-32.678571)" />
+        <path
+           sodipodi:nodetypes="cccc"
+           style="fill:#4d4d4d;fill-opacity:1;stroke:none"
+           d="m 32.196353,123.78927 0,10.1328 -10.636314,-5.17557 z"
+           id="path4042-2-3"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+    <g
+       id="g4079-0-7"
+       transform="translate(27.919545,58.035714)"
+       inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/next_green.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="matrix(0.74524712,0,0,0.74242445,11.655946,90.8631)"
+         id="g3890-8-7-4-4">
+        <g
+           id="g3900-97-2-8-7">
+          <rect
+             style="fill:#cccccc;fill-opacity:1;stroke:#008000;stroke-width:1.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+             id="rect3766-8-68-2-5"
+             width="36.07143"
+             height="36.214275"
+             x="50.714283"
+             y="37.219322"
+             rx="8"
+             ry="7.7999997" />
+        </g>
+      </g>
+      <g
+         transform="matrix(-1,0,0,1,88.20538,3.5714286)"
+         style="fill:#008000;fill-opacity:1;stroke:none"
+         id="g4062-2-6">
+        <path
+           style="fill:#008000;fill-opacity:1;stroke:none"
+           d="m 63.035714,154.86218 0,13.03572 -8.75,-6.42858 z"
+           id="path4042-3-5"
+           inkscape:connector-curvature="0"
+           transform="translate(-37.205259,-32.678571)" />
+        <path
+           sodipodi:nodetypes="cccc"
+           style="fill:#008000;fill-opacity:1;stroke:none"
+           d="m 32.196353,123.78927 0,10.1328 -10.636314,-5.17557 z"
+           id="path4042-2-3-7"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+    <g
+       id="g4186"
+       inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/mute_grey.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="205.04076"
+         x="48.053574"
+         height="15"
+         width="18"
+         id="rect4182"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <path
+         sodipodi:nodetypes="ccccccc"
+         inkscape:connector-curvature="0"
+         id="path4178"
+         d="m 48,210.36218 6,0 c 1.547619,-3.00186 2.845238,-4.49333 4.392857,-5.14285 l 0,15 C 56.576085,219.22555 54.899191,218.64992 54,215.36218 l -6,0 z"
+         style="fill:#4d4d4d;stroke:none" />
+      <path
+         d="m 60.714285,212.98718 a 2.0535715,2.4107144 0 1 1 -4.107143,0 2.0535715,2.4107144 0 1 1 4.107143,0 z"
+         sodipodi:ry="2.4107144"
+         sodipodi:rx="2.0535715"
+         sodipodi:cy="212.98718"
+         sodipodi:cx="58.660713"
+         id="path4180"
+         style="fill:#4d4d4d;fill-opacity:1;stroke:none"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       transform="translate(19.339287,-0.03571439)"
+       id="g4186-7">
+      <g
+         id="g4370"
+         inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/mute_green.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect4182-2"
+           width="18"
+           height="15"
+           x="48.053574"
+           y="205.04076" />
+        <path
+           style="fill:#008000;stroke:none"
+           d="m 48,210.36218 6,0 c 1.547619,-3.00186 2.845238,-4.49333 4.392857,-5.14285 l 0,15 C 56.576085,219.22555 54.899191,218.64992 54,215.36218 l -6,0 z"
+           id="path4178-7"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="ccccccc" />
+        <path
+           sodipodi:type="arc"
+           style="fill:#008000;fill-opacity:1;stroke:none"
+           id="path4180-5"
+           sodipodi:cx="58.660713"
+           sodipodi:cy="212.98718"
+           sodipodi:rx="2.0535715"
+           sodipodi:ry="2.4107144"
+           d="m 60.714285,212.98718 c 0,1.3314 -0.919416,2.41072 -2.053572,2.41072 -1.134156,0 -2.053571,-1.07932 -2.053571,-2.41072 0,-1.3314 0.919415,-2.41071 2.053571,-2.41071 1.134156,0 2.053572,1.07931 2.053572,2.41071 z" />
+      </g>
+      <g
+         id="g4262"
+         transform="translate(0.08928571,-14.196429)"
+         inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/volume_grey.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90">
+        <g
+           id="g4186-2"
+           transform="translate(-19.053572,30.410714)">
+          <rect
+             style="fill:#eeeeee;fill-opacity:1;stroke:none"
+             id="rect4182-25"
+             width="18"
+             height="15"
+             x="48.053574"
+             y="205.04076" />
+          <path
+             style="fill:#4d4d4d;stroke:none"
+             d="m 48,210.36218 6,0 c 1.547619,-3.00186 2.845238,-4.49333 4.392857,-5.14285 l 0,15 C 56.576085,219.22555 54.899191,218.64992 54,215.36218 l -6,0 z"
+             id="path4178-6"
+             inkscape:connector-curvature="0"
+             sodipodi:nodetypes="ccccccc" />
+          <path
+             sodipodi:type="arc"
+             style="fill:#4d4d4d;fill-opacity:1;stroke:none"
+             id="path4180-2"
+             sodipodi:cx="58.660713"
+             sodipodi:cy="212.98718"
+             sodipodi:rx="2.0535715"
+             sodipodi:ry="2.4107144"
+             d="m 60.714285,212.98718 c 0,1.3314 -0.919416,2.41072 -2.053572,2.41072 -1.134156,0 -2.053571,-1.07932 -2.053571,-2.41072 0,-1.3314 0.919415,-2.41071 2.053571,-2.41071 1.134156,0 2.053572,1.07931 2.053572,2.41071 z" />
+        </g>
+        <g
+           transform="translate(-0.80357143,15)"
+           id="g4257">
+          <path
+             style="fill:none;stroke:#666666;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             d="m 61.267857,225.54075 c 2.659823,0.25242 2.288916,5.59795 0.267857,5.82143"
+             id="path4233"
+             inkscape:connector-curvature="0"
+             transform="translate(-19.339287,0.03571439)"
+             sodipodi:nodetypes="cc" />
+          <path
+             style="fill:none;stroke:#666666;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             d="m 61.089286,224.00504 c 6.403886,1.30722 3.345999,9.10936 0,8.80357"
+             id="path4253"
+             inkscape:connector-curvature="0"
+             transform="translate(-19.339287,0.03571439)"
+             sodipodi:nodetypes="cc" />
+          <path
+             style="fill:none;stroke:#666666;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             d="m 61,222.36218 c 8.910859,0.97814 4.485766,13.05978 0,12"
+             id="path4255"
+             inkscape:connector-curvature="0"
+             transform="translate(-19.339287,0.03571439)"
+             sodipodi:nodetypes="cc" />
+        </g>
+      </g>
+      <g
+         id="g4262-0"
+         transform="translate(19.280789,-14.369798)">
+        <g
+           id="g4186-2-5"
+           transform="translate(-19.053572,30.410714)"
+           inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/volume_green.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90">
+          <rect
+             style="fill:#eeeeee;fill-opacity:1;stroke:none"
+             id="rect4182-25-4"
+             width="18"
+             height="15"
+             x="48.053574"
+             y="205.04076" />
+          <path
+             style="fill:#008000;stroke:none"
+             d="m 48,210.36218 6,0 c 1.547619,-3.00186 2.845238,-4.49333 4.392857,-5.14285 l 0,15 C 56.576085,219.22555 54.899191,218.64992 54,215.36218 l -6,0 z"
+             id="path4178-6-0"
+             inkscape:connector-curvature="0"
+             sodipodi:nodetypes="ccccccc" />
+          <path
+             sodipodi:type="arc"
+             style="fill:#008000;fill-opacity:1;stroke:none"
+             id="path4180-2-4"
+             sodipodi:cx="58.660713"
+             sodipodi:cy="212.98718"
+             sodipodi:rx="2.0535715"
+             sodipodi:ry="2.4107144"
+             d="m 60.714285,212.98718 c 0,1.3314 -0.919416,2.41072 -2.053572,2.41072 -1.134156,0 -2.053571,-1.07932 -2.053571,-2.41072 0,-1.3314 0.919415,-2.41071 2.053571,-2.41071 1.134156,0 2.053572,1.07931 2.053572,2.41071 z" />
+        </g>
+        <g
+           transform="translate(-0.80357143,15)"
+           id="g4257-8"
+           style="fill:none;fill-opacity:1;stroke:#008000;stroke-opacity:1"
+           inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/volume_green.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90">
+          <path
+             style="fill:none;stroke:#008000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+             d="m 61.267857,225.54075 c 2.659823,0.25242 2.288916,5.59795 0.267857,5.82143"
+             id="path4233-4"
+             inkscape:connector-curvature="0"
+             transform="translate(-19.339287,0.03571439)"
+             sodipodi:nodetypes="cc" />
+          <path
+             style="fill:none;stroke:#008000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+             d="m 61.089286,224.00504 c 6.403886,1.30722 3.345999,9.10936 0,8.80357"
+             id="path4253-4"
+             inkscape:connector-curvature="0"
+             transform="translate(-19.339287,0.03571439)"
+             sodipodi:nodetypes="cc" />
+          <path
+             style="fill:none;stroke:#008000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+             d="m 61,222.36218 c 8.910859,0.97814 4.485766,13.05978 0,12"
+             id="path4255-0"
+             inkscape:connector-curvature="0"
+             transform="translate(-19.339287,0.03571439)"
+             sodipodi:nodetypes="cc" />
+        </g>
+        <rect
+           style="fill:#008000;stroke:#008000;stroke-width:1.45963502;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="rect4314"
+           width="196.7467"
+           height="14.345115"
+           x="10.863713"
+           y="268.52371"
+           inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/green15.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <rect
+           style="fill:#cccccc;stroke:#cccccc;stroke-width:1.45963501999999967;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
+           id="rect4314-0"
+           width="196.7467"
+           height="14.345115"
+           x="10.755852"
+           y="251.85034"
+           inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/grey15.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <rect
+           style="fill:#cccccc;fill-opacity:1;stroke:#cccccc;stroke-width:0.82469183;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="rect4314-0-5"
+           width="198.52716"
+           height="4.538229"
+           x="9.5084829"
+           y="287.82523"
+           inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/grey5.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <rect
+           style="fill:#008000;fill-opacity:1;stroke:#008000;stroke-width:0.82469183;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="rect4314-0-5-2"
+           width="198.52716"
+           height="4.538229"
+           x="9.5084801"
+           y="293.89664"
+           inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/green5.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+      </g>
+    </g>
+    <g
+       id="g3890-2"
+       transform="matrix(1.0646387,0,0,1.0606064,37.365628,-3.9470926)"
+       inkscape:export-filename="/home/louise/Exploratour/code/web/static/icons/buttons/player/play_grey.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         id="g3900-1">
+        <g
+           id="g3869-5"
+           transform="translate(0.47441096,-0.47621462)">
+          <rect
+             ry="7.7999997"
+             rx="8"
+             y="37.219322"
+             x="50.714283"
+             height="36.214275"
+             width="36.07143"
+             id="rect3766-9"
+             style="fill:#cccccc;fill-opacity:1;stroke:#008000;stroke-width:1.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+          <path
+             sodipodi:nodetypes="cccc"
+             inkscape:connector-curvature="0"
+             id="path3812-9"
+             d="m 80.709959,56.488083 -23.41099,0 11.705496,14.340028 z"
+             style="fill:#008000;stroke:none" />
+          <rect
+             y="41.756058"
+             x="61.873093"
+             height="15.153055"
+             width="14.760205"
+             id="rect3079-1"
+             style="fill:#008000;fill-opacity:1;stroke:none" />
+          <rect
+             y="43.497509"
+             x="59.623127"
+             height="1.108831"
+             width="19.456633"
+             id="rect3849-4"
+             style="fill:#cccccc;fill-opacity:1;stroke:none" />
+          <rect
+             y="45.878273"
+             x="60.102703"
+             height="0.6326164"
+             width="19.456633"
+             id="rect3849-1-9"
+             style="fill:#cccccc;fill-opacity:1;stroke:none" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

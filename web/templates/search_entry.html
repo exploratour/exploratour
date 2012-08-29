@@ -1,0 +1,111 @@
+{% from "utils/toolbars.html" import toolbar_icon, toolbar_submit_button, toolbar_label %}
+
+{% extends "base.html" %}
+
+{% macro coll_option(coll, selected_coll, indent) -%}
+<option value="{{coll.id}}"{% if coll.id == selected_coll %} selected="selected"{% endif %}>{{ indent|safe }}{{ coll.title }}</option>
+{% if coll.children %}
+{% for child in coll.children %}
+{{ coll_option(child, selected_coll, indent + "&nbsp;&nbsp;") }}
+{% endfor %}
+{% endif %}
+{%- endmacro %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+<form autocomplete="off" method="GET" action="search">
+
+<div class="contentbox">
+<ul class="searchbar toolbar">
+{{ toolbar_submit_button(48, "search", "newact", "search", "Perform search") }}
+{{ toolbar_label(48, "Search") }}
+</ul>
+
+{% for param, pvals in stash.iteritems() %}
+{% for pval in pvals %}
+<input type="hidden" name="old{{param}}" value="{{ pval }}">
+{% endfor %}
+{% endfor %}
+
+<div class="recordbox">
+
+<table><tr>
+ <td valign="top"><label>Searching:</label></td> 
+ <td>
+  {% for selected_coll in stash.collid %}
+  <div class="collection_picker">
+   <select name="collid" class="submitonchange combobox">
+    {% set top_coll = lockedto() %}
+    {% if top_coll %}
+        {{ coll_option(top_coll, selected_coll, "") }}
+    {% else %}
+      <option value="*">Everything</option>
+	  <option value="-*"{% if selected_coll == '-*'%} selected="selected"{% endif %}>Not in any collection</option>
+      {% for coll in all_collections %}
+        {% if not coll.parents %}
+          {{ coll_option(coll, selected_coll, "") }}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+   </select>
+   {% if stash.collid|length > 1 %}
+   <button name="newact" value="del_collection_{{ loop.index0 }}">-</button>
+   {% endif %}
+  </div>
+  {% endfor %}
+  
+  <div style="padding-bottom: 1em;">
+   <button name="newact" value="add_collection" title="Also search another collection">+</button>
+  </div>
+ </td>
+</tr>
+<tr>
+ <td valign="top"><label>For:</label></td> 
+ <td>
+  {% for qnum in search.params.qsnums %}
+  {% set thisqf = stash.get('q%sf' % qnum, ['*'])[0] %}
+  <div>
+   <select name="q{{qnum}}f" class="combobox">
+    <option value="*">Any Field</option>
+    {% for flatfield, types in search.relevant_fields %}
+      {% for type, count in types %}
+        <option value="{{flatfield}}_{{type}}"{% if "%s_%s" % (flatfield, type) == thisqf %} selected="selected"{% endif %}>{{ flatfield }} ({{count}})
+	{%- if types|count > 1 %}
+	  ({{type}})
+	{%- endif -%}
+	</option>
+      {% endfor %}
+    {% endfor %}
+   </select>
+
+   <input autocomplete="off" class="queryentry" style="width: 40em;" name="q{{qnum}}m" value="{{ stash.get('q%sm' % qnum, '')[0] }}"/>
+
+   {% if search.params.qsnums|length > 1 %}
+   <button name="newact" value="del_field_{{qnum}}">-</button>
+   {% endif %}
+  </div>
+  {% endfor %}
+ 
+  <div style="padding-bottom: 1em;">
+   <button name="newact" value="add_field" title="Also search another field">+</button>
+  </div>
+ </td>
+</tr>
+
+<tr></td colspan="2">
+{% if 'q' in stash %}
+  <input name="q" type="text" value="{{ stash['q'][0] }}"></input>
+{% endif %}
+</td></tr>
+
+<tr><td></td><td>
+<button class="action search" name="newact" value="search" type="submit" title="Search"><div style="line-height: 24px; display: inline-block">Perform search</button>
+</td></tr>
+</table>
+
+</div>
+</div>
+</form>
+{% endblock %}

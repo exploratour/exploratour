@@ -1,0 +1,16 @@
+ <ul class="buttonbar">
+{% include "search/resultlist_toolbar.html" %}
+ </ul>
+
+ <div class="listbox" id="videolist">
+  <ul>
+{% for item in search.resultlist %}
+   <li>
+{% include "search/searchitem_" + item.data.type[0] + ".html" %}
+   </li>
+{% endfor %}
+  </ul>
+  <div style="clear: both;"></div>
+ </div>
+
+{% include "search/resultlist_paginatebar.html" %}

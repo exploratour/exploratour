@@ -1,0 +1,28 @@
+{% from "utils/toolbars.html" import toolbar_icon, toolbar_button, toolbar_label2 %}
+
+{% if search.needs_pagination %}
+<div class="toolbar">
+{{ toolbar_button(48, "previous_record", "Previous", search.prev_page_url) }}
+{{ toolbar_icon(48, "search", "Search Results", url("search", **stash)) }}
+{{ toolbar_label2(48, "Search Results", '%d - %d of %d' %
+		  (search.startrank + 1, search.page_endrank + 1,
+		   search.match_count)) }}
+{{ toolbar_button(48, "next_record", "Next", search.next_page_url) }}
+
+<ol class="paginate_buttons">
+{% for url, num, current in search.pagination_links %}
+{% if current %}
+<span>{{ num }}</span>
+{% else %}
+<a href="{{ url }}">{{ num }}</a>
+{% endif %}
+{% endfor %}
+</ol>
+
+</div>
+{% endif %}
+
+{% if search.locked_out_result_count > 0 %}
+<p>{{ search.locked_out_result_count }} further items also matched the search, but were hidden by the collection lock.</p>
+{% endif %}
+

@@ -1,0 +1,15 @@
+{% from "widgets/record_view.html" import display %}
+{% from "utils/collections.html" import show_collections %}
+
+<div class="contentbox">
+
+<div class="recordbox">
+
+{{ display(record) }}
+
+</div>
+
+{{ show_collections(record) }}
+<div style="clear: both;"></div>
+
+</div>

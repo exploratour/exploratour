@@ -1,0 +1,20 @@
+{% from "utils/toolbars.html" import toolbar_button, divider %}
+
+{#
+  <li>
+   <label for="sort_order_select">Order by:</label>
+   <select class="submitonchange" name="order" id="sort_order_select">
+    <option value="score"{% if search.order == "score" %} selected="selected"{% endif %}>Relevance</option>
+    <option value="-mtime"{% if search.order == "-mtime" %} selected="selected"{% endif %}>Most recently modified</option>
+    <option value="+title"{% if search.order == "+title" %} selected="selected"{% endif %}>Title</option>
+    <option value="+date"{% if search.order == "+date" %} selected="selected"{% endif %}>Date</option>
+   </select>
+  </li>
+ #}
+  <li>
+   {% if showfull %}
+     <a class="button" href="{{ url("search", newshowfull="0", **stash) }}">Hide summaries</a>
+   {% else %}
+     <a class="button" href="{{ url("search", newshowfull="1", **stash) }}">Show summaries</a>
+   {% endif %}
+  </li>

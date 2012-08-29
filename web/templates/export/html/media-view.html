@@ -1,0 +1,50 @@
+{% from "utils/thumbnail.html" import thumbnail %}
+{% from "widgets/audioplayer.html" import audioplayer, audioplayer_file %}
+
+{% extends "export/html/base.html" %}
+{% block title %}{{ info.url }}{% endblock %}
+
+{% block extra_head %}
+ <script src="{{ url('static', 'js/zoomer.js') }}" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+
+{% if info.mimetype.startswith('audio/') %}
+{{ audioplayer() }}
+{{ audioplayer_file(info.url, info.mimetype, "single-audio-track autoplay") }}
+{% elif info.mimetype.startswith('image/') %}
+
+<div class="imagebox">
+   <img id="image" src="{{url('media', path=info.src)}}">
+  </div>
+{% set size = imgsize(info.src) %}
+
+ <script type="text/javascript">
+$(function() {
+  init_zoomer({{ size[0] }}, {{ size[1] }},
+	      $('.imagebox'), $('#image'), $('#endofpage'));
+});
+ </script>
+
+{% else %}
+{{ thumbnail(info, 'large', info.url) }}
+{% endif %}
+
+{% if records %}
+<div>Referenced by:</div>
+<ul>
+{% for record in records %}
+<li>
+ <a href="{{ url("record-view", id=record.id) }}">{{ record.title }}</a>
+</li>
+{% endfor %}
+</ul>
+{% else %}
+Not used in any records.
+{% endif %}
+
+{# Following span is passed to zoomer to calculate how much space is needed after the end of the page #}
+<span id="endofpage"></span>
+
+{% endblock %}

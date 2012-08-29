@@ -1,0 +1,27 @@
+{% from "utils/get_fmt.html" import getfmt %}
+{% from "utils/toolbars.html" import tmpl_edit_tools, toolbar_icon, toolbar_edit_label, divider %}
+{% from "utils/collections.html" import edit_collections %}
+{% set fmt = getfmt(params, error) %}
+
+<ul class="toolbar">
+{% if tmpl.id %}
+{{ toolbar_icon(48, "template", "Template", '') }}
+{% else %}
+{{ toolbar_icon(48, "template", "Template", '') }}
+{% endif %}
+{{ toolbar_edit_label(48, "Template", "newid", tmpl.id) }}
+{{ divider(48) }}
+{{ tmpl_edit_tools(48, fmt, not tmpl.id) }}
+</ul>
+<div style="clear: both;"></div>
+
+<div class="recordbox edit">
+<input type="hidden" name="fmt" value="{{ fmt }}">
+<input type="hidden" name="next" value="{{ params.next }}">
+{% set record=tmpl.record %}
+{% include "widgets/record_edit_" + fmt + ".html" %}
+</div>
+
+<div style="clear: both;"></div>
+{{ edit_collections(tmpl.record.collection_objs) }}
+<div style="clear: both;"></div>

@@ -1,0 +1,17 @@
+# from "utils/thumbnail.html" import thumbnail
+# from "utils/repeat_button.html" import repeat_button
+<td class="label">
+{{- repeat_button(field) -}}
+{% include "widgets/fieldname_edit.html" %}</td>{#- -#}
+<td class="fieldentry_file">
+<div class="nojsinputs">
+<label for="src_{{ field.count }}">Source:</label><input class="src" type="text" id="src_{{ field.count }}" name="src_{{ field.count }}" value="{{ field.src }}"><br>
+<label for="mimetype_{{ field.count }}">MimeType:</label><input class="mimetype" type="text" id="mimetype_{{ field.count }}" name="mimetype_{{ field.count }}" value="{{ field.mimetype }}"><br>
+<label for="display_{{ field.count }}">Display:</label><input class="display" type="text" id="display_{{ field.count }}" name="display_{{ field.count }}" value="{{ field.display }}"><br>
+<label for="alt_{{ field.count }}">Alt:</label><input class="alt" type="text" id="alt_{{ field.count }}" name="alt_{{ field.count }}" value="{{ field.alt }}"><br>
+<label for="title_{{ field.count }}">Title:</label><input class="title" type="text" id="title_{{ field.count }}" name="title_{{ field.count }}" value="{{ field.title }}">
+</div>
+<span class="thumbnail" height="100%" style="display: block">{{ thumbnail(field, 'small', '', "") }}</span>
+<button class="pickfile" style="display:none">Insert file</button>
+<button class="displayopt" style="display:none">Set display options</button>
+</td>

@@ -1,0 +1,23 @@
+{% from "coll-view-toolbar.html" import select_sortby,
+                                        select_showfull,
+                                        select_incsubs %}
+
+<div class="listbox">
+
+<ul class="buttonbar">
+ <li>{{ select_sortby(order) }}</li>
+ <li>{{ select_showfull(showfull) }}</li>
+ {{ select_incsubs(coll, incsubs, "records") }}
+</ul>
+
+<ol>
+{% for item in items %}
+<li><a href="{{ url("record-view", id=item.object.id) }}">{{ item.object.title }}</a>
+{% if showfull %}<div style="padding-bottom: 0.7em;">{{ item.object.summary(200) }}<br><small><i>Last modification: {{ item.object.mtime|fmtdatestamp("on %d %b %Y at %H:%M:%S") }}</i></small></div>{% endif %}
+</li>
+{% endfor %}
+</ol>
+
+</div>
+
+{% include "coll-view-paginate-bar.html" %}

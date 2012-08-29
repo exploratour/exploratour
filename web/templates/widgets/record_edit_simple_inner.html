@@ -1,0 +1,42 @@
+{%- from "utils/get_type.html" import get_type -%}
+{%- from "utils/repeat_button.html" import repeat_button -%}
+
+{%- macro standard_params(item) -%}
+<input type="hidden" name="t_{{item.count}}" value="{{item.tag}}">{#- -#}
+<input type="hidden" name="fl_{{item.count}}" value="{{item.level}}">{#- -#}
+#  if item.closing:
+<input type="hidden" name="fc_{{item.count}}" value="1">{#- -#}
+#  endif
+{%- endmacro -%}
+
+# for item in record.walkfields(params.get("start_count", 1)):
+
+#  if item.tag == 'group':
+#   if item.closing:
+</table>
+</fieldset>
+</td></tr>
+#   else:
+<tr id="item_{{ item.count }}"><td colspan="2">{#- -#}
+<fieldset>
+{{- standard_params(item) -}}
+<legend>
+{{- repeat_button(item) -}}
+<input type="text" name="fn_{{item.count}}" value="{{ item.name or '' }}" data-ac="">{#- -#}
+</legend><table>
+#   endif
+
+#  elif item.tag == 'field':
+#   if item.closing:
+#   else:
+#    set type = get_type(item)
+<tr id="item_{{ item.count }}">{#- -#}
+{{- standard_params(item) -}}
+<input type="hidden" name="ft_{{item.count}}" value="{{type}}">{#- -#}
+#    set field = item
+#    include "fields/" + type + "/field_edit.html"
+</tr>
+#   endif
+#  endif
+
+# endfor

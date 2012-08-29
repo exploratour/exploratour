@@ -1,0 +1,40 @@
+{% macro show_colllink(coll) -%}
+<a href="{{ url("coll-view", id=coll.id) }}" class="collection">{{ coll.title }}{% if coll.item_count('record') > 0%} <span class="supplementary">({{ coll.item_count('record') }} records)</span>{% endif %}</a>
+{%- endmacro %}
+
+{% macro show_coll(coll, level) -%}
+<li>
+{{ show_colllink(coll) }}
+{% if coll.children %}
+{% set expandid = level|string + '_' + coll.id|string %}  {# FIXME - this isn't guaranteed to be unique #}
+{% set shrunk = 0 %}
+<a data-expand="{{ expandid }}" style="display: none">+</a>
+<a data-shrink="{{ expandid }}" style="display: none">-</a>
+<ol class="child collapsible" data-shrunk="{% if shrunk %}1{% endif %}" id="tree_{{ expandid }}">
+{% for child in coll.children %}
+{{ show_coll(child, level + 1) }}
+{% endfor %}
+</ol>
+{% endif %}
+</li>
+{%- endmacro %}
+
+<div class="listbox">
+
+{% if startrank == 0 %}
+{% if coll.children %}
+<ol class="hierarchy">
+{% for child in coll.children|sort %}
+{{ show_coll(child, 0) }}
+{% endfor %}
+</ol>
+{% endif %}
+{% endif %}
+
+{% if direct_records.coll_size %}
+  <p class="record">
+  There are also <a href="{{ url("coll-view", id=coll.id, tab='records', incsubs=0) }}">{{ direct_records.coll_size }} records</a> in this collection.
+  </p>
+{% endif %}
+
+</div>

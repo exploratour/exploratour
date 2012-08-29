@@ -1,0 +1,33 @@
+
+{% from "search/result_header.html" import result_header %}
+
+{% extends "base.html" %}
+{% block title %}Not Found{% endblock %}
+{% block extra_head %}
+{% endblock %}
+{% block content %}
+
+{{ result_header(record, search, stash, rank) }}
+
+<div style="margin: 1em;">
+<div class="error">Resource not found!</div>
+<div>Sorry, the resource you requested was not found</div>
+
+<div style="margin-top: 1em;">
+Instead, you may:
+<div style="margin-top: 1em;">
+  <a href="{{ url("search") }}" class="button summarybox"><img src="{{ url('static', 'icons/buttons/48/search.png') }}" alt="">Perform a search</a>
+</div>
+<div style="margin-top: 2em; margin-bottom: 1em;">
+Or browse the contents of the system:
+</div>
+<ul>
+  <li><a href="{{ url("search", act='search') }}" class="button summarybox"><img src="{{ url('static', 'icons/buttons/48/record.png') }}" alt="">{{ records }} Records</a></li>
+  <li><a href="{{ url("colls-list") }}" class="button summarybox"><img src="{{ url('static', 'icons/buttons/48/collection.png') }}" alt="">{{ collections }} Collections</a></li>
+  <li><a href="{{ url("tmpls-list") }}" class="button summarybox"><img src="{{ url('static', 'icons/buttons/48/template.png') }}" alt="">{{ templates }} Templates</a></li>
+</ul>
+</div>
+
+</div>
+
+{% endblock %}

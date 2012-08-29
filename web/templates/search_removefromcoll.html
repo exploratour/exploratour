@@ -1,0 +1,54 @@
+{% from "utils/toolbars.html" import toolbar_button, toolbar_icon, toolbar_label, toolbar_label2, divider %}
+
+{% macro coll_option(search, coll, indent) -%}
+<option value="{{coll.id}}"
+{%- if coll.id not in search.relevant_collections %} disabled="disabled"{% endif -%}
+>{{ indent|safe }}{{ coll.title }}</option>
+{% if coll.children %}
+{% for child in coll.children %}
+{{ coll_option(search, child, indent + "&nbsp;&nbsp;") }}
+{% endfor %}
+{% endif %}
+{%- endmacro %}
+
+{% extends "base.html" %}
+{% block title %}Remove search results from collection{% endblock %}
+
+{% block content %}
+<form autocomplete="off" method="POST" action="search">
+{% for param, pvals in stash.iteritems() %}
+{% for pval in pvals %}
+<input type="hidden" name="old{{param}}" value="{{ pval }}">
+{% endfor %}
+{% endfor %}
+
+<div class="contentbox">
+<ul class="searchbar toolbar">
+{{ toolbar_icon(48, "collection", "Collection", '') }}
+{{ toolbar_label(48, "Remove search results from collection") }}
+</ul>
+
+<div class="recordbox edit">
+
+<div>
+<label for="title_entry" class="label">Remove from collection:</label>
+  <select name="removefrom_collid">
+    <option value="">Pick a collection</option>
+    {% for coll in all_collections %}
+      {% if not coll.parents %}
+        {{ coll_option(search, coll, "") }}
+      {% endif %}
+    {% endfor %}
+  </select>
+</div>
+
+<div>{{search.query_desc}} - {{ search.match_count }} matching records</div>
+
+<button type="submit" name="newact" value="removefromcoll">Remove results of this search from collection</button>
+<button type="submit" name="newact" value="search">Cancel</button>
+
+</div>
+
+</div>
+</form>
+{% endblock %}

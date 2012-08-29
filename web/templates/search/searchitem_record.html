@@ -1,0 +1,12 @@
+{% from "search/sortvalue.html" import show_order_value %}
+{%- if not showfull -%}
+{{ show_order_value(item, order) }}
+{%- endif %}
+<a href="{{ url("record-view", id=item.data.id[0], newrank=item.rank, **stash) }}">{{ item.data.title[0] }}</a>
+{%- if showfull -%}
+<div style="padding-bottom: 0.7em;">
+{%- set summary=item.summary -%}
+{{- summary|safe -}}
+{%- if summary|length != 0 -%}<br>{%- endif -%}
+<small><i>Last modification {{ item.data.mtime[0]|fmtdatestamp("on %d %b %Y at %H:%M:%S") }}</i></small></div>
+{%- endif -%}

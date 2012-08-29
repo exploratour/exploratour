@@ -1,0 +1,41 @@
+p, pre {
+    margin: 0;
+}
+
+a.exp_linktext {
+    color: blue;
+    border: 2px outset;
+}
+a.exp_linkicon {
+    color: blue;
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 28px;
+    min-height: 24px;
+    border: 2px outset;
+    display: inline-block;
+}
+a.exp_linkicon.exp_image {
+    background-image: url('/static/icons/buttons/24/image.png');
+}
+a.exp_linkicon.exp_audio {
+    background-image: url('/static/icons/buttons/24/audio.png');
+}
+a.exp_linkicon.exp_video {
+    background-image: url('/static/icons/buttons/24/video.png');
+}
+a.exp_linkicon.exp_search {
+    background-image: url('/static/icons/buttons/24/search.png');
+}
+a.exp_linkicon.exp_url {
+    background-image: url('/static/icons/buttons/24/url.png');
+}
+a.exp_linkicon.exp_record {
+    background-image: url('/static/icons/buttons/24/record.png');
+}
+a.exp_linkicon.exp_collection {
+    background-image: url('/static/icons/buttons/24/collection.png');
+}
+a.exp_linkicon.exp_unknown {
+    background-image: url('/static/icons/buttons/24/document.png');
+}

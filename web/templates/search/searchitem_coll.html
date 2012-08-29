@@ -1,0 +1,9 @@
+{# A search result item for a collection.
+
+   Note: We deliberately don't pass the stash of search parameters when linking
+   to these, since they don't really make sense as items for iterating through.
+   
+#}
+{% from "search/sortvalue.html" import show_order_value %}
+{{ show_order_value(item, order) }}
+<a href="{{ url("coll-view", id=item.data.id[0]) }}">{{ item.data.title[0] }}</a>

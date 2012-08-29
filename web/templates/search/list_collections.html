@@ -1,0 +1,31 @@
+{% from "utils/toolbars.html" import toolbar_button, toolbar_icon, toolbar_label, toolbar_label2, divider %}
+
+ <ul class="buttonbar">
+  <li>
+   <label for="sort_order_select">Order by:</label>
+   <select class="submitonchange" name="order" id="sort_order_select">
+    <option value="score"{% if order == "score" %} selected="selected"{% endif %}>Relevance</option>
+    <option value="-mtime"{% if order == "-mtime" %} selected="selected"{% endif %}>Most recently modified</option>
+    <option value="+title"{% if order == "+title" %} selected="selected"{% endif %}>Title</option>
+   </select>
+
+  </li>
+ </ul>
+
+ <div class="listbox" id="collectionlist">
+  <ol>
+{% for item in search.resultlist %}
+   <li class="listitem collection">
+# set type = item.data.type[0]
+{% if type in ('coll') %}
+{% include "search/searchitem_" + type + ".html" %}
+{% else %}
+    Unknown search result type ({{type}}).
+{% endif %}
+   </li>
+{% endfor %}
+  </ol>
+  <div style="clear: both;"></div>
+ </div>
+
+{% include "search/resultlist_paginatebar.html" %}

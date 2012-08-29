@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block extra_head %}
+{% endblock %}
+{% block content %}
+
+<div style="margin-left: 30px; margin-top: 1em;">
+<img src="{{ url('static', 'icons/logos/exploratour_logo.png') }}" alt="Welcome to Exploratour"/>
+<div>
+  <a href="{{ url("search") }}" class="button summarybox"><img src="{{ url('static', 'icons/buttons/48/search.png') }}" alt="">Perform a search</a>
+</div>
+<div style="margin-top: 2em; margin-bottom: 1em;">
+This system currently contains:
+</div>
+<ul>
+  <li><a href="{{ url("search", act='search') }}" class="button summarybox"><img src="{{ url('static', 'icons/buttons/48/record.png') }}" alt="">{{ records }} Records</a></li>
+  <li><a href="{{ url("colls-list") }}" class="button summarybox"><img src="{{ url('static', 'icons/buttons/48/collection.png') }}" alt="">{{ collections }} Collections</a></li>
+  <li><a href="{{ url("tmpls-list") }}" class="button summarybox"><img src="{{ url('static', 'icons/buttons/48/template.png') }}" alt="">{{ templates }} Templates</a></li>
+</ul>
+</div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% from "utils/toolbars.html" import toolbar_icon, toolbar_button, toolbar_label3 %}
+
+{# Get the link for a search result. #}
+# macro result_link(search, stash, item)
+# if item != None:
+#  set type = item.data.type
+#  if 'coll' in type:
+{{- url("coll-view", id=item.data.id[0], newrank=item.rank, **stash) -}}
+#  elif 'record' in type:
+{{- url("record-view", id=item.data.id[0], newrank=item.rank, **stash) -}}
+#  elif 'tmpl' in type:
+{{- url("tmpl-view", id=item.data.id[0], newrank=item.rank, **stash) -}}
+#  elif type[0] in ['image', 'video', 'audio', 'media']:
+{{- url("mediapreview", path=item.data.fileid[0], newrank=item.rank, **stash) -}}
+#  endif
+# endif
+{%- endmacro -%}
+
+{%- macro result_header(record, search, stash, rank) -%}
+{% if search %}
+<div class="searchnavbox">
+<ul class="toolbar keep_on_screen">
+{{ toolbar_button(48, "previous_record", "Previous", result_link(search, stash, search.prev_result)) }}
+{{ toolbar_icon(48, "search", "Search Results", url("search", **stash)) }}
+{{ toolbar_label3(48, url("search", **stash), "Search Results", '%d / %d' % (search.rank + 1, search.match_count)) }}
+{{ toolbar_button(48, "next_record", "Next", result_link(search, stash, search.next_result)) }}
+</ul>
+</div>
+{% endif %}
+{%- endmacro -%}

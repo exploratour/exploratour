@@ -1,0 +1,78 @@
+{% from "utils/toolbars.html" import toolbar_icon, toolbar_button, toolbar_label, divider %}
+{% from "utils/thumbnail.html" import thumbnail %}
+# if offset <= 0:
+#  set prevurl = ''
+# else:
+#  set prevurl = url('record-gallery', id=record.id, offset = offset-1)
+# endif
+# if offset + 1 >= images|count:
+#  set nexturl = ''
+# else:
+#  set nexturl = url('record-gallery', id=record.id, offset = offset+1)
+# endif
+# set image = images[offset]
+
+<!doctype html>
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+ <title>Gallery for {{ record.title }} - Exploratour</title>
+ <link rel="shortcut icon" href="{{ url('static', 'favicon.png') }}"/>
+ <link href="{{ url('static', 'css/screen.css') }}" rel="stylesheet" type="text/css">
+ {% include "widgets/js_all.html" %}
+
+ <script src="{{ url('static', 'openlayers/OpenLayers.js') }}"></script>
+ <script type="text/javascript">
+$(function() {
+  var zoomify_width = {{ image.size[0] }};
+  var zoomify_height = {{ image.size[1] }};
+  var zoomify_url = "{{url('tile', path=image.src)}}&tile=";
+  var map, zoomify;
+  function init() {
+    var zoomify = new OpenLayers.Layer.Zoomify("Zoomify", zoomify_url, 
+      new OpenLayers.Size(zoomify_width, zoomify_height));
+    var options = {
+      controls: [],
+      maxExtent: new OpenLayers.Bounds(0, 0, zoomify_width, zoomify_height),
+      restrictedExtent: new OpenLayers.Bounds(0, 0, zoomify_width, zoomify_height),
+      maxResolution: Math.pow(2, zoomify.numberOfTiers-1 ),
+      numZoomLevels: zoomify.numberOfTiers,
+      units: 'pixels'
+    };
+
+    var img = $('#image');
+    img.html('')
+       .width("100%")
+       .height($(window).height() - img.offset().top - 1);
+    map = new OpenLayers.Map("image", options);
+    map.addLayer(zoomify);
+
+    map.addControl(new OpenLayers.Control.MousePosition());
+    map.addControl(new OpenLayers.Control.PanZoomBar());
+    map.addControl(new OpenLayers.Control.MouseDefaults());
+    map.addControl(new OpenLayers.Control.KeyboardDefaults());
+
+    map.setBaseLayer(zoomify);
+    map.zoomToMaxExtent();
+    map.fractionalZoom = true;
+
+  };
+  init();
+});
+ </script>
+
+</head>
+<body>
+ <div class="gallery">
+  <ul class="toolbar">
+   {{ toolbar_button(48, "previous_record", "Previous image", prevurl) }}
+   {{ toolbar_button(48, "next_record", "Next image", nexturl) }}
+   {{ toolbar_label(48, image.title) }}
+  </ul>
+
+  <div class="imagebox">
+   <div id="image">{{ thumbnail(image, 'display', url('media', path=image.src), "") }}</div>
+  </div>
+
+ </div>
+</body>

@@ -1,0 +1,9 @@
+{%- macro repeat_button(item) -%}
+# if item.repeat:
+ <input type="hidden" name="fr_{{ item.count }}" value="{{ item.repeat }}">
+# endif
+{%- if item.repeat != 'single' -%}
+ <input class="repeat_field" type="submit" name="repeat_{{ item.count }}" value="+">{#- -#}
+ <input class="remove_field" type="submit" name="remove_{{ item.count }}" value="-">
+{%- endif -%}
+{%- endmacro -%}

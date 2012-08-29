@@ -1,0 +1,12 @@
+# from "utils/repeat_button.html" import repeat_button
+<td class="label">
+{{- repeat_button(field) -}}
+{% include "widgets/fieldname_edit.html" %}</td>{#- -#}
+<td><input placeholder="Description of link target" type="text" class="fieldentry_link" name="f_{{ field.count }}" value="{%- if field.text %}{{ field.text }}{% endif -%}"><br>
+<select class="fieldentry_link_type" name="linktype_{{ field.count }}">
+<option value='record'{% if field.linktype == 'record' %} selected=selected{% endif %}>Record</option>
+<option value='collection'{% if field.linktype == 'collection' %} selected=selected{% endif %}>Collection</option>
+<option value='search'{% if field.linktype == 'search' %} selected=selected{% endif %}>Search</option>
+<option value='url'{% if field.linktype == 'url' %} selected=selected{% endif %}>Url</option>
+</select>
+<input placeholder="link target" type="text" class="fieldentry_link_target" name="target_{{ field.count }}" value="{%- if field.target %}{{ field.target }}{% endif -%}"></td>

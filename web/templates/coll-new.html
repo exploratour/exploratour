@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Create a collection{% endblock %}
+
+{% block content %}
+<div class="contentbox">
+<form autocomplete="off" action="{{ url("coll-create") }}" method="POST">
+{% include "widgets/coll_edit.html" %}
+<input type="submit" name="create" value="Create">
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+/* styles for menus */
+
+#globalmenu {
+    background-color: #d7d9d6;
+}
+#globalmenu > ul > li {
+    float: left;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+#globalmenu > ul > li > ul {
+    background-color: #d7d9d6;
+}
+#globalmenu li {
+    background-color: #d7d9d6;
+}
+#globalmenu .activetarget {
+    background-color: #182c07;
+    color: #ddeecf;
+    -moz-border-radius-topleft: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-right-radius: 5px;
+}
+
+#root-menu-div ul {
+    border: 1px solid #000;
+}
+#root-menu-div li{
+    white-space:nowrap;
+}
+* html #root-menu-div li{
+    height: 1.5em; /* fixing ie6 problem */
+}
+
+#root-menu-div ul {
+    background-color: #ddeecf;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#root-menu-div li.menu-separator.active{
+    background-color: transparent;
+}
+#root-menu-div li.active {
+    background-color: #888;
+}
+#root-menu-div .activetarget {
+    background-color: #ddeecf;
+}
+* html div.menu-item {
+    display: inline; /* fixes problem in ie6 */
+}
+
+#root-menu-div li.menumain {
+    float: left;
+    padding: 0 10px;
+}
+#root-menu-div div.menu-item {
+    padding: 1px 10px 1px 4px;
+}
+#root-menu-div img.menu-item-arrow {
+    position: absolute;
+    right: 4px;
+    top: 8px;
+}
+#root-menu-div li.menu-separator {
+    border-bottom: 1px solid #000;
+    font-size: 0; /* for ie */
+    height: 0;
+    line-height: 0; /* for ie */
+    margin: 2px 0;
+}
+#root-menu-div a:link,
+#root-menu-div a:visited,
+#root-menu-div a:hover,
+#root-menu-div a:focus,
+#root-menu-div a:active {
+    color: #000000;
+    text-decoration: none;
+    border-bottom: none;
+}

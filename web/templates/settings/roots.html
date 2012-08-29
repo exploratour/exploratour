@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Settings - Roots{% endblock %}
+{% block extra_head %}
+{% endblock %}
+{% block content %}
+
+<div>
+<form action="{{ url('settings-roots') }}" method="POST">
+<table>
+<tr><th>Name</th><th>Path</th></tr>
+{% for num, root in roots %}
+<tr><td>
+<input type="text" name="rn{{num}}" value="{{ root[0] }}"></input>
+</td><td>
+<input type="text" name="rp{{num}}" value="{{ root[1] }}"></input>
+</td></tr>
+{% endfor %}
+<tr><td>
+  <input type="text" name="rn{{roots|length}}"></input>
+</td><td>
+  <input type="text" name="rp{{roots|length}}"></input>
+</td></tr>
+</table>
+
+<input type="submit" name="submit" value="Submit"/>
+</form>
+</div>
+
+{% endblock %}

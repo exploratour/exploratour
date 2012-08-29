@@ -1,0 +1,14 @@
+#if not continue:
+<td class="label">{{ (item.name or item.defname)}}:</td><td class="fieldval">
+#endif
+{%- if item.linktype == 'url' -%}
+  <a class="exp_linkicon exp_url" href="{{ item.target }}">{{- item.text or '[link]' -}}</a>
+{%- elif item.linktype == 'record' -%}
+  <a class="exp_linkicon exp_record" href="{{ url('record-view', id=item.target) }}">{{- item.text or '[link]' -}}</a>
+{%- elif item.linktype == 'collection' -%}
+  <a class="exp_linkicon exp_collection" href="{{ url('coll-view', id=item.target) }}">{{- item.text or '[link]' -}}</a>
+{%- elif item.linktype == 'search' -%}
+  <a class="exp_linkicon exp_search" href="{{ url('search') + '?' + item.target + '&act=search' }}">{{- item.text or '[link]' -}}</a>
+{%- else -%}
+  <a class="exp_linkicon exp_unknown">UNKNOWN LINK TYPE</a>
+{%- endif -%}
