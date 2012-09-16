@@ -467,24 +467,3 @@ class ExploratourImportHandler(object):
                         self.coll_conflicts.add(coll.id)
 
         self.calc_media_roots()
-
-
-################### OLD CODE
-
-def do_import(ctx):
-    tree = etree.parse(ctx.fileobj.file)
-    root = tree.getroot()
-    if root.tag != 'records':
-        return ctx.set_error('File format not understood - expected root tag '
-                             'to be records, got %s' % root.tag)
-
-    for item in root:
-        if item.tag != 'record':
-            return ctx.set_error('Expected a record, got %s' % item.tag)
-
-        record = Record(root=item)
-        record.id = ctx.idprefix + record.id
-        record.collections = [ctx.collname]
-        Record.objects.set(record)
-    Record.objects.flush()
-    Collection.objects.flush()
