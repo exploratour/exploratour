@@ -35,7 +35,7 @@ class WorkerThread(threading.Thread):
                     self.pool.set_progress(task_id, progress)
                     continue
 
-                if progress is None or not progress.complete:
+                if progress is None or not (progress.complete or progress.failed):
                     progress = TaskProgress("Task complete", complete=True)
                     self.pool.set_progress(task_id, progress)
         finally:
