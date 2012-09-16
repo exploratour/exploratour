@@ -1,5 +1,6 @@
 import cherrypy
 import config
+import datetime
 import itertools
 import lxml.etree as etree
 import os
@@ -177,7 +178,7 @@ class ImportAnalysisTask(ImportTask):
         with open(self.infile_path) as fd:
             start = fd.read(5)
 
-        if start == '<?xml':
+        if start == '<?xml' or start == '\xef\xbb\xbf<?':
             handler = self.detect_xml_type()
             if not handler:
                 yield TaskProgress("Unable to detect input XML file type",
@@ -188,15 +189,18 @@ class ImportAnalysisTask(ImportTask):
 
         for progress in handler.probe():
             yield progress
+            if progress.failed or progress.complete:
+                return
 
-        ig = ImportMappingInfoGetter(handler, self.importer)
-        self.importer.set_info_getter(ig)
+        handler.set_next(self.importer)
 
     def detect_xml_type(self):
         tree = etree.parse(self.infile_path)
         root = tree.getroot()
         if root.tag == 'container':
             return ExploratourImportHandler(root)
+        if root.tag == 'documents' and root.attrib.get('format') == 'bamboo_xml_1':
+            return BambooPEImportHandler(root)
 
 
 class ImportMappingInfoGetter(ImportInfoGetter):
@@ -281,7 +285,10 @@ class ImportPerformTask(ImportTask):
         yield TaskProgress("Import complete", complete=True)
 
 
-class ExploratourImportHandler(object):
+class RecordImportHandler(object):
+    """Import handler for sets of records.
+
+    """
     def __init__(self, root):
         # The root of the XML document holding the import.
         self.root = root
@@ -433,6 +440,11 @@ class ExploratourImportHandler(object):
             else:
                 info['missing'] += 1
 
+
+class ExploratourImportHandler(RecordImportHandler):
+    """An import handler for exploratour format files.
+
+    """
     def probe(self):
         items = sum(len(item) for item in self.root)
         for num, item in enumerate(itertools.chain.from_iterable(item for item in self.root)):
@@ -467,3 +479,140 @@ class ExploratourImportHandler(object):
                         self.coll_conflicts.add(coll.id)
 
         self.calc_media_roots()
+
+    def set_next(self, importer):
+        ig = ImportMappingInfoGetter(self, importer)
+        importer.set_info_getter(ig)
+
+
+class BambooPEDocument(object):
+    def __init__(self, id):
+        self.id = id
+        self.mtime = None
+        self.fields = []
+        self.media = []
+
+    def mtime_from_iso(self, isotime):
+        if isotime[8] != 'T' or isotime[15] != 'Z' or len(isotime) != 16:
+            raise ValueError("Unable to parse time: %r" % isotime)
+        mtime = datetime.datetime(int(isotime[:4]), int(isotime[4:6]),
+                int(isotime[6:8]), int(isotime[9:11]), int(isotime[11:13]),
+                int(isotime[13:15]))
+        self.mtime = mtime.strftime("%s")
+
+    def __str__(self):
+        return "BambooPEDocument(id=%r, mtime=%r, fields=%r, media=%r)" % (self.id, self.mtime, self.fields, self.media)
+
+class FieldSeen(object):
+    def __init__(self, name):
+        self.name = name
+        self.count = 0
+        self.type = ''
+        self.maybe_date = True
+
+        if name == 'title':
+            self.type = 'title'
+
+    def add(self, value):
+        if value is None or value == '':
+            return
+        self.count += 1
+        if len(value) != 8:
+            self.maybe_date = False
+        else:
+            try:
+                int(value)
+            except ValueError:
+                self.maybe_date = False
+
+    def possible_types(self):
+        def fmt(items):
+            return [(item, item == self.type) for item in items]
+
+        if self.name == 'title':
+            return fmt(['title'])
+        if self.maybe_date:
+            return fmt(['date', 'text', 'tag'])
+        return fmt(['text', 'tag'])
+
+
+class BambooPEImportHandler(RecordImportHandler):
+    """An import handler for Bamboo PE format files.
+
+    """
+    def probe(self):
+        self.docs = []
+        self.fields_seen = {}
+
+        items = sum(len(item) for item in self.root)
+        for num, item in enumerate(self.root):
+            yield TaskProgress("Probing XML file, element %d of %d" % (num + 1, items))
+            if item.tag == 'document':
+                try:
+                    doc = self.parse_doc(item)
+                except ValueError, e:
+                    yield TaskProgress("Unable to parse bamboo PE export: %s" % e, failed=True)
+                self.docs.append(doc)
+                for fieldname, value in doc.fields:
+                    field = self.fields_seen.setdefault(fieldname, FieldSeen(fieldname))
+                    field.add(value)
+
+    def parse_doc(self, item):
+        id = item.attrib['id']
+        doc = BambooPEDocument(id)
+        doc.mtime_from_iso(item.attrib['modtime'])
+        revision = item.attrib['revision']
+        for body in item:
+            if body.tag != 'body':
+                raise ValueError("Unexpected tag; expected <body>, got <%s>" % body.tag)
+            if body.attrib['revision'] != revision:
+                continue
+            for item in body:
+                if item.tag == 'field':
+                    doc.fields.append((item.attrib['name'], item.text))
+                elif item.tag == 'object':
+                    doc.media.append((item.attrib['src'], item.attrib['desc']))
+                else:
+                    raise ValueError("Unexpected xml item in body: <%s>" % item.tag)
+        return doc
+
+    def set_next(self, importer):
+        ig = FieldMappingInfoGetter(self, importer)
+        importer.set_info_getter(ig)
+
+
+class FieldMappingInfoGetter(ImportInfoGetter):
+    status = "Reviewing import file"
+
+    def build_form_context(self, params):
+        context = {}
+        context['filename'] = self.importer.filename
+        fields = sorted(self.handler.fields_seen.values(), key=lambda x: x.name)
+        # FIXME - need to set selected attributes based on params
+        context['fields'] = fields
+        return context
+
+    def handle_get(self, params, context):
+        context.update(self.build_form_context(params))
+        return render("import/choose-fields.html", context)
+
+    def handle_post(self, params, context):
+        context.update(self.build_form_context(params))
+        do_import = getparam('import', None, None, params)
+        if do_import:
+            self.set_next(BuildExploratourRecordsTask(self.handler, self.importer))
+            redirect(url("import", id=self.importer.id))
+        return render("import/choose-fields.html", context)
+
+class BuildExploratourRecordsTask(ImportTask):
+    status = "Converting records to exploratour format"
+
+    def __init__(self, handler, importer):
+        super(BuildExploratourRecordsTask, self).__init__(importer)
+        self.handler = handler
+
+    def do(self):
+        yield TaskProgress("Converting records to exploratour format")
+        FIXME
+
+        self.importer.set_info_getter(ImportMappingInfoGetter(self.handler, self.importer))

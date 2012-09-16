@@ -1,0 +1,47 @@
+{% from "utils/toolbars.html" import toolbar_icon, toolbar_label, divider %}
+
+{% extends "base.html" %}
+{% block title %}Choose field types{% endblock %}
+
+{% block content %}
+
+<div class="contentbox">
+<ul class="toolbar">
+{{ toolbar_icon(48, "collection", "Import", '') }}
+{{ toolbar_label(48, "Choose field types") }}
+</ul>
+<div style="clear: both;"/>
+<div class="formbox">
+<form enctype="multipart/form-data" autocomplete="off" action="{{ url("import-download") }}" method="post" accept-charset="utf-8">
+
+<h1>Analysed import file "{{ filename }}":</h1>
+
+<div class="helptext">
+The following fields were found in the import file, but information on their
+type is not included.  Please choose the type of data in each field.
+</div>
+
+<ul>
+	{% for field in fields %}
+	<li>
+	<label>{{ field.name }}</label>
+	<select name="ft_{{ field.name }}">
+		{% for type, selected in field.possible_types() %}
+		<option value="{{ type }}"{% if selected %} selected="selected"{% endif %}>{{ type|title }}</option>
+		{% endfor %}
+	</select>
+	(in {{ field.count }} documents)
+	</li>
+	{% endfor %}
+</ul>
+
+<hr>
+<input type="hidden" name="id" value="{{ import_id }}">
+<input type="submit" name="import" value="Continue import">
+<input type="submit" name="import_cancel" value="Cancel import">
+</form>
+
+</div>
+</div>
+
+{% endblock %}
