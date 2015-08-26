@@ -1,2 +1,13 @@
 Exploratour is a system for managing collections of semi-structured data,
 together with media files.  See http://exploratour.org/
+
+# Install
+
+## Debian
+
+```
+sudo apt-get install python-virtualenv python-dev libxml2-dev libxslt1-dev libxapian-dev
+virtualenv ENV
+. ENV/bin/activate
+pip install -r web/requirements.txt
+``
