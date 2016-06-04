@@ -490,7 +490,7 @@ class HtmlExporter(Exporter):
         """Setup an environment for rendering.
 
         """
-        self.loader = jinja2.FileSystemLoader(apps.templates.render.app_template_dirs(),
+        self.loader = jinja2.FileSystemLoader(config.templatedir,
                                               encoding='utf-8')
         self.extensions = ['jinja2.ext.with_']
         myenv = jinja2.Environment(loader = self.loader,
