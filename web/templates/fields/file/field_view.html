@@ -47,7 +47,7 @@
 # endif
 
 # elif item.display in ('icon', 'icontext'):
-<a href="{{ medialink }}" target="{{ mediatarget }}" class="exp_linkicon {{ item.media()[0].iconclasses -}}">
+<a href="{{ medialink }}" target="{{ mediatarget }}" class="exp_linkicon {{ item.media()[0].iconclass -}}">
 {%- if item.display == 'icontext' %}{{ item.title or item.src }}{% else %}{% endif %}
 </a>
 
