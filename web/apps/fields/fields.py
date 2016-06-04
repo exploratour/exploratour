@@ -126,7 +126,7 @@ def fileicon_class(mimetype):
         return 'exp_unknown'
 
 class MediaItem(object):
-    def __init__(self, src, mimetype, alt, title, display):
+    def __init__(self, src, mimetype, alt, title, display, rotate):
         if not mimetype:
             mimetype = mimetypes.guess_type(src)[0]
             if not mimetype:
@@ -137,6 +137,7 @@ class MediaItem(object):
         self.alt = alt
         self.title = title
         self.display = display
+        self.rotate = rotate
 
         self.size_calced = False
 
@@ -784,6 +785,7 @@ def flatten_file(mediaitem):
         mimetype = mediaitem.mimetype,
         filealt = [mediaitem.alt],
         filetitle = [mediaitem.title],
+        rotate = [mediaitem.rotate]
     )
 
 class FileFieldItem(BaseFieldItem):
@@ -798,6 +800,7 @@ class FileFieldItem(BaseFieldItem):
         self.display = elt.get('display') or ''
         self.alt = elt.get('alt') or elt.get('title') or ''
         self.title = elt.get('title') or elt.get('alt') or ''
+        self.rotate = elt.get('rotate') or ''
         self._summary = None
         areas = elt.findall('area')
         self._areas = [dict(x1=intfromelt(a, 'x1'),
@@ -812,13 +815,11 @@ class FileFieldItem(BaseFieldItem):
         BaseFieldItem.set_properties_from_form(self, num, params=params)
         assert not self.closing
         self.mimetype = param_from_form('mimetype_%d' % num, required=False, params=params) or ''
-        self.src = param_from_form('src_%d' % num, required=False,
-        params=params) or ''
+        self.src = param_from_form('src_%d' % num, required=False, params=params) or ''
         self.display = param_from_form('display_%d' % num, required=False, params=params) or ''
-        self.alt = param_from_form('alt_%d' % num, required=False,
-        params=params) or ''
-        self.title = param_from_form('title_%d' % num, required=False,
-        params=params) or ''
+        self.alt = param_from_form('alt_%d' % num, required=False, params=params) or ''
+        self.title = param_from_form('title_%d' % num, required=False, params=params) or ''
+        self.rotate = param_from_form('rotate_%d' % num, required=False, params=params) or ''
         self._summary = None
 
     def get_elt(self):
@@ -828,6 +829,7 @@ class FileFieldItem(BaseFieldItem):
         setelt(elt, 'display', self.display)
         setelt(elt, 'alt', self.alt)
         setelt(elt, 'title', self.title)
+        setelt(elt, 'rotate', self.rotate)
         return elt
 
     @property
@@ -860,7 +862,7 @@ class FileFieldItem(BaseFieldItem):
 
     def media(self):
         return [MediaItem(self.src, self.mimetype, self.alt, self.title,
-                          self.display)]
+                          self.display, self.rotate)]
 
     def flatten(self):
         result = [(self.flatname + '_' + self.fieldtype, self.summary),
@@ -1138,7 +1140,9 @@ class TextFieldItem(BaseFieldItem):
                                   item.get('data-mimetype', ''),
                                   item.get('data-alt', ''),
                                   item.get('data-title', ''),
-                                  item.get('data-display', ''))
+                                  item.get('data-display', ''),
+                                  item.get('data-rotate', ''),
+                                 )
             result.append(mediaitem)
 
         for item in elt.xpath('//a[@data-type="link"]'):
@@ -1148,7 +1152,9 @@ class TextFieldItem(BaseFieldItem):
                                       item.get('data-mimetype', ''),
                                       '',
                                       item.xpath("string()").strip(),
-                                      item.get('data-display', ''))
+                                      item.get('data-display', ''),
+                                      item.get('data-rotate', ''),
+                                     )
                 result.append(mediaitem)
 
         return result
