@@ -1,5 +1,5 @@
-lxml==2.3
-pil==1.1.7
+lxml
+pillow
 cherrypy==3.2.2
 jinja2==2.6
 routes==1.13

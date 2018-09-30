@@ -247,11 +247,11 @@ def apply_media_mappings(path, media_root_mappings):
     return '/' + root + '/' + tail
 
 
-def build_from_elt(root):
+def build_from_elt(root, indent=0):
     result = []
     for elt in root:
         if elt.tag == u'group':
-            result.append(Group.build_from_elt(elt))
+            result.append(Group.build_from_elt(elt, indent+2))
         elif elt.tag == u'field':
             field_type = elt.get('type')
             try:
@@ -263,6 +263,28 @@ def build_from_elt(root):
             raise ValidationError('Unexpected XML tag: %s - expected "field" or "group"' % elt.tag)
     return result
 
+def field_from_data(data, indent=0):
+    field_type = data["type"]
+
+    if field_type == u'group':
+        g = Group(
+            data["name"],
+            map(lambda subdata: field_from_data(subdata, indent+2),
+                data["contents"])
+        )
+        # ge = g.get_elt(indent + 2)
+        # print "ge",etree.tostring(ge, encoding=unicode)
+        # r = Group.build_from_elt(ge, indent)
+        # print "r",etree.tostring(r.get_elt(), encoding=unicode)
+        return g
+
+    try:
+        cons = field_types[field_type]
+    except KeyError:
+        raise ValidationError('Unknown field type: %r' % field_type)
+    r =  cons(**data)
+    return cons(**data)
+
 
 class Group(object):
     """A group of fields.
@@ -273,8 +295,8 @@ class Group(object):
         self.contents = contents
 
     @staticmethod
-    def build_from_elt(elt):
-        return Group(elt.get(u'name') or '', build_from_elt(elt))
+    def build_from_elt(elt, indent=0):
+        return Group(elt.get(u'name') or '', build_from_elt(elt, indent))
 
     def get_elt(self, indent=0):
         elt = etree.Element("group")
@@ -298,6 +320,14 @@ class Group(object):
 
     def __repr__(self):
         return str(self)
+
+    def to_json(self):
+        result = {
+            "type": u"group",
+            "name": self.name,
+            "contents": map(lambda field: field.to_json(), self.contents),
+        }
+        return result
 
 
 class Field(object):
@@ -373,6 +403,16 @@ class FlatTextField(Field):
         elt.text = self.text
         return elt
 
+    def to_json(self):
+        result = {
+            "type": self.field_type,
+            "name": self.name,
+            "text": self.text,
+        }
+        for prop in self._attrib_properties + self._display_properties:
+            result[prop] = getattr(self, prop)
+        return result
+
 
 class DateField(FlatTextField):
     """A field representing a date.
@@ -397,7 +437,6 @@ class LinkField(FlatTextField):
             self.target = record_id_map.get(self.target, self.target)
         elif self.linktype == 'collection':
             self.target = coll_id_map.get(self.target, self.target)
-
 
 class FileField(FlatTextField):
     field_type = 'file'
@@ -512,6 +551,14 @@ class TextField(Field):
                 if mapped_target is not None:
                     attrib['data-target'] = mapped_target
         self.content = self.content_from_elt(root)
+
+    def to_json(self):
+        result = {
+            "type": self.field_type,
+            "name": self.name,
+            "content": self.content,
+        }
+        return result
 
 
     def __str__(self):

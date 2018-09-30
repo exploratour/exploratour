@@ -3,7 +3,7 @@
 import config
 import models
 import os
-import search
+#import search
 from apps.shortcuts import locked
 import time
 import threading
@@ -50,7 +50,7 @@ class Store(object):
     def _flush(self):
         self.items.set_meta(u'next_id', unicode(self.next_id))
         self.items.flush()
-        search.indexer.flush()
+        #search.indexer.flush()
 
     @locked
     def __len__(self):
@@ -119,7 +119,7 @@ class Store(object):
 
         self.pre_save(item)
         self.items.set(item.root)
-        search.indexer.set(item)
+        #search.indexer.set(item)
 
         self.cache[item.id] = item
 
@@ -135,7 +135,7 @@ class Store(object):
 
         """
         assert item.id is not None and item.id != u''
-        search.indexer.set(item)
+        #search.indexer.set(item)
 
     @locked
     def remove(self, id):
@@ -148,7 +148,7 @@ class Store(object):
         except KeyError: pass
 
         item = self.factory(self.items.get(id))
-        search.indexer.remove(item)
+        #search.indexer.remove(item)
         self.items.remove(id)
 
     def _alloc_id(self):

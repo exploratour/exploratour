@@ -148,14 +148,19 @@ class Record(LazyXmlObject):
     @inner_xml.setter
     def inner_xml(self, value):
         assert isinstance(value, unicode)
-        newxml = u'<record>\n%s\n</record>' % (value.strip(),)
+        #print "WAS", self.id, self.collections
+        newxml = u'<record>%s</record>' % (value.strip(),)
         newroot = etree.fromstring(newxml)
         if self.id is not None:
             newroot.set(u'id', self.id)
+        if self.mtime is not None:
+            newroot.set(u'mtime', repr(self.mtime))
         for collection in self.collections:
+            #print collection
             elt = etree.SubElement(newroot, u'collection')
             elt.set(u'name', collection)
         self.root = newroot
+        #print "SET TO", self.id, self.collections
 
     @property
     def title(self):
@@ -253,6 +258,8 @@ class Record(LazyXmlObject):
             except KeyError:
                 pass
         collection_objs.sort(key = lambda x: (x.title, x.id))
+        #for collection_obj in collection_objs:
+        #    print repr((collection_obj.title, collection_obj.id))
 
         for elt in self.root.findall(u'collection'):
             self.root.remove(elt)
