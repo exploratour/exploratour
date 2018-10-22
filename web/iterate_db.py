@@ -45,6 +45,9 @@ def normxml(raw):
     raw = re.sub('>\s*\\n\s*<', '><', raw)
     raw = re.sub('\s*alt=""', '', raw)
     raw = re.sub('\s*title=""', '', raw)
+    # field name="ddgd" type="link" linktype="record" target="dgd"
+    raw = re.sub('(<field name="[^"]*") (type="[^"]*") (linktype="[^"]*" target="[^"]*")', r'\1 \3 \2', raw)
+    raw = re.sub('</field>&amp;gt;', '</field>', raw)
     return raw
 
 count = 0
@@ -56,7 +59,6 @@ for record in Record.objects:
     cr_xml = check_record.xml.encode('utf8')
     # open("out1", "wb").write(cr_xml)
     cr_xml = normxml(cr_xml)
-    # open("out1a", "wb").write(cr_xml)
 
     # open("out2", "wb").write(record.xml.encode('utf8'))
     record.inner_xml = record.inner_xml
@@ -64,7 +66,9 @@ for record in Record.objects:
     # open("out2a", "wb").write(record.xml.encode('utf8'))
     record_xml = record.xml.encode('utf8')
     record_xml = normxml(record_xml)
-    # open("out2b", "wb").write(record_xml)
+    if cr_xml != record_xml:
+        open("out1a", "wb").write(cr_xml)
+        open("out2b", "wb").write(record_xml)
     assert cr_xml == record_xml
 
     outfile.write(record_json + "\n")
