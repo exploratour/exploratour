@@ -41,6 +41,27 @@ def record_from_json(raw):
     # print "MTIME", result.mtime
     return result
 
+def coll_to_json(coll):
+    print coll
+
+    return json.dumps({
+        "collection": {
+            "id": coll.id,
+            "mtime": coll.mtime,
+            "title": coll.title,
+        },
+    }, indent=2)
+
+def coll_from_json(raw):
+    data = json.loads(raw)
+    data = data["collection"]
+    result = Collection(
+        id = data["id"],
+        mtime = data["mtime"],
+        title = data["title"],
+    )
+    return result
+
 def normxml(raw):
     raw = re.sub('>\s*\\n\s*<', '><', raw)
     raw = re.sub('\s*alt=""', '', raw)
@@ -50,33 +71,64 @@ def normxml(raw):
     raw = re.sub('</field>&amp;gt;', '</field>', raw)
     return raw
 
-count = 0
-outfile = open("output.jsonl", "wb")
-for record in Record.objects:
-    record_json = record_to_json(record)
+def convert_records():
+    count = 0
+    outfile = open("records.jsonl", "wb")
+    for record in Record.objects:
+        record_json = record_to_json(record)
 
-    check_record = record_from_json(record_json)
-    cr_xml = check_record.xml.encode('utf8')
-    # open("out1", "wb").write(cr_xml)
-    cr_xml = normxml(cr_xml)
+        check_record = record_from_json(record_json)
+        cr_xml = check_record.xml.encode('utf8')
+        # open("out1", "wb").write(cr_xml)
+        cr_xml = normxml(cr_xml)
 
-    # open("out2", "wb").write(record.xml.encode('utf8'))
-    record.inner_xml = record.inner_xml
-    record.collections = record.collections
-    # open("out2a", "wb").write(record.xml.encode('utf8'))
-    record_xml = record.xml.encode('utf8')
-    record_xml = normxml(record_xml)
-    if cr_xml != record_xml:
-        open("out1a", "wb").write(cr_xml)
-        open("out2b", "wb").write(record_xml)
-    assert cr_xml == record_xml
+        # open("out2", "wb").write(record.xml.encode('utf8'))
+        record.inner_xml = record.inner_xml
+        record.collections = record.collections
+        # open("out2a", "wb").write(record.xml.encode('utf8'))
+        record_xml = record.xml.encode('utf8')
+        record_xml = normxml(record_xml)
+        if cr_xml != record_xml:
+            open("out1a", "wb").write(cr_xml)
+            open("out2b", "wb").write(record_xml)
+        assert cr_xml == record_xml
 
-    outfile.write(record_json + "\n")
+        outfile.write(record_json + "\n")
 
-    count += 1
-    print count
+        count += 1
+        print count
 
-    if count <=0: 
-        break
+        if count <=0: 
+            break
 
-outfile.close()
+    outfile.close()
+
+def convert_collections():
+    count = 0
+    outfile = open("collections.jsonl", "wb")
+    for coll in Collection.objects:
+        coll_json = coll_to_json(coll)
+        outfile.write(coll_json + "\n")
+
+        coll_xml = etree.tounicode(coll.root).encode('utf8')
+        print coll_xml
+
+        check_coll = coll_from_json(coll_json)
+        check_coll_xml = etree.tounicode(check_coll.root).encode('utf8')
+        print check_coll_xml
+
+        if check_coll_xml != coll_xml:
+            open("coll_xml", "wb").write(coll_xml)
+            open("check_coll_xml", "wb").write(check_coll_xml)
+        assert check_coll_xml == coll_xml
+
+        count += 1
+        print count
+
+        if count <= 0:
+            break
+    outfile.close()
+
+
+# convert_records()
+convert_collections()
