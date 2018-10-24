@@ -432,6 +432,9 @@ class AutoOrder(object):
             root.append(etree.Element(u"field", name=name, dir=dir))
         return root
 
+    def __repr__(self):
+        return "AutoOrder(%r)" % (self.ordering,)
+
     def __cmp__(self, other):
         return cmp(self.ordering, other.ordering)
 

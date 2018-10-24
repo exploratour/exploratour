@@ -41,16 +41,22 @@ def record_from_json(raw):
     # print "MTIME", result.mtime
     return result
 
-def coll_to_json(coll):
-    print coll
+def autoorder_to_json(ao):
+    return [
+        (name, dir) for (name, dir) in ao.ordering
+    ]
 
-    return json.dumps({
-        "collection": {
-            "id": coll.id,
-            "mtime": coll.mtime,
-            "title": coll.title,
-        },
-    }, indent=2)
+def coll_to_json(coll):
+    data = {
+        "id": coll.id,
+        "mtime": coll.mtime,
+        "title": coll.title,
+        "parents": list(coll.parents),
+        "children": list(coll._children),
+    }
+    if coll.autoorder.ordering:
+        data["autoorder"] = autoorder_to_json(coll.autoorder)
+    return json.dumps({"collection": data}, indent=2)
 
 def coll_from_json(raw):
     data = json.loads(raw)
@@ -59,6 +65,9 @@ def coll_from_json(raw):
         id = data["id"],
         mtime = data["mtime"],
         title = data["title"],
+        autoorder = data.get("autoorder", []),
+        parents = data["parents"],
+        children = data["children"],
     )
     return result
 
@@ -111,11 +120,11 @@ def convert_collections():
         outfile.write(coll_json + "\n")
 
         coll_xml = etree.tounicode(coll.root).encode('utf8')
-        print coll_xml
+        # print coll_xml
 
         check_coll = coll_from_json(coll_json)
         check_coll_xml = etree.tounicode(check_coll.root).encode('utf8')
-        print check_coll_xml
+        # print check_coll_xml
 
         if check_coll_xml != coll_xml:
             open("coll_xml", "wb").write(coll_xml)
@@ -130,5 +139,5 @@ def convert_collections():
     outfile.close()
 
 
-# convert_records()
+convert_records()
 convert_collections()
