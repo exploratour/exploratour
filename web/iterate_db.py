@@ -20,7 +20,7 @@ def record_to_json(record):
             "collection_ids": parsed.coll_ids,
             "fields": map(lambda field: field.to_json(), parsed.contents),
         },
-    }, indent=2)
+    }, indent=None, separators=(',', ':'), sort_keys=True)
 
 def record_from_json(raw):
     data = json.loads(raw)
@@ -56,7 +56,8 @@ def coll_to_json(coll):
     }
     if coll.autoorder.ordering:
         data["autoorder"] = autoorder_to_json(coll.autoorder)
-    return json.dumps({"collection": data}, indent=2)
+    return json.dumps({"collection": data},
+            indent=None, separators=(',', ':'), sort_keys=True)
 
 def coll_from_json(raw):
     data = json.loads(raw)
@@ -107,9 +108,6 @@ def convert_records():
         count += 1
         print count
 
-        if count <=0: 
-            break
-
     outfile.close()
 
 def convert_collections():
@@ -134,8 +132,6 @@ def convert_collections():
         count += 1
         print count
 
-        if count <= 0:
-            break
     outfile.close()
 
 
