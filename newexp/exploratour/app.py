@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from .storage import Storage, Record, Collection
 
 def create_app(test_config=None):
@@ -11,8 +11,7 @@ def create_app(test_config=None):
     def shutdown_session(exception=None):
         storage.session.remove()
 
-    @app.route("/")
-    def records():
-        return "Records {}".format(storage.session.query(Record).count())
+    from . import blueprints
+    blueprints.register(app)
 
     return app
