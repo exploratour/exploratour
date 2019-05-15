@@ -1,15 +1,16 @@
-from storage import storage, Collection, Record
+from exploratour.storage import Storage, Collection, Record
 from datetime import datetime
 import sys
 import json
 
 
 def run():
+    storage = Storage()
     storage.create_tables()
     collection_file = sys.argv[1]
     record_file = sys.argv[2]
 
-    session = storage.start_session()
+    session = storage.session()
 
     with open(collection_file, "rb") as fd:
         for line in fd:
@@ -26,7 +27,6 @@ def run():
             add_collection_parents_from_data(json.loads(line), session)
 
     session.flush()
-    session.commit()
 
     with open(collection_file, "rb") as fd:
         for line in fd:
@@ -42,7 +42,7 @@ def run():
                 continue
             add_record_from_data(json.loads(line), session)
 
-    session.flush()
+    session.commit()
 
 
 def add_record_from_data(data, session):
