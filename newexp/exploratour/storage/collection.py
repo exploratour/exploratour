@@ -33,6 +33,8 @@ class Collection(Base):
         primaryjoin=id == collection_parents_table.c.parent_id,
         secondaryjoin=id == collection_parents_table.c.child_id,
         backref="children",
+        lazy="joined",
+        join_depth=10,
     )
 
     def __repr__(self):

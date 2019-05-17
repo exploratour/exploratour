@@ -5,6 +5,19 @@
 {% endblock %}
 
 {% block content %}
-{{ collections }}
+Groups:
+<ul>
+{% for group in groups %}
+    <li>{{ group }}</li>
+{% endfor %}
+</ul>
+
+
+Collections:
+<ul>
+{% for collection in collections %}
+    <li>{{ collection }}</li>
+{% endfor %}
+</ul>
 {% endblock %}
 
