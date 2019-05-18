@@ -11,7 +11,7 @@ Tabs:
 Records
 <ol>
   {% for record in records %}
-    <li><a href="{{ url_for('collections.collection', id=collection.id) }}">{{ record.title }}</a>
+    <li><a href="{{ url_for('records.view', id=record.id) }}">{{ record.title }}</a>
      {%- if args.showfull -%}!
        {{ record.fields }}
      {%- endif -%}

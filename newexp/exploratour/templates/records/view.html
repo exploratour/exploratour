@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}{{ record.title }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+Record: {{ record }}
+{{ record.fields }}
+
+<hr>
+Collections:
+<ul>
+{% for collection in record.collections %}
+<li><a href="{{ url_for("collections.collection_records", id=collection.id) }}">{{ collection.title }}</a> (? / {{ collection.record_count }})</li>
+{% endfor %}
+</ul>
+{% endblock %}
+
