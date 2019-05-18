@@ -44,6 +44,13 @@ tabs = []
 
 
 class CollTabData:
+    ARGS = (
+        ("showfull", 0, int),
+        ("startrank", 0, int),
+        ("order", "collection", str),
+        ("per_page", 100, int),
+    )
+
     def __init__(self):
         self.collid = request.args.get("id")
 
@@ -57,12 +64,7 @@ class CollTabData:
         self.active_tabs = tuple(tab for tab in tabs if tab.active(self.collection))
 
         self.args = {"id": self.collid}
-        for arg, default, cast in (
-            ("showfull", 0, int),
-            ("startrank", 0, int),
-            ("order", "collection", str),
-            ("per_page", 100, int),
-        ):
+        for arg, default, cast in CollTabData.ARGS:
             try:
                 self.args[arg] = cast(request.args.get(arg, default))
                 setattr(self, arg, self.args[arg])
@@ -80,7 +82,6 @@ class CollTabData:
             ),
             **extra
         )
-        print(result)
         return result
 
 
@@ -99,7 +100,7 @@ def collection_records():
         records = records.order_by(Record.title.asc(), Record.id.asc())
     elif data.order == "-title":
         records = records.order_by(Record.title.desc(), Record.id.desc())
-    records = records.offset(data.args["startrank"]).limit(100)
+    records = records.offset(data.startrank).limit(data.per_page)
 
     return render_template(
         "collections/records.html", **data.template_params(records=records)
