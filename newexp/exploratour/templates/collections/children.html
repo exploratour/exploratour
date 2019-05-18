@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}{{ collection.title }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+Tabs:
+{% include 'collections/tabs.html' %}
+
+Children
+<ul>
+  {% for collection in collections recursive %}
+    <li><a href="{{ url_for('collections.collection_records', id=collection.id) }}">{{ collection.title }}</a> {{collection.record_count }}
+      {% if collection.children %}
+        <ul>
+	  {{ loop(collection.children) }}
+	</ul>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}
+

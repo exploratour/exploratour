@@ -1,0 +1,5 @@
+<ul>
+{% for tab in active_tabs %}
+<li><a href="{{ url_for('collections.' + tab.route, **link_args()) }}">{{ tab.title }}</a></li>
+{% endfor %}
+</ul>

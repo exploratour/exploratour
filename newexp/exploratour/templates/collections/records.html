@@ -6,12 +6,7 @@
 
 {% block content %}
 Tabs:
-<ul>
-{% for tab in active_tabs %}
-  <li><a href="{{ url_for('collections.' + tab.route) }}">{{ tab.title }}</a></li>
-{% endfor %}
-</ul>
-
+{% include 'collections/tabs.html' %}
 
 Records
 <ol>
