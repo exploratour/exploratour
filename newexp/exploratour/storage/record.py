@@ -11,9 +11,7 @@ class Record(Base):
     mtime = Column(DateTime)
     fields = Column(String)
     collections = relationship(
-        "Collection",
-        secondary=record_collections_table,
-        lazy="joined",
+        "Collection", secondary=record_collections_table, lazy="joined"
     )
 
     def __repr__(self):

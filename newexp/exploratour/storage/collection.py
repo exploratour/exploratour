@@ -50,11 +50,7 @@ class Collection(Base):
         ),
         deferred=True,
     )
-    records = relationship(
-        "Record",
-        secondary=record_collections_table,
-        lazy="dynamic",
-    )
+    records = relationship("Record", secondary=record_collections_table, lazy="dynamic")
 
     def __repr__(self):
         return "<Collection(id={}, title={}, mtime={}, parents={})>".format(

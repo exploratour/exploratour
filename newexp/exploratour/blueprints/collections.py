@@ -38,26 +38,25 @@ def index():
 def collection():
     return redirect(url_for("collections.collection_records", **request.args))
 
-Tab = namedtuple("Tab", ('route', 'title', 'active'))
+
+Tab = namedtuple("Tab", ("route", "title", "active"))
 tabs = []
+
 
 class CollTabData:
     def __init__(self):
         self.collid = request.args.get("id")
 
         try:
-            self.collection = Collection.query.filter(Collection.id == self.collid).one()
+            self.collection = Collection.query.filter(
+                Collection.id == self.collid
+            ).one()
         except NoResultFound:
             abort(404)
 
-        self.active_tabs = tuple(
-            tab for tab in tabs
-            if tab.active(self.collection)
-        )
+        self.active_tabs = tuple(tab for tab in tabs if tab.active(self.collection))
 
-        self.args = {
-            "id": self.collid,
-        }
+        self.args = {"id": self.collid}
         for arg, default, cast in (
             ("showfull", 0, int),
             ("startrank", 0, int),
@@ -102,6 +101,9 @@ def collection_records():
         records = records.order_by(Record.title.desc(), Record.id.desc())
     records = records.offset(data.args["startrank"]).limit(100)
 
-    return render_template("collections/records.html", **data.template_params(records=records))
+    return render_template(
+        "collections/records.html", **data.template_params(records=records)
+    )
+
 
 tabs.append(Tab("collection_records", "Records", lambda _: True))
