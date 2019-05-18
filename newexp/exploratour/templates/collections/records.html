@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}{{ collection.title }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+Tabs:
+<ul>
+{% for tab in active_tabs %}
+  <li><a href="{{ url_for('collections.' + tab.route) }}">{{ tab.title }}</a></li>
+{% endfor %}
+</ul>
+
+
+Records
+<ol>
+  {% for record in records %}
+    <li><a href="{{ url_for('collections.collection', id=collection.id) }}">{{ record.title }}</a>
+     {%- if args.showfull -%}!
+       {{ record.fields }}
+     {%- endif -%}
+    </li>
+  {% endfor %}
+</ol>
+{% endblock %}
+

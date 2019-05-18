@@ -8,16 +8,22 @@
 Groups:
 <ul>
 {% for group in groups %}
-    <li>{{ group }}</li>
+  <li><a href="{{ url_for('collections.index', group=group.id) }}">{{ group.title }}</a></li>
 {% endfor %}
 </ul>
 
 
 Collections:
 <ul>
-{% for collection in collections %}
-    <li>{{ collection }}</li>
-{% endfor %}
+  {% for collection in collections recursive %}
+    <li><a href="{{ url_for('collections.collection', id=collection.id) }}">{{ collection.title }}</a> {{collection.record_count }}
+      {% if collection.children %}
+        <ul>
+	  {{ loop(collection.children) }}
+	</ul>
+      {% endif %}
+    </li>
+  {% endfor %}
 </ul>
 {% endblock %}
 

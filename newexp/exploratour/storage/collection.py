@@ -7,15 +7,12 @@ from .base import (
     ForeignKey,
     Table,
     relationship,
+    column_property,
+    select,
+    func,
 )
 
-
-collection_parents_table = Table(
-    "collection_parents",
-    Base.metadata,
-    Column("parent_id", Integer, ForeignKey("collections.id"), primary_key=True),
-    Column("child_id", Integer, ForeignKey("collections.id"), primary_key=True),
-)
+from .record_collections import record_collections_table, collection_parents_table
 
 
 class Collection(Base):
@@ -32,12 +29,34 @@ class Collection(Base):
         secondary=collection_parents_table,
         primaryjoin=id == collection_parents_table.c.parent_id,
         secondaryjoin=id == collection_parents_table.c.child_id,
-        backref="children",
+        lazy="select",
+        join_depth=10,
+    )
+    children = relationship(
+        "Collection",
+        secondary=collection_parents_table,
+        primaryjoin=id == collection_parents_table.c.child_id,
+        secondaryjoin=id == collection_parents_table.c.parent_id,
+        order_by=("Collection.title, Collection.id"),
         lazy="joined",
         join_depth=10,
     )
+    from sqlalchemy import text
+
+    record_count = column_property(
+        select(
+            [func.count(record_collections_table.c.record_id)],
+            record_collections_table.c.collection_id == id,
+        ),
+        deferred=True,
+    )
+    records = relationship(
+        "Record",
+        secondary=record_collections_table,
+        lazy="dynamic",
+    )
 
     def __repr__(self):
-        return "<Collection(id={}, title={}, mtime={}, parents={})".format(
+        return "<Collection(id={}, title={}, mtime={}, parents={})>".format(
             repr(self.id), repr(self.title), repr(self.mtime), repr(self.parents)
         )

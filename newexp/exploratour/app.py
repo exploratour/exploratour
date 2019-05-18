@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from .storage import Storage, Record, Collection
 
+
 def create_app(test_config=None):
     app = Flask("exploratour", instance_relative_config=True)
 
@@ -12,6 +13,7 @@ def create_app(test_config=None):
         storage.session.remove()
 
     from . import blueprints
+
     blueprints.register(app)
 
     return app

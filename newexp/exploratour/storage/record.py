@@ -1,21 +1,6 @@
-from .base import (
-    Base,
-    Column,
-    Integer,
-    String,
-    DateTime,
-    Table,
-    ForeignKey,
-    relationship,
-)
+from .base import Base, Column, String, DateTime, relationship
 
-
-record_collections_table = Table(
-    "record_collections",
-    Base.metadata,
-    Column("record_id", Integer, ForeignKey("records.id")),
-    Column("collection_id", Integer, ForeignKey("collections.id")),
-)
+from .record_collections import record_collections_table
 
 
 class Record(Base):
@@ -26,10 +11,12 @@ class Record(Base):
     mtime = Column(DateTime)
     fields = Column(String)
     collections = relationship(
-        "Collection", secondary=record_collections_table, backref="records"
+        "Collection",
+        secondary=record_collections_table,
+        lazy="joined",
     )
 
     def __repr__(self):
-        return "<Record(id={}, title={}, mtime={})".format(
+        return "<Record(id={}, title={}, mtime={})>".format(
             repr(self.id), repr(self.title), repr(self.mtime)
         )
