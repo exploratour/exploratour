@@ -5,7 +5,6 @@ from flask import (
     redirect,
     render_template,
     request,
-    session,
     url_for,
     abort,
 )
@@ -19,11 +18,8 @@ bp = Blueprint("records", __name__, url_prefix="/record")
 def view():
     id = request.args.get("id")
     try:
-        record = Record.query.filter(Record.id==id).one()
+        record = Record.query.filter(Record.id == id).one()
     except NoResultFound:
         abort(404, "No record with given id")
 
-    return render_template(
-        "records/view.html",
-        record=record
-    )
+    return render_template("records/view.html", record=record)

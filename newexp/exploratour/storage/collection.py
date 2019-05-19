@@ -13,6 +13,7 @@ from .base import (
 )
 
 from .record_collections import record_collections_table, collection_parents_table
+from .record import Record
 
 
 class Collection(Base):
@@ -51,6 +52,24 @@ class Collection(Base):
         deferred=True,
     )
     records = relationship("Record", secondary=record_collections_table, lazy="dynamic")
+
+    def _collection_order_query(self):
+        row_query = self.records.with_entities(
+            Record.id, func.row_number().over(order_by="id").label("row")
+        )
+        # print(row_query)
+        # print(list(row_query))
+        return row_query.subquery()
+
+    def record_position(self, record):
+        row_query = self._collection_order_query()
+        r = Record.query.with_entities(row_query).filter(row_query.c.id == record.id).one()
+        return r.row
+
+    def next_record(self, row):
+        row_query = self._collection_order_query()
+        r = Record.query.with_entities(row_query).filter(row_query.c.row == row + 1).one()
+        return r
 
     def __repr__(self):
         return "<Collection(id={}, title={}, mtime={}, parents={})>".format(

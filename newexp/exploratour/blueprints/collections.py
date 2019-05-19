@@ -98,11 +98,14 @@ def collection_children():
     data = CollTabData()
 
     return render_template(
-        "collections/children.html", **data.template_params(collections=data.collection.children)
+        "collections/children.html",
+        **data.template_params(collections=data.collection.children)
     )
 
 
-tabs.append(Tab("collection_children", "Children", lambda collection: collection.children))
+tabs.append(
+    Tab("collection_children", "Children", lambda collection: collection.children)
+)
 
 
 @bp.route("/coll/records", methods=("GET",))
@@ -135,10 +138,15 @@ def collection_parents():
     data = CollTabData()
 
     return render_template(
-        "collections/parents.html", **data.template_params(collections=data.collection.parents)
+        "collections/parents.html",
+        **data.template_params(collections=data.collection.parents)
     )
 
 
-tabs.append(Tab("collection_parents", "Parent Collections", lambda collection: collection.parents))
-
-
+tabs.append(
+    Tab(
+        "collection_parents",
+        "Parent Collections",
+        lambda collection: collection.parents,
+    )
+)

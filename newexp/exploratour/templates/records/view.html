@@ -13,7 +13,7 @@ Record: {{ record }}
 Collections:
 <ul>
 {% for collection in record.collections %}
-<li><a href="{{ url_for("collections.collection_records", id=collection.id) }}">{{ collection.title }}</a> (? / {{ collection.record_count }})</li>
+<li><a href="{{ url_for("collections.collection_records", id=collection.id) }}">{{ collection.title }}</a> ({{ collection.record_position(record) }} / {{ collection.record_count }}) <a href="">{{ collection.next_record(collection.record_position(record)) }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

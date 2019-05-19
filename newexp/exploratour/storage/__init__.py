@@ -20,3 +20,6 @@ class Storage:
         if not os.path.isdir(config.DATA_PATH):
             os.makedirs(config.DATA_PATH)
         Base.metadata.create_all(self.engine)
+
+
+storage = Storage()
