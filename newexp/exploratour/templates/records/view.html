@@ -13,7 +13,16 @@ Record: {{ record }}
 Collections:
 <ul>
 {% for collection in record.collections %}
-<li><a href="{{ url_for("collections.collection_records", id=collection.id) }}">{{ collection.title }}</a> ({{ collection.record_position(record) }} / {{ collection.record_count }}) <a href="">{{ collection.next_record(collection.record_position(record)) }}</a></li>
+<li>
+  {%- set position = collection.record_position(record) -%}
+  {%- set prev = collection.record_at_position(position - 1) -%}
+  {%- set next = collection.record_at_position(position + 1) -%}
+  <a href="{{ url_for("collections.collection_records", id=collection.id) }}">
+  {{- collection.title -}}</a>
+  ({{- position }} / {{ collection.record_count -}})
+  {% if prev %}<a href="{{ url_for("records.view", id=prev.id) }}">Prev: {{ prev.title }}</a>{% endif %}
+  {% if next %}<a href="{{ url_for("records.view", id=next.id) }}">Next: {{ next.title }}</a>{% endif %}
+  </li>
 {% endfor %}
 </ul>
 {% endblock %}

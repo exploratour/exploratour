@@ -11,6 +11,8 @@ from .base import (
     select,
     func,
 )
+from sqlalchemy.orm.exc import NoResultFound
+
 
 from .record_collections import record_collections_table, collection_parents_table
 from .record import Record
@@ -53,23 +55,31 @@ class Collection(Base):
     )
     records = relationship("Record", secondary=record_collections_table, lazy="dynamic")
 
-    def _collection_order_query(self):
-        row_query = self.records.with_entities(
-            Record.id, func.row_number().over(order_by="id").label("row")
-        )
-        # print(row_query)
-        # print(list(row_query))
-        return row_query.subquery()
+    def order_by_param(self):
+        """The param to use to order by collection order""" 
+        return (Record.id.asc(),)
 
     def record_position(self, record):
-        row_query = self._collection_order_query()
-        r = Record.query.with_entities(row_query).filter(row_query.c.id == record.id).one()
-        return r.row
+        row_query = self.records.with_entities(
+            Record.id, func.row_number().over(order_by=self.order_by_param()).label("row")
+        ).subquery()
 
-    def next_record(self, row):
-        row_query = self._collection_order_query()
-        r = Record.query.with_entities(row_query).filter(row_query.c.row == row + 1).one()
-        return r
+        r = Record.query.with_entities(row_query).filter(row_query.c.id == record.id)
+        return r.one().row
+
+    def record_at_position(self, position):
+        if position < 1:
+            return None
+
+        row_query = self.records.with_entities(
+            Record, func.row_number().over(order_by=self.order_by_param()).label("row")
+        ).subquery()
+
+        r = Record.query.with_entities(row_query).filter(row_query.c.row == position)
+        try:
+            return r.one()
+        except NoResultFound:
+            return None
 
     def __repr__(self):
         return "<Collection(id={}, title={}, mtime={}, parents={})>".format(

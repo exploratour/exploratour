@@ -114,7 +114,7 @@ def collection_records():
 
     records = data.collection.records
     if data.order == "collection":
-        records = records.order_by(Record.mtime.desc(), Record.id)
+        records = records.order_by(*data.collection.order_by_param())
     elif data.order == "mtime":
         records = records.order_by(Record.mtime.asc(), Record.id)
     elif data.order == "-mtime":
