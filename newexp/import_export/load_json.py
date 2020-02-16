@@ -170,11 +170,12 @@ def add_record_from_data(data, session):
         id=record_id,
         title=title,
         mtime=mtime,
-        fields=lf.id,
+        list_field_id=lf.id,
         raw_fields=raw_fields,
         collections=collections,
     )
     session.add(r)
+    #session.commit()
 
 
 def add_collection_from_data(data, session):
