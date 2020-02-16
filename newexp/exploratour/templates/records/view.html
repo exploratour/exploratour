@@ -6,8 +6,56 @@
 
 {% block content %}
 
-Record: {{ record }}
-{{ record.fields }}
+Record: {{ record.title }}<br>
+Last Modified: {{ record.mtime }}
+
+<table class="simple_record_view"><tbody>
+{% for field in record.fields.fields %}
+
+{%- if field.type == "title" %}
+<tr class="title_field">
+<td colspan="2"><h1 class="fieldval">{{ field.title }}</h1></td>
+</tr>
+
+{%- elif field.type == "text" %}
+<tr class="text_field">
+<td class="label">{{ field.name }}:</td>
+<td class="fieldval">{{ field.text|safe }}</td>
+</tr>
+
+{%- elif field.type == "date" %}
+<tr class="date_field">
+<td class="label">{{ field.name }}:</td>
+<td class="fieldval">{{ field.date_string }}</td>
+</tr>
+
+{%- elif field.type == "location" %}
+<tr class="location_field">
+<td class="label">{{ field.name }}:</td>
+<td class="fieldval">{{ field.text }} {{ field.latlong }}</td>
+</tr>
+
+{%- elif field.type == "file" %}
+<tr class="file_field">
+<td class="label">{{ field.name }}:</td>
+<td class="fieldval">
+
+  {%- if field.display == field.DisplayTypes.thumb %}
+  <img src="{{ field.src }}" width="" height="" title="{{ field.title }}" alt="{{ field.alt }}">{{ field.src }}
+  {%- else %}
+    {{ field.display }}
+  {%- endif -%}
+
+</td>
+</tr>
+
+{%- else %}
+<tr>
+<td class="label">Unknown field type: {{field.type}}: {{ field.name }}</td>
+</tr>
+{% endif %}
+{% endfor %}
+</tbody></table>
 
 <hr>
 Collections:

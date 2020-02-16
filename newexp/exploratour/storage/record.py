@@ -108,7 +108,8 @@ class Record(Base):
     id = Column(String, primary_key=True)
     title = Column(String)
     mtime = Column(DateTime)
-    fields = Column(Integer, ForeignKey("list_fields.id"))
+    list_field_id = Column(Integer, ForeignKey("list_fields.id"))
+    fields = relationship(ListField, cascade="all, delete-orphan", foreign_keys=[list_field_id], single_parent=True)
     raw_fields = Column(String)
     collections = relationship(
         "Collection", secondary=record_collections_table, lazy="joined"
