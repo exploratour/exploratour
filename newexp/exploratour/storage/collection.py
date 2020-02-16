@@ -56,12 +56,13 @@ class Collection(Base):
     records = relationship("Record", secondary=record_collections_table, lazy="dynamic")
 
     def order_by_param(self):
-        """The param to use to order by collection order""" 
+        """The param to use to order by collection order"""
         return (Record.id.asc(),)
 
     def record_position(self, record):
         row_query = self.records.with_entities(
-            Record.id, func.row_number().over(order_by=self.order_by_param()).label("row")
+            Record.id,
+            func.row_number().over(order_by=self.order_by_param()).label("row"),
         ).subquery()
 
         r = Record.query.with_entities(row_query).filter(row_query.c.id == record.id)
