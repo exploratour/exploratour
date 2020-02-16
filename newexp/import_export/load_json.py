@@ -137,7 +137,7 @@ def make_field_list(fields, session):
         else:
             print("Stopping", field)
             raise Exception("Unknown field type")
-        print(pos, repr(field))
+        assert len(field) == 0, field
     return lf
 
 
@@ -163,9 +163,8 @@ def add_record_from_data(data, session):
         for coll_id in collection_ids
     ]
 
-    print("Record ID: ", record_id)
     lf = make_field_list(fields, session)
-    print("lfid", lf.id, lf)
+    print("Record ID:", record_id, " ListField.id:", lf.id)
 
     r = Record(
         id=record_id,
