@@ -76,6 +76,23 @@ class FileField(Field):
         "polymorphic_identity": "file",
     }
 
+class LinkField(Field):
+    __tablename__ = "link_fields"
+    id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)
+    class LinkTypes(enum.Enum):
+        record = 1
+        collection = 2
+        search = 3
+        url = 4
+
+    linktype = Column(Enum(LinkTypes))
+    target = Column(String)
+    text = Column(String)
+
+    __mapper_args__ = {
+        "polymorphic_identity": "link",
+    }
+
 class ListField(Base):
     __tablename__ = "list_fields"
     id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)

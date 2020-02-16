@@ -1,4 +1,4 @@
-from exploratour.storage import Storage, Collection, Record, Field, TitleField, TextField, DateField, LocationField, FileField, ListField
+from exploratour.storage import Storage, Collection, Record, Field, TitleField, TextField, DateField, LocationField, FileField, LinkField, ListField
 import config
 
 from datetime import datetime
@@ -122,6 +122,16 @@ def make_field_list(fields, session):
                 title=field.pop("title"),
             )
             field.pop("text")
+            session.add(f)
+        elif field_type == "link":
+            f = LinkField(
+                name=field.pop("name"),
+                list_id=lf.id,
+                position=pos,
+                linktype=field.pop("linktype"),
+                target=field.pop("target"),
+                text=field.pop("text"),
+            )
             session.add(f)
 
         else:
