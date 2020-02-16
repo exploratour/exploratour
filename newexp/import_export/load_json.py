@@ -70,7 +70,7 @@ def make_field_list(fields, session):
     """Creates a ListField given a list of dicts representing fields"""
     lf = ListField()
     session.add(lf)
-    session.commit()
+    session.flush()
     assert lf.id is not None
     for pos, field in enumerate(fields):
         field_type = field.pop("type")
