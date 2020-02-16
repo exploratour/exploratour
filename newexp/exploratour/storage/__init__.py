@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.orm.exc import NoResultFound
 import os
 from .base import Base
-from .record import Record
+from .record import Record, Field, TitleField, TextField, DateField, LocationField, FileField, ListField
 from .collection import Collection
 
 

@@ -3,6 +3,7 @@ from sqlalchemy import (
     Column,
     Integer,
     String,
+    Enum,
     DateTime,
     ForeignKey,
     Table,
