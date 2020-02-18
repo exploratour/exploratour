@@ -61,8 +61,9 @@ class FileField(Field):
         inline = 2
         thumb = 3
         icon = 4
-        text = 6
         icontext = 5
+        text = 6
+        link = 7
 
     display = Column(Enum(DisplayTypes))
     mimetype = Column(String)
