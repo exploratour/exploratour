@@ -8,7 +8,7 @@ class Field(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
     type = Column(String)
-    list_id = Column(Integer, ForeignKey('list_fields.id'))
+    list_id = Column(Integer, ForeignKey('list_of_fields.id'))
     position = Column(Integer)
 
     __mapper_args__ = {
@@ -93,13 +93,18 @@ class LinkField(Field):
         "polymorphic_identity": "link",
     }
 
-class ListField(Base):
-    __tablename__ = "list_fields"
+class ListOfFields(Base):
+    __tablename__ = "list_of_fields"
     id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)
-    fields = relationship(Field, cascade="all, delete-orphan", order_by="Field.position", foreign_keys=[Field.list_id])
+
+class GroupField(Field):
+    __tablename__ = "group_fields"
+    id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)
+    list_of_fields_id = Column(Integer, ForeignKey("list_of_fields.id"))
+    relationship(ListOfFields, cascade="all, delete-orphan")
 
     __mapper_args__ = {
-        "polymorphic_identity": "list",
+        "polymorphic_identity": "group",
     }
 
 class Record(Base):
@@ -108,8 +113,8 @@ class Record(Base):
     id = Column(String, primary_key=True)
     title = Column(String)
     mtime = Column(DateTime)
-    list_field_id = Column(Integer, ForeignKey("list_fields.id"))
-    fields = relationship(ListField, cascade="all, delete-orphan", foreign_keys=[list_field_id], single_parent=True)
+    list_field_id = Column(Integer, ForeignKey("list_of_fields.id"))
+    fields = relationship(ListOfFields, cascade="all, delete-orphan", foreign_keys=[list_field_id], single_parent=True)
     raw_fields = Column(String)
     collections = relationship(
         "Collection", secondary=record_collections_table, lazy="joined"

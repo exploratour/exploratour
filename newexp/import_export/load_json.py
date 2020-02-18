@@ -1,4 +1,4 @@
-from exploratour.storage import Storage, Collection, Record, Field, TitleField, TextField, DateField, LocationField, FileField, LinkField, ListField
+from exploratour.storage import Storage, Collection, Record, Field, TitleField, TextField, DateField, LocationField, FileField, LinkField, GroupField, ListOfFields
 import config
 
 from datetime import datetime
@@ -66,9 +66,9 @@ def run():
     session.commit()
 
 
-def make_field_list(fields, session):
+def make_list_of_fields(fields, session):
     """Creates a ListField given a list of dicts representing fields"""
-    lf = ListField()
+    lf = ListOfFields()
     session.add(lf)
     session.flush()
     assert lf.id is not None
@@ -133,9 +133,21 @@ def make_field_list(fields, session):
                 text=field.pop("text"),
             )
             session.add(f)
+        elif field_type == "group":
+            sub_lf = make_list_of_fields(
+                fields=field.pop("contents"),
+                session=session,
+            )
+            f = GroupField(
+                name=field.pop("name"),
+                list_id=lf.id,
+                position=pos,
+                list_of_fields_id=sub_lf.id,
+            )
+            session.add(f)
 
         else:
-            print("Stopping", field)
+            print("Stopping", field, field_type)
             raise Exception("Unknown field type")
         assert len(field) == 0, field
     return lf
@@ -163,7 +175,7 @@ def add_record_from_data(data, session):
         for coll_id in collection_ids
     ]
 
-    lf = make_field_list(fields, session)
+    lf = make_list_of_fields(fields, session)
     print("Record ID:", record_id, " ListField.id:", lf.id)
 
     r = Record(
