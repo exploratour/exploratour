@@ -57,11 +57,13 @@ def run():
 
     print("Writing records")
     with open(record_file, "rb") as fd:
-        for line in fd:
+        for pos, line in enumerate(fd):
             line = line.strip()
             if not line:
                 continue
             add_record_from_data(json.loads(line), session)
+            if pos % 100 == 0:
+                session.commit()
 
     session.commit()
 
