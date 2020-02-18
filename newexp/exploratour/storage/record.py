@@ -107,6 +107,24 @@ class GroupField(Field):
         "polymorphic_identity": "group",
     }
 
+class TagField(Field):
+    __tablename__ = "tag_fields"
+    id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)
+    text = Column(String)
+
+    __mapper_args__ = {
+        "polymorphic_identity": "tag",
+    }
+
+class NumberField(Field):
+    __tablename__ = "numberfields"
+    id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)
+    text = Column(String)
+
+    __mapper_args__ = {
+        "polymorphic_identity": "number",
+    }
+
 class Record(Base):
     __tablename__ = "records"
 

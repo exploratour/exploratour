@@ -1,4 +1,4 @@
-from exploratour.storage import Storage, Collection, Record, Field, TitleField, TextField, DateField, LocationField, FileField, LinkField, GroupField, ListOfFields
+from exploratour.storage import Storage, Collection, Record, Field, TitleField, TextField, DateField, LocationField, FileField, LinkField, GroupField, ListOfFields, TagField, NumberField
 import config
 
 from datetime import datetime
@@ -143,6 +143,22 @@ def make_list_of_fields(fields, session):
                 list_id=lf.id,
                 position=pos,
                 list_of_fields_id=sub_lf.id,
+            )
+            session.add(f)
+        elif field_type == "tag":
+            f = TagField(
+                name=field.pop("name"),
+                list_id=lf.id,
+                position=pos,
+                text=field.pop("text"),
+            )
+            session.add(f)
+        elif field_type == "number":
+            f = NumberField(
+                name=field.pop("name"),
+                list_id=lf.id,
+                position=pos,
+                text=field.pop("text"),
             )
             session.add(f)
 
