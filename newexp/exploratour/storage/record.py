@@ -97,12 +97,13 @@ class LinkField(Field):
 class ListOfFields(Base):
     __tablename__ = "list_of_fields"
     id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)
+    fields = relationship(Field, cascade="all, delete-orphan", foreign_keys=[Field.list_id])  # Needs to link list_of_fields.id with fields.list_id
 
 class GroupField(Field):
     __tablename__ = "group_fields"
     id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)
     list_of_fields_id = Column(Integer, ForeignKey("list_of_fields.id"))
-    relationship(ListOfFields, cascade="all, delete-orphan")
+    fields = relationship(ListOfFields, cascade="all, delete-orphan", single_parent=True, foreign_keys=[list_of_fields_id])
 
     __mapper_args__ = {
         "polymorphic_identity": "group",
