@@ -116,7 +116,7 @@ def make_list_of_fields(fields, session):
                 name=field.pop("name"),
                 list_id=lf.id,
                 position=pos,
-                display=field.pop("display"),
+                display=field.pop("display") or "inline",
                 mimetype=field.pop("mimetype"),
                 src=field.pop("src"),
                 alt=field.pop("alt"),
