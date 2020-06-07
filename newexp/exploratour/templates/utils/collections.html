@@ -1,0 +1,54 @@
+{% from "utils/toolbars.html" import toolbar_button, toolbar_icon, toolbar_label, toolbar_label3, divider %}
+{%- macro show_collections(record) -%}
+
+{%- for coll in record.collections -%}
+{%- if not locked_colls or coll.id in locked_colls -%}
+
+{%- set pos = coll.record_position(record) -%}
+{%- set prev = coll.record_at_position(pos - 1) -%}
+{%- set next = coll.record_at_position(pos + 1) -%}
+
+{%- if pos -%}
+<ul class="toolbar">
+{%- if prev -%}
+{{- toolbar_button(48, "previous_record", "Previous: " + prev.title, url_for("records.view", id=prev.id)) -}}
+{%- else -%}
+{{- toolbar_button(48, "previous_record", "Previous", "") -}}
+{%- endif -%}
+
+{{ toolbar_icon(48, "collection", "Collections", '') }}
+{{ toolbar_label3(48, url_for("collections.collection_records", id=coll.id), coll.title, pos|string + " / " + coll.record_count|string) }}
+
+{%- if next -%}
+{{ toolbar_button(48, "next_record", "Next: " + next.title, url_for("records.view", id=next.id)) }}
+{%- else -%}
+{{ toolbar_button(48, "next_record", "Next", '') }}
+{%- endif -%}
+</ul>
+
+{%- else -%}
+
+<ul class="toolbar">
+{{ toolbar_icon(48, "collection", "Collections", '') }}
+{{ toolbar_label3(48, url_for("collections.collection_records", id=coll.id), coll.title, '') }}
+</ul>
+{% endif %}
+{% endif %}
+{% endfor %}
+
+{% set need_message = True %}
+{% for coll in record.collections %}
+{% if locked_colls and coll.id not in locked_colls %}
+{% if need_message %}
+<p>This record is also in the following collections which are hidden by the lock:</p>
+<ol class="flowed">
+{% set need_message = False %}
+{% endif %}
+<li class="collection-link">{{ coll.title }}</li>
+{% endif %}
+{% endfor %}
+{% if not need_message %}
+</ol>
+{% endif %}
+
+{%- endmacro -%}

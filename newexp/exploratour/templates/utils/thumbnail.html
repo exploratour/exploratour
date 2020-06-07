@@ -1,0 +1,47 @@
+#macro thumbnail(item, style='thumb', link=None, target=None, usemap=None)
+#if item.src:
+# set type = thumbtype(item.src)
+
+# if style == 'icon':
+#  set type='icon'
+# elif style == 'tile':
+#  set width=800
+#  set height=128
+# elif style == 'small':
+#  set width=64
+#  set height=64
+# elif style == 'thumb':
+#  set width=256
+#  set height=256
+# else:
+#  set width=800
+#  set height=600
+# endif
+
+# if link:
+#  set linkstart='<a href="' + link + '"'
+#  set linkend='</a>'|safe
+#  if target:
+#   set linkstart=linkstart + ' target="' + target + '"'
+#  endif
+#  set linkstart=(linkstart + '>')|safe
+# endif
+
+# if type == 'icon':
+{{linkstart}}<img src="{{ thumbiconurl(item.src) }}" title="{{item.title}}" alt="{{item.alt}}">{{linkend}}
+
+# elif type == 'text':
+#  if style == 'small':
+{{linkstart}}{{item.summary|truncate}}{{linkend}}
+#  else:
+<pre>{{item.summary}}</pre>
+#  endif
+
+# elif type == 'image':
+{% set twidth, theight = thumbsize(item.src, width, height) %}
+{{linkstart}}<img src="{{ url("thumbnail", path=item.src, width=width, height=height)|safe }}" width="{{twidth}}" height="{{theight}}" title="{{item.title}}" alt="{{item.alt}}"{% if usemap %} usemap="#{{ usemap }}"{% endif %}>{{linkend}}
+
+# else:
+# endif
+#endif
+#endmacro

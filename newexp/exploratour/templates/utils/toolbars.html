@@ -1,0 +1,119 @@
+{%- macro toolbar_button(size, name, description, target) -%}
+<li>
+{%- if target == '' -%}
+<span class="button"><img src="{{ url_for('static', filename='icons/buttons/' + size|string + '/' + name + '_greyed.png') }}" alt="{{ description }}" title="{{ description }}" height="{{ size }}" width="{{ size }}"></span>
+{%- else -%}
+<a href="{{ target }}" class="button button_{{ name }}"><img src="{{ url_for('static', filename='icons/buttons/' + size|string + '/' + name + '.png') }}" alt="{{ description }}" title="{{ description }}" height="{{ size }}" width="{{ size }}"></a>
+{%- endif -%}
+</li>
+{%- endmacro -%}
+
+{%- macro toolbar_submit_button(size, button_name, name, value, description) -%}
+<li><button class="button button_{{ button_name }}" name="{{ name }}" value="{{ value }}" type="submit" title="{{ description }}"><img src="{{ url_for('static', filename='icons/buttons/' + size|string + '/' + button_name + '.png') }}" height="{{ size }}" width="{{ size }}"></button></li>
+{%- endmacro -%}
+
+{%- macro toolbar_icon(size, name, description, link) -%}
+<li>
+{%- if link -%}
+<a href="{{ link }}">
+{%- endif -%}
+<img src="{{ url_for('static', filename='icons/buttons/' + size|string + '/' + name + '.png') }}" alt="{{ description }}" title="{{ description }}" height="{{ size }}" width="{{ size }}" class="label">
+{%- if link -%}
+</a>
+{%- endif -%}
+</li>
+{%- endmacro -%}
+
+{%- macro toolbar_label(size, label) -%}
+<li style="height: 60px; line-height: 30px;">
+{{ label }}
+</li>
+{%- endmacro -%}
+
+{%- macro toolbar_label2(size, label1, label2) -%}
+<li style="height: {{ size }}px">
+{{ label1 }}<br/>
+{{ label2 }}
+</li>
+{%- endmacro -%}
+
+{%- macro toolbar_label3(size, target, label1, label2) -%}
+<li style="height: {{ size }}px">
+<a href="{{ target }}">{{ label1 }}</a><br/>
+{{ label2 }}
+</li>
+{%- endmacro -%}
+
+{%- macro toolbar_edit_label(size, label, name, value) -%}
+<li style="height: {{ size }}px">
+{{ label }}<br/>
+<input type="text" name="{{ name }}" value="{{ value }}">
+</li>
+{%- endmacro -%}
+
+{%- macro divider(size) -%}
+<li style="height: {{ size + 12 }}px" class="divider"></li>
+{%- endmacro -%}
+
+{# Tools used when displaying a record #}
+{%- macro record_tools(size, recordid, tmplid) -%}
+{{ toolbar_button(size, "edit_record_form", "Edit record", url_for("record-edit", id=recordid, tmplid=tmplid)) }}
+{{ toolbar_button(size, "edit_record_xml", "Edit record as XML", url_for("record-edit", id=recordid, tmplid=tmplid, fmt="xml")) }}
+{{ toolbar_button(size, "copy_record", "Copy record", url_for("record-copy", id=recordid, tmplid=tmplid)) }}
+{% if tmplid %}
+{{ toolbar_button(size, "add_new_record", "Create another record", url_for("record-create", tmplid=tmplid)) }}
+{% endif %}
+{{ divider(48) }}
+{{ toolbar_button(size, "export_record", "Export a record", url_for("records-export", record_id=recordid)) }}
+{{ divider(48) }}
+{{ toolbar_button(size, "delete_record", "Delete record", url_for("record-delete", delete=1, id=recordid, tmplid=tmplid)) }}
+{%- endmacro -%}
+
+{# Tools used when displaying a template #}
+{%- macro tmpl_tools(size, tmplid) -%}
+{{ toolbar_button(size, "edit_record_form", "Edit template", url_for("tmpl-edit", id=tmplid)) }}
+{{ toolbar_button(size, "edit_record_xml", "Edit template as XML", url_for("tmpl-edit", id=tmplid, fmt="xml")) }}
+{{ divider(48) }}
+{{ toolbar_button(size, "delete_tmpl", "Delete template", url_for("tmpl-delete", delete=1, id=tmplid)) }}
+{%- endmacro -%}
+
+
+
+{# Tools for editing a record. #}
+{%- macro record_edit_tools(size, fmt, creating) -%}
+
+{{ toolbar_submit_button(size, "save", "save", "save", "Save record") }}
+
+{% if fmt != 'xml' %}
+{{ toolbar_submit_button(size, "edit_record_xml", "newfmt", "xml", "Edit as XML") }}
+{% endif %}
+{% if fmt != 'simple' %}
+{{ toolbar_submit_button(size, "edit_record_form", "newfmt", "simple", "Simple edit form") }}
+{% endif %}
+
+{% if not creating %}
+{{ toolbar_submit_button(size, "delete_record", "delete", "delete", "Delete record") }}
+{% endif %}
+<li style="height: {{ size + 14 }}px" class="divider edit_toolbar_start"></li>
+
+{%- endmacro -%}
+
+
+{# Tools for editing a template. #}
+{%- macro tmpl_edit_tools(size, fmt, creating) -%}
+
+{{ toolbar_submit_button(size, "save", "save", "save", "Save template") }}
+
+{% if fmt != 'xml' %}
+{{ toolbar_submit_button(size, "edit_record_xml", "newfmt", "xml", "Edit as XML") }}
+{% endif %}
+{% if fmt != 'simple' %}
+{{ toolbar_submit_button(size, "edit_record_form", "newfmt", "simple", "Simple edit form") }}
+{% endif %}
+
+{% if not creating %}
+{{ toolbar_submit_button(size, "delete_tmpl", "delete", "delete", "Delete template") }}
+{% endif %}
+<li style="height: {{ size + 14 }}px" class="divider edit_toolbar_start"></li>
+
+{%- endmacro -%}

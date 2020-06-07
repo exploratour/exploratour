@@ -1,13 +1,28 @@
+{% from "utils/toolbars.html" import record_tools, toolbar_icon, toolbar_button, toolbar_label, divider %}
+{% from "utils/collections.html" import show_collections %}
+
 {% extends 'base.html' %}
 
 {% block header %}
-<h1>{% block title %}{{ record.title }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
 
-Record: {{ record.title }}<br>
-Last Modified: {{ record.mtime }}
+<div class="sheath content">
+
+<div class="contentbox">
+
+  <ul class="toolbar">
+    {{ toolbar_icon(48, "record", "Record", '') }}
+<li style="height: 60px; line-height: 30px;">
+    {{ record.title }}<li>
+<!--<li style="height: 60px; line-height: 30px;">
+	Last Modified: {{ record.mtime }}</li>-->
+    {{ divider(48) }}
+  </ul>
+<div style="clear: both;"></div>
+
+<div class="recordbox">
 
 <table class="simple_record_view"><tbody>
 {% for field in record.fields.fields %}
@@ -61,22 +76,11 @@ Last Modified: {{ record.mtime }}
 {% endif %}
 {% endfor %}
 </tbody></table>
+</div>
 
-<hr>
-Collections:
-<ul>
-{% for collection in record.collections %}
-<li>
-  {%- set position = collection.record_position(record) -%}
-  {%- set prev = collection.record_at_position(position - 1) -%}
-  {%- set next = collection.record_at_position(position + 1) -%}
-  <a href="{{ url_for("collections.collection_records", id=collection.id) }}">
-  {{- collection.title -}}</a>
-  ({{- position }} / {{ collection.record_count -}})
-  {% if prev %}<a href="{{ url_for("records.view", id=prev.id) }}">Prev: {{ prev.title }}</a>{% endif %}
-  {% if next %}<a href="{{ url_for("records.view", id=next.id) }}">Next: {{ next.title }}</a>{% endif %}
-  </li>
-{% endfor %}
-</ul>
+{{ show_collections(record) }}
+<div style="clear: both;"></div>
+
+</div>
+</div>
 {% endblock %}
-
