@@ -49,6 +49,11 @@ Last Modified: {{ record.mtime }}
 </td>
 </tr>
 
+{%- elif field.type == "tag" %}
+<tr class="tag_field">
+<td class="label">{{ field.name }}:</td>
+<td class="fieldval">{{ field.text }}</td>
+
 {%- else %}
 <tr>
 <td class="label">Unknown field type: {{field.type}}: {{ field.name }}</td>
