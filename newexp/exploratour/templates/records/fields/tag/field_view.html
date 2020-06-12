@@ -1,0 +1,5 @@
+{%- if not continue -%}
+<td class="label">{{ (field.name )}}:</td><td class="fieldval">
+{%- endif -%}
+{%- if field.text %}<a href="{{ field.text }}" style="padding-right: 1em;">{{ field.text }}</a>{% endif -%}
+

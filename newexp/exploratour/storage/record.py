@@ -137,7 +137,8 @@ class Record(Base):
     fields = relationship(ListOfFields, cascade="all, delete-orphan", foreign_keys=[list_field_id], single_parent=True)
     raw_fields = Column(String)
     collections = relationship(
-        "Collection", secondary=record_collections_table, lazy="joined"
+        "Collection", secondary=record_collections_table, lazy="joined",
+        order_by="asc(Collection.title)"
     )
 
     def __repr__(self):

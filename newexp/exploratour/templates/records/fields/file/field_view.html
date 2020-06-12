@@ -1,0 +1,10 @@
+<td class="label">{{ field.name }}:</td>
+<td class="fieldval">
+
+  {%- if field.display == field.DisplayTypes.thumb %}
+  <img src="{{ field.src }}" width="" height="170" title="{{ field.title }}" alt="{{ field.alt }}">{{ field.src }}
+  {%- else %}
+    {{ field.display }}
+  {%- endif -%}
+
+</td>

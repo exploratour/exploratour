@@ -25,55 +25,40 @@
 <div class="recordbox">
 
 <table class="simple_record_view"><tbody>
-{% for field in record.fields.fields %}
+{% for field in record.flat_fields %}
 
-{%- if field.type == "title" %}
-<tr class="title_field">
-<td colspan="2"><h1 class="fieldval">{{ field.title }}</h1></td>
-</tr>
+{%- if field.type == 'group' -%}
 
-{%- elif field.type == "text" %}
-<tr class="text_field">
-<td class="label">{{ field.name }}:</td>
-<td class="fieldval">{{ field.text|safe }}</td>
-</tr>
+{%- set prevtype='' -%}
+{%- if field.closing -%}
+</table></fieldset></td></tr>
+{%- else -%}
+<tr><td colspan="2">
+  <fieldset><legend>{{ (field.name or '') }}:</legend><table>
+{%- endif -%}
 
-{%- elif field.type == "date" %}
-<tr class="date_field">
-<td class="label">{{ field.name }}:</td>
-<td class="fieldval">{{ field.date_string }}</td>
-</tr>
+{%- else -%}
 
-{%- elif field.type == "location" %}
-<tr class="location_field">
-<td class="label">{{ field.name }}:</td>
-<td class="fieldval">{{ field.text }} {{ field.latlong }}</td>
-</tr>
+<!-- if prevtype == field.type and prevname == field.name and field.type in ("tag", "file", "location", "date") -->
+{%- if prevtype == field.type and prevname == field.name and field.type in ("tag",) -%}
+{%- set continue=True -%}
+{%- else -%}
+{%- set continue=False -%}
+{%- if open -%}
+</td></tr>
+{%- endif -%}
+<tr class="{{ field.type }}_field">
+{%- endif -%}
 
-{%- elif field.type == "file" %}
-<tr class="file_field">
-<td class="label">{{ field.name }}:</td>
-<td class="fieldval">
+{% include "records/fields/" + field.type + "/field_view.html" %}
 
-  {%- if field.display == field.DisplayTypes.thumb %}
-  <img src="{{ field.src }}" width="" height="" title="{{ field.title }}" alt="{{ field.alt }}">{{ field.src }}
-  {%- else %}
-    {{ field.display }}
-  {%- endif -%}
+{%- set prevtype=field.type -%}
+{%- set prevname=field.name -%}
+{%- set prevdisplay=field.display -%}
+{%- set prevmimetype=field.mimetype -%}
+{%- set open=True -%}
+{%- endif -%}
 
-</td>
-</tr>
-
-{%- elif field.type == "tag" %}
-<tr class="tag_field">
-<td class="label">{{ field.name }}:</td>
-<td class="fieldval">{{ field.text }}</td>
-
-{%- else %}
-<tr>
-<td class="label">Unknown field type: {{field.type}}: {{ field.name }}</td>
-</tr>
-{% endif %}
 {% endfor %}
 </tbody></table>
 </div>
