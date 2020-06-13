@@ -50,7 +50,7 @@
 <tr class="{{ field.type }}_field">
 {%- endif -%}
 
-{% include "records/fields/" + field.type + "/field_view.html" %}
+{% include field.template %}
 
 {%- set prevtype=field.type -%}
 {%- set prevname=field.name -%}
