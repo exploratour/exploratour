@@ -10,12 +10,10 @@ def FieldView(field, closing):
 def register_field_view(*field_names):
     def wrap(cls):
         def wrapped(field, closing):
-            view = cls(field.name, closing)
             value = {}
             for field_name in field_names:
                 value[field_name] = getattr(field, field_name)
-            view.values.append(value)
-            return view
+            return cls(field.name, value, closing)
 
         FIELD_VIEWS[cls.type] = wrapped
         return wrapped
@@ -26,17 +24,17 @@ class BaseFieldView:
     def template(self):
         return "records/fields/" + self.type + "/field_view.html"
 
-    def __init__(self, name, closing):
+    def __init__(self, name, value, closing):
         self.closing = closing
         self.name = name
-        self.values = []
+        self.values = [value]
 
     def merges_with(self, prev):
         raise NotImplementedError
 
 class BaseSingularFieldView(BaseFieldView):
-    def __init__(self, name, closing):
-        super().__init__(name, closing)
+    def __init__(self, name, value, closing):
+        super().__init__(name, value, closing)
 
     @property
     def value(self):
@@ -46,8 +44,8 @@ class BaseSingularFieldView(BaseFieldView):
         return False
 
 class BaseRepeatableFieldView(BaseFieldView):
-    def __init__(self, name, closing):
-        super().__init__(name, closing)
+    def __init__(self, name, value, closing):
+        super().__init__(name, value, closing)
 
     def merges_with(self, prev):
         return (
@@ -89,11 +87,9 @@ class TextFieldView(BaseSingularFieldView):
 @register_field_view("name", "text", "linktype", "target")
 class LinkFieldView(BaseSingularFieldView):
     type = 'link'
-    @property
-    def template(self):
-        linktype = self.values[0]["linktype"]
-        assert linktype.name in ('url', 'record', 'collection', 'search')
-        return "records/fields/link/linktype_" + linktype.name + "_view.html"
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.values[0]["linktype"] = self.values[0]["linktype"].name
 
 @register_field_view("name")
 class GroupFieldView(BaseSingularFieldView):

@@ -1,5 +1,8 @@
-{%- if not continue -%}
-<td class="label">{{ (field.name )}}:</td><td class="fieldval">
-{%- endif -%}
-{%- if field.text %}<a href="{{ field.text }}" style="padding-right: 1em;">{{ field.text }}</a>{% endif -%}
-
+<tr class="{{ field.type }}_field">
+<td class="label">{{ (field.name )}}:</td>
+<td class="fieldval">
+  {%- for tag in field.values -%}
+    {%- if tag.text %}<a href="{{ tag.text }}" style="padding-right: 1em;">{{ tag.text }}</a>{% endif -%}
+  {%- endfor -%}
+</td>
+</tr>

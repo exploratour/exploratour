@@ -1,4 +1,1 @@
-<td class="label">{{ field.name }}:</td>
-<td class="fieldval">
-  <a class="exp_linkicon exp_record" href="{{ url_for('records.view', id=field.target) }}">{{- field.text or '[link]' -}}</a>
-</td>
+<a class="exp_linkicon exp_record" href="{{ url_for('records.view', id=link.target) }}">{{- link.text or '[link]' -}}</a>

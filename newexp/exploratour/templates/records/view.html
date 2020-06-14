@@ -26,32 +26,8 @@
 
 <table class="simple_record_view"><tbody>
 {% for field in record.field_runs %}
-{{ field.name }}
 {% include field.template %}
 {% endfor %}
-
-{#
-{%- if field.type == 'group' -%}
-
-{%- if field.closing -%}
-</table></fieldset></td></tr>
-{%- else -%}
-<tr><td colspan="2">
-  <fieldset><legend>{{ (field.name or '') }}:</legend><table>
-{%- endif -%}
-
-{%- else -%}
-
-{%- endif -%}
-<tr class="{{ field.type }}_field">
-{%- endif -%}
-
-{% include field.template %}
-
-{%- endif -%}
-
-{% endfor %}
-#}
 </tbody></table>
 </div>
 

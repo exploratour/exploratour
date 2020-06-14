@@ -1,10 +1,12 @@
+<tr class="{{ field.type }}_field">
 <td class="label">{{ field.name }}:</td>
 <td class="fieldval">
-
-  {%- if field.display == field.DisplayTypes.thumb %}
-  <img src="{{ field.src }}" width="" height="170" title="{{ field.title }}" alt="{{ field.alt }}">{{ field.src }}
+{% for file in field.values %}
+  {%- if file.display == field.DisplayTypes.thumb %}
+    <img src="{{ file.src }}" width="" height="170" title="{{ file.title }}" alt="{{ file.alt }}">
   {%- else %}
-    {{ field.display }}
+    {{ file.display }}
   {%- endif -%}
-
+{% endfor %}
 </td>
+</tr>
