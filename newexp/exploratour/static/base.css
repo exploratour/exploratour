@@ -105,7 +105,7 @@ td {
 
 .fieldentry_date {
     width: 75%;
-    background-image: url('../icons/buttons/24/date.png');
+    background-image: url('icons/buttons/24/date.png');
     padding-left: 28px;
     min-height: 28px;
     background-repeat: no-repeat;
@@ -113,7 +113,7 @@ td {
 }
 .fieldentry_location {
     width: 75%;
-    background-image: url('../icons/buttons/24/location.png');
+    background-image: url('icons/buttons/24/location.png');
     padding-left: 28px;
     min-height: 28px;
     background-repeat: no-repeat;
@@ -121,7 +121,7 @@ td {
 }
 .fieldentry_title {
     width: 97%;
-    background-image: url('../icons/buttons/24/title.png');
+    background-image: url('icons/buttons/24/title.png');
     padding-left: 28px;
     min-height: 28px;
     background-repeat: no-repeat;
@@ -129,7 +129,7 @@ td {
 }
 .fieldentry_number {
     width: 97%;
-    background-image: url('../icons/buttons/24/number.png');
+    background-image: url('icons/buttons/24/number.png');
     padding-left: 28px;
     min-height: 28px;
     background-repeat: no-repeat;
@@ -137,7 +137,7 @@ td {
 }
 .fieldentry_tag {
     width: 97%;
-    background-image: url('../icons/buttons/24/tag.png');
+    background-image: url('icons/buttons/24/tag.png');
     padding-left: 28px;
     min-height: 28px;
     background-repeat: no-repeat;
@@ -554,7 +554,7 @@ ol.flowed:after {
 }
 
 button.search {
-    background: url("../icons/buttons/24/search.png");
+    background: url("icons/buttons/24/search.png");
 }
 button.action {
     background-repeat: no-repeat;
@@ -582,7 +582,7 @@ button.action {
 }
 
 p.record {
-    background: url("../icons/buttons/24/record.png");
+    background: url("icons/buttons/24/record.png");
     background-repeat: no-repeat;
     background-position: left center;
     height: 28px;
@@ -591,7 +591,7 @@ p.record {
 }
 
 a.collection {
-    background: url("../icons/buttons/24/collection.png");
+    background: url("icons/buttons/24/collection.png");
     background-repeat: no-repeat;
     background-position: left center;
     height: 28px;
@@ -610,7 +610,7 @@ a:hover.collection .supplementary
 }
 
 .collection-link {
-    background: url("../icons/buttons/24/collection.png");
+    background: url("icons/buttons/24/collection.png");
     background-repeat: no-repeat;
     background-position: left center;
     height: 28px;
@@ -618,7 +618,7 @@ a:hover.collection .supplementary
     padding-right: 5px;
 }
 .search-link {
-    background: url("../icons/buttons/24/search.png");
+    background: url("icons/buttons/24/search.png");
     background-repeat: no-repeat;
     background-position: left center;
     height: 28px;
@@ -627,7 +627,7 @@ a:hover.collection .supplementary
 }
 
 .export-link {
-    background: url("../icons/buttons/24/export.png");
+    background: url("icons/buttons/24/export.png");
     background-repeat: no-repeat;
     background-position: left center;
     height: 28px;
@@ -686,31 +686,31 @@ a.exp_linkicon {
     vertical-align: top;
 }
 a.exp_linkicon.exp_image {
-    background-image: url('../icons/buttons/24/image.png');
+    background-image: url('icons/buttons/24/image.png');
 }
 a.exp_linkicon.exp_audio {
-    background-image: url('../icons/buttons/24/audio.png');
+    background-image: url('icons/buttons/24/audio.png');
 }
 a.exp_linkicon.exp_video {
-    background-image: url('../icons/buttons/24/video.png');
+    background-image: url('icons/buttons/24/video.png');
 }
 a.exp_linkicon.exp_document {
-    background-image: url('../icons/buttons/24/document.png');
+    background-image: url('icons/buttons/24/document.png');
 }
 a.exp_linkicon.exp_search {
-    background-image: url('../icons/buttons/24/search.png');
+    background-image: url('icons/buttons/24/search.png');
 }
 a.exp_linkicon.exp_url {
-    background-image: url('../icons/buttons/24/url.png');
+    background-image: url('icons/buttons/24/url.png');
 }
 a.exp_linkicon.exp_record {
-    background-image: url('../icons/buttons/24/record.png');
+    background-image: url('icons/buttons/24/record.png');
 }
 a.exp_linkicon.exp_collection {
-    background-image: url('../icons/buttons/24/collection.png');
+    background-image: url('icons/buttons/24/collection.png');
 }
 a.exp_linkicon.exp_unknown {
-    background-image: url('../icons/buttons/24/document.png');
+    background-image: url('icons/buttons/24/document.png');
 }
 
 ol.paginate_button span,
@@ -740,7 +740,7 @@ input.ui-widget-content { background: white; border: inset 2px; }
 .lockto-notification {
     float: left;
     margin-left: 5em;
-    background-image: url('../icons/buttons/24/lock.png');
+    background-image: url('icons/buttons/24/lock.png');
     padding-left: 28px;
     min-height: 28px;
     background-repeat: no-repeat;
@@ -933,10 +933,10 @@ li.listitem {
     vertical-align: top;
 }
 li.listitem.collection {
-    background-image: url('../icons/buttons/24/collection.png');
+    background-image: url('icons/buttons/24/collection.png');
 }
 li.listitem.record {
-    background-image: url('../icons/buttons/24/record.png');
+    background-image: url('icons/buttons/24/record.png');
 }
 
 .innercontent {
