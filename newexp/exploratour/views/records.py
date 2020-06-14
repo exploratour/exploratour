@@ -3,16 +3,18 @@ from ..storage.record import FileField
 
 FIELD_VIEWS = {}
 
-def FieldView(field, prevfield):
-    return FIELD_VIEWS[field.type](field, prevfield)
+def FieldView(field, closing):
+    return FIELD_VIEWS[field.type](field, closing)
 
 
 def register_field_view(*field_names):
     def wrap(cls):
-        def wrapped(field, prevfield):
-            view = cls(field, prevfield)
+        def wrapped(field, closing):
+            view = cls(field.name, closing)
+            value = {}
             for field_name in field_names:
-                setattr(view, field_name, getattr(field, field_name))
+                value[field_name] = getattr(field, field_name)
+            view.values.append(value)
             return view
 
         FIELD_VIEWS[cls.type] = wrapped
@@ -24,61 +26,78 @@ class BaseFieldView:
     def template(self):
         return "records/fields/" + self.type + "/field_view.html"
 
-    def __init__(self, field, prevfield):
-        self.field = field
-        self.prevfield = prevfield
+    def __init__(self, name, closing):
+        self.closing = closing
+        self.name = name
+        self.values = []
 
+    def merges_with(self, prev):
+        raise NotImplementedError
+
+class BaseSingularFieldView(BaseFieldView):
+    def __init__(self, name, closing):
+        super().__init__(name, closing)
+
+    @property
+    def value(self):
+        return self.values[0]
+
+    def merges_with(self, prev):
+        return False
+
+class BaseRepeatableFieldView(BaseFieldView):
+    def __init__(self, name, closing):
+        super().__init__(name, closing)
+
+    def merges_with(self, prev):
+        return (
+            not self.closing and
+            not prev.closing and
+            self.type == prev.type and
+            self.name == prev.name
+        )
 
 @register_field_view("title")
-class TitleFieldView(BaseFieldView):
+class TitleFieldView(BaseSingularFieldView):
     type = 'title'
 
 @register_field_view("name", "date_string")
-class DateFieldView(BaseFieldView):
+class DateFieldView(BaseRepeatableFieldView):
     type = 'date'
 
 @register_field_view("name", "display", "src", "title", "alt")
-class FileFieldView(BaseFieldView):
+class FileFieldView(BaseRepeatableFieldView):
     type = 'file'
     DisplayTypes = FileField.DisplayTypes
 
 @register_field_view("name", "text")
-class TextFieldView(BaseFieldView):
+class TextFieldView(BaseSingularFieldView):
     type = 'text'
 
 @register_field_view("name", "text")
-class TagFieldView(BaseFieldView):
+class TagFieldView(BaseRepeatableFieldView):
     type = 'tag'
 
 @register_field_view("name", "text", "latlong")
-class LocationFieldView(BaseFieldView):
+class LocationFieldView(BaseRepeatableFieldView):
     type = 'location'
 
 @register_field_view("name", "text")
-class TextFieldView(BaseFieldView):
+class TextFieldView(BaseSingularFieldView):
     type = 'text'
 
 @register_field_view("name", "text", "linktype", "target")
-class LinkFieldView(BaseFieldView):
+class LinkFieldView(BaseSingularFieldView):
     type = 'link'
     @property
     def template(self):
-        assert self.linktype.name in ('url', 'record', 'collection', 'search')
-        return "records/fields/link/linktype_" + self.linktype.name + "_view.html"
+        linktype = self.values[0]["linktype"]
+        assert linktype.name in ('url', 'record', 'collection', 'search')
+        return "records/fields/link/linktype_" + linktype.name + "_view.html"
 
 @register_field_view("name")
-class GroupFieldView(BaseFieldView):
+class GroupFieldView(BaseSingularFieldView):
     type = 'group'
-
-class ClosingFieldView:
-    def __init__(self, field):
-        self.field = field
-        self.closing = True
-        self.id = field.id
-        self.name = field.name
-        self.type = field.type
-        self.position = field.position
-
 
 class RecordView:
     def __init__(self, record):
@@ -91,16 +110,32 @@ class RecordView:
     @property
     def flat_fields(self):
         def flatten(fields):
-            prevfield = None
             for field in fields:
-                yield FieldView(field, prevfield)
-                prevfield = field
+                yield FieldView(field, closing=False)
                 if hasattr(field, 'fields'):
-                    for f in flatten(field.fields.fields):
-                        yield f
-                    yield ClosingFieldView(field)
-        for f in flatten(self._record.fields.fields):
-            yield f
+                    for fv in flatten(field.fields.fields):
+                        yield fv
+                    yield FieldView(field, closing=True)
+        for fv in flatten(self._record.fields.fields):
+            yield fv
+
+    @property
+    def field_runs(self):
+        accumulator = None
+        for fv in self.flat_fields:
+            if accumulator is None:
+                accumulator = fv
+                continue
+
+            if fv.merges_with(accumulator):
+                accumulator.values.extend(fv.values)
+                continue
+
+            yield accumulator
+            accumulator = fv
+
+        if accumulator is not None:
+            yield accumulator
 
     @property
     def collection_nav(self):

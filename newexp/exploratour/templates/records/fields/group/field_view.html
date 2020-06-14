@@ -1,1 +1,6 @@
-<td class="label" colspan="2">{{ field.name }}:</td>
+{%- if field.closing -%}
+</table></fieldset></td></tr>
+{%- else -%}
+<tr><td colspan="2">
+  <fieldset><legend>{{ field.name }}:</legend><table>
+{%- endif -%}

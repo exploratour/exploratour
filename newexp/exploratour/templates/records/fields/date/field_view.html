@@ -1,2 +1,8 @@
+<tr class="{{ field.type }}_field">
 <td class="label">{{ field.name }}:</td>
-<td class="fieldval">{{ field.date_string }}</td>
+<td class="fieldval">
+  {%- for value in field.values -%}
+	{{ value.date_string }}
+  {%- endfor -%}
+</td>
+</tr>

@@ -25,11 +25,14 @@
 <div class="recordbox">
 
 <table class="simple_record_view"><tbody>
-{% for field in record.flat_fields %}
+{% for field in record.field_runs %}
+{{ field.name }}
+{% include field.template %}
+{% endfor %}
 
+{#
 {%- if field.type == 'group' -%}
 
-{%- set prevtype='' -%}
 {%- if field.closing -%}
 </table></fieldset></td></tr>
 {%- else -%}
@@ -39,27 +42,16 @@
 
 {%- else -%}
 
-<!-- if prevtype == field.type and prevname == field.name and field.type in ("tag", "file", "location", "date") -->
-{%- if prevtype == field.type and prevname == field.name and field.type in ("tag",) -%}
-{%- set continue=True -%}
-{%- else -%}
-{%- set continue=False -%}
-{%- if open -%}
-</td></tr>
 {%- endif -%}
 <tr class="{{ field.type }}_field">
 {%- endif -%}
 
 {% include field.template %}
 
-{%- set prevtype=field.type -%}
-{%- set prevname=field.name -%}
-{%- set prevdisplay=field.display -%}
-{%- set prevmimetype=field.mimetype -%}
-{%- set open=True -%}
 {%- endif -%}
 
 {% endfor %}
+#}
 </tbody></table>
 </div>
 
