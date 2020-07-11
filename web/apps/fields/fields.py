@@ -9,7 +9,6 @@ import copy
 from lxml import etree
 import lxml.html
 import mimetypes
-from restpose import Field
 import os
 import utils.parsedate
 try:
