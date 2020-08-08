@@ -1,4 +1,13 @@
-from .base import Base, Column, String, Integer, Enum, DateTime, relationship, ForeignKey
+from .base import (
+    Base,
+    Column,
+    String,
+    Integer,
+    Enum,
+    DateTime,
+    relationship,
+    ForeignKey,
+)
 from .record_collections import record_collections_table
 import enum
 
@@ -8,13 +17,11 @@ class Field(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
     type = Column(String)
-    list_id = Column(Integer, ForeignKey('list_of_fields.id'))
+    list_id = Column(Integer, ForeignKey("list_of_fields.id"))
     position = Column(Integer)
 
-    __mapper_args__ = {
-        "polymorphic_identity": "field",
-        "polymorphic_on": type
-    }
+    __mapper_args__ = {"polymorphic_identity": "field", "polymorphic_on": type}
+
 
 class TitleField(Field):
     __tablename__ = "title_fields"
@@ -25,6 +32,7 @@ class TitleField(Field):
         "polymorphic_identity": "title",
     }
 
+
 class TextField(Field):
     __tablename__ = "text_fields"
     id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)
@@ -34,6 +42,7 @@ class TextField(Field):
         "polymorphic_identity": "text",
     }
 
+
 class DateField(Field):
     __tablename__ = "date_fields"
     id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)
@@ -42,6 +51,7 @@ class DateField(Field):
     __mapper_args__ = {
         "polymorphic_identity": "date",
     }
+
 
 class LocationField(Field):
     __tablename__ = "location_fields"
@@ -53,9 +63,11 @@ class LocationField(Field):
         "polymorphic_identity": "location",
     }
 
+
 class FileField(Field):
     __tablename__ = "file_fields"
     id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)
+
     class DisplayTypes(enum.Enum):
         full = 1
         inline = 2
@@ -77,9 +89,11 @@ class FileField(Field):
         "polymorphic_identity": "file",
     }
 
+
 class LinkField(Field):
     __tablename__ = "link_fields"
     id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)
+
     class LinkTypes(enum.Enum):
         record = 1
         collection = 2
@@ -94,20 +108,30 @@ class LinkField(Field):
         "polymorphic_identity": "link",
     }
 
+
 class ListOfFields(Base):
     __tablename__ = "list_of_fields"
     id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)
-    fields = relationship(Field, cascade="all, delete-orphan", foreign_keys=[Field.list_id])  # Needs to link list_of_fields.id with fields.list_id
+    fields = relationship(
+        Field, cascade="all, delete-orphan", foreign_keys=[Field.list_id]
+    )  # Needs to link list_of_fields.id with fields.list_id
+
 
 class GroupField(Field):
     __tablename__ = "group_fields"
     id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)
     list_of_fields_id = Column(Integer, ForeignKey("list_of_fields.id"))
-    fields = relationship(ListOfFields, cascade="all, delete-orphan", single_parent=True, foreign_keys=[list_of_fields_id])
+    fields = relationship(
+        ListOfFields,
+        cascade="all, delete-orphan",
+        single_parent=True,
+        foreign_keys=[list_of_fields_id],
+    )
 
     __mapper_args__ = {
         "polymorphic_identity": "group",
     }
+
 
 class TagField(Field):
     __tablename__ = "tag_fields"
@@ -118,6 +142,7 @@ class TagField(Field):
         "polymorphic_identity": "tag",
     }
 
+
 class NumberField(Field):
     __tablename__ = "numberfields"
     id = Column(Integer, ForeignKey("fields.id"), primary_key=True, autoincrement=True)
@@ -127,6 +152,7 @@ class NumberField(Field):
         "polymorphic_identity": "number",
     }
 
+
 class Record(Base):
     __tablename__ = "records"
 
@@ -134,15 +160,21 @@ class Record(Base):
     title = Column(String)
     mtime = Column(DateTime)
     list_field_id = Column(Integer, ForeignKey("list_of_fields.id"))
-    fields = relationship(ListOfFields, cascade="all, delete-orphan", foreign_keys=[list_field_id], single_parent=True)
+    fields = relationship(
+        ListOfFields,
+        cascade="all, delete-orphan",
+        foreign_keys=[list_field_id],
+        single_parent=True,
+    )
     raw_fields = Column(String)
     collections = relationship(
-        "Collection", secondary=record_collections_table, lazy="joined",
-        order_by="asc(Collection.title)"
+        "Collection",
+        secondary=record_collections_table,
+        lazy="joined",
+        order_by="asc(Collection.title)",
     )
 
     def __repr__(self):
         return "<Record(id={}, title={}, mtime={} fields={})>".format(
-            repr(self.id), repr(self.title), repr(self.mtime),
-            repr(self.fields),
+            repr(self.id), repr(self.title), repr(self.mtime), repr(self.fields),
         )

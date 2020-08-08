@@ -1,4 +1,19 @@
-from exploratour.storage import Storage, Collection, Record, Field, TitleField, TextField, DateField, LocationField, FileField, LinkField, GroupField, ListOfFields, TagField, NumberField
+from exploratour.storage import (
+    Storage,
+    Collection,
+    Record,
+    Field,
+    TitleField,
+    TextField,
+    DateField,
+    LocationField,
+    FileField,
+    LinkField,
+    GroupField,
+    ListOfFields,
+    TagField,
+    NumberField,
+)
 import config
 
 from datetime import datetime
@@ -27,33 +42,32 @@ def run():
     if clear_db_first:
         print("Writing collections")
         with open(collection_file, "rb") as fd:
-           for line in fd:
-               line = line.strip()
-               if not line:
-                   continue
-               add_collection_from_data(json.loads(line), session)
+            for line in fd:
+                line = line.strip()
+                if not line:
+                    continue
+                add_collection_from_data(json.loads(line), session)
 
         print("Writing collection hierarchy")
         with open(collection_file, "rb") as fd:
-           for line in fd:
-               line = line.strip()
-               if not line:
-                   continue
-               add_collection_parents_from_data(json.loads(line), session)
+            for line in fd:
+                line = line.strip()
+                if not line:
+                    continue
+                add_collection_parents_from_data(json.loads(line), session)
 
         session.flush()
 
         print("Checking collection hierarchy for consistency")
         with open(collection_file, "rb") as fd:
-           for line in fd:
-               line = line.strip()
-               if not line:
-                   continue
-               check_collection_parents(json.loads(line), session)
+            for line in fd:
+                line = line.strip()
+                if not line:
+                    continue
+                check_collection_parents(json.loads(line), session)
 
         session.commit()
         shutil.copy2(config.DB_PATH, config.DB_PATH + "_collections")
-
 
     print("Writing records")
     with open(record_file, "rb") as fd:
@@ -136,10 +150,7 @@ def make_list_of_fields(fields, session):
             )
             session.add(f)
         elif field_type == "group":
-            sub_lf = make_list_of_fields(
-                fields=field.pop("contents"),
-                session=session,
-            )
+            sub_lf = make_list_of_fields(fields=field.pop("contents"), session=session,)
             f = GroupField(
                 name=field.pop("name"),
                 list_id=lf.id,
@@ -185,7 +196,9 @@ def add_record_from_data(data, session):
     mtime = datetime.fromtimestamp(data.pop("mtime"))
     collection_ids = data.pop("collection_ids")
     fields = data.pop("fields")
-    raw_fields = json.dumps(fields, allow_nan=False, sort_keys=True, separators=(',', ':'))
+    raw_fields = json.dumps(
+        fields, allow_nan=False, sort_keys=True, separators=(",", ":")
+    )
 
     assert len(data) == 0, (record_id, data)
     collections = [
@@ -205,7 +218,7 @@ def add_record_from_data(data, session):
         collections=collections,
     )
     session.add(r)
-    #session.commit()
+    # session.commit()
 
 
 def add_collection_from_data(data, session):
