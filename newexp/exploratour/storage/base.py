@@ -1,5 +1,5 @@
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import (
+'''
+from flask_sqlalchemy import (
     Column,
     Integer,
     String,
@@ -9,7 +9,9 @@ from sqlalchemy import (
     Table,
     select,
     func,
+    Model,
 )
 from sqlalchemy.orm import relationship, column_property
 
-Base = declarative_base()
+Base = db.Model
+'''

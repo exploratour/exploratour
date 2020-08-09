@@ -1,18 +1,23 @@
 from flask import Flask, render_template
-from .storage import storage
+from flask_debugtoolbar import DebugToolbarExtension
+from flask_sqlalchemy import SQLAlchemy
+import secrets
 
+db = SQLAlchemy()
 
 def create_app(test_config=None):
     app = Flask("exploratour", instance_relative_config=True)
 
-    storage.create_tables()
+    db.init_app(app)
 
-    @app.teardown_appcontext
-    def shutdown_session(exception=None):
-        storage.session.remove()
+    app.config["SECRET_KEY"] = secrets.token_urlsafe(20)
+    DebugToolbarExtension(app)
 
-    from . import blueprints
+    with app.app_context():
+        from .storage import storage
+        storage.create_tables()
 
-    blueprints.register(app)
+        from . import blueprints
+        blueprints.register(app)
 
-    return app
+        return app

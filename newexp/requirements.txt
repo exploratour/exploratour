@@ -1,3 +1,4 @@
-sqlalchemy
 black
 flask
+flask-debugtoolbar
+flask-sqlalchemy
